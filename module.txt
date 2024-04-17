@@ -1,0 +1,18 @@
+Module majeur : Utiliser un framework en backend.
+Module mineur : Utiliser un framework ou toolkit en frontend.
+Module mineur : Utiliser une base de données en backend.
+Module majeur : Gestion utilisateur standard, authentification, utilisateurs
+en tournois
+Module majeur : Implémenter une authentification à distance.
+Module majeur : Joueurs à distance
+Module majeur : Ajout d’un second jeu avec historique utilisateur et "match-
+making".
+Module majeur : Implémenter un adversaire contrôlé par IA.
+Module mineur : Panneaux d’affichage (dashboards) d’utilisateurs et statis-
+tiques des parties.
+Module majeur : Mettez en place un pare-feu d’application Web (WAF) ou
+ModSecurity avec une configuration renforcée et utilisez HashiCorp Vault pour
+la gestion des secrets.
+Module mineur : Étendre la compatibilité des navigateurs web.
+Module mineur : Support de multiple langues
+`
