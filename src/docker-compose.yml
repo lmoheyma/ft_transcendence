@@ -11,9 +11,11 @@ services :
     networks :
        - transcendance
     volumes:
-      - ../html:/var/www/frontend
+      - ../frontend:/var/www/frontend
   django :
     container_name : django
     build : ./django
     networks :
        - transcendance
+    volumes:
+      - ../backend:/var/www/backend
