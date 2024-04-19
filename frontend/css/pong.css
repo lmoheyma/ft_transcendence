@@ -1,0 +1,29 @@
+.white-logo {
+	color: white;
+}
+
+.coin {
+	background-color: white;
+}
+
+.title {
+	margin-top: 2em;
+	margin-bottom: 2em;
+	text-align: center;
+	font-family: sans-serif;
+	font-weight: bold;
+}
+
+#game-content {
+	width: 100%;
+	/* background-color: red; */
+	display: flex;
+	align-items: center;
+	justify-content: center;
+}
+
+.pong {
+	height: 600px;
+	width: 900px;
+	background-color: black;
+}
