@@ -1,6 +1,17 @@
-services:
+networks:
+  transcendance :
+    name : transcendance
+
+services :
   nginx :
     container_name : nginx
     build : ./nginx/
     ports :
       - 80:80
+    networks :
+       - transcendance
+  django :
+    container_name : django
+    build : ./django
+    networks :
+       - transcendance
