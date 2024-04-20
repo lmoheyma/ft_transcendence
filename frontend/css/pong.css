@@ -14,7 +14,7 @@
 	font-weight: bold;
 }
 
-#game-content {
+.game-content {
 	width: 100%;
 	/* background-color: red; */
 	display: flex;
@@ -25,5 +25,11 @@
 .pong {
 	height: 600px;
 	width: 900px;
-	background-color: black;
+	/* background-color: black; */
+}
+
+#start-btn {
+	margin-top: 1em;
+	width: 9em;
+	height: 4em;
 }
