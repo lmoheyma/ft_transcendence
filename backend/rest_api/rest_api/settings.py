@@ -25,13 +25,15 @@ SECRET_KEY = 'django-insecure-l1x4r9z&qq9tm@5--+$yw=ohm#*!sot4x0&wf_rj7os24j6%gk
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = ['*']
 
 
 # Application definition
 
 INSTALLED_APPS = [
     'api',
+    'daphne',
+    'pongrooms',
     'django.contrib.admin',
     'django.contrib.auth',
     'django.contrib.contenttypes',
@@ -123,3 +125,10 @@ STATIC_URL = 'static/'
 # https://docs.djangoproject.com/en/5.0/ref/settings/#default-auto-field
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
+
+ASGI_APPLICATION = "rest_api.asgi.application"
+CHANNEL_LAYERS = {
+    "default": {
+        'BACKEND': "channels.layers.InMemoryChannelLayer"
+    },
+}

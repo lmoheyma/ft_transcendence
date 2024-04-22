@@ -3,3 +3,6 @@ djangorestframework
 markdown
 django-filter
 gunicorn
+daphne
+channels
+channels_redis
