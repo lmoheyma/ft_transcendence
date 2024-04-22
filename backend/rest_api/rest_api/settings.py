@@ -129,6 +129,6 @@ DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 ASGI_APPLICATION = "rest_api.asgi.application"
 CHANNEL_LAYERS = {
     "default": {
-        'BACKEND': 'channels.layers.InMemoryChannelLayer',
-    }
+        'BACKEND': "channels.layers.InMemoryChannelLayer"
+    },
 }

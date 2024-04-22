@@ -17,6 +17,7 @@ from channels.routing import ProtocolTypeRouter, URLRouter
 from pongrooms.routing import websocket_urlpatterns
 
 os.environ.setdefault('DJANGO_SETTINGS_MODULE', 'rest_api.settings')
+django_asgi_app = get_asgi_application()
 
 application = ProtocolTypeRouter(
     {
