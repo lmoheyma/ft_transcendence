@@ -34,6 +34,11 @@ class RegisterSerializer(serializers.ModelSerializer):
                   'password1',
                   'password2',
                   ]
+        
+    def validate(self, data):
+        if data['password1'] != data['password2'] :
+            raise serializers.ValidationError("Passwords must match")
+        return data
     
     def create(self, validated_data):
         user = User.objects.create(
