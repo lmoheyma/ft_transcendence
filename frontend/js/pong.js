@@ -48,7 +48,6 @@ var Game = {
     },
     _start: function () {
         this._calculate_poses();
-        console.log(this.player1.score + " " + this.player2.score);
         this._drawAll();
         if (!this.gameOver)
             requestAnimationFrame(this._start.bind(this)); 
@@ -59,6 +58,8 @@ var Game = {
 
         this.canvas.height = 600;
         this.canvas.width = 900;
+        if (this.canvas.height * 1.5 != this.canvas.width)
+            console.log("error");
         this.gameY = cgameY;
         this.gameX = cgameX;
         
@@ -78,7 +79,7 @@ var Game = {
         this.ball.pos_X = 150;
         this.ball.pos_Y = 50;
         this.ball.size = this.border_space;
-        this.ball.speed = 0.5;
+        this.ball.speed = 1;
 
         var randomNumber = Math.floor(Math.random() * 4);
         switch (randomNumber) {
@@ -86,24 +87,28 @@ var Game = {
             {
                 this.ball.dir_X = Directions.LEFT;
                 this.ball.dir_Y = Directions.UP;
+                this.angle = 180;
                 break;
             }
             case 1:
             {
                 this.ball.dir_X = Directions.LEFT;
                 this.ball.dir_Y = Directions.DOWN;
+                this.angle = 180;
                 break;
             }
             case 2:
             {
                 this.ball.dir_X = Directions.RIGHT;
                 this.ball.dir_Y = Directions.UP;
+                this.angle = 0;
                 break;
             }
             case 3:
             {
                 this.ball.dir_X = Directions.RIGHT;
                 this.ball.dir_Y = Directions.DOWN;
+                this.angle = 0;
                 break;
             }
         }
@@ -113,21 +118,29 @@ var Game = {
     },
     _calculate_poses: function () {
         if (this.player1.pos_Y > 15 && this.player1.dir === Directions.UP)
-            this.player1.pos_Y -= 0.5;
+            this.player1.pos_Y -= 1;
         if (this.player1.pos_Y < 85 && this.player1.dir === Directions.DOWN)
-            this.player1.pos_Y += 0.5;
+            this.player1.pos_Y += 1;
         if (this.player2.pos_Y > 15 && this.player2.dir === Directions.UP)
-            this.player2.pos_Y -= 0.5;
+            this.player2.pos_Y -= 1;
         if (this.player2.pos_Y < 85 && this.player2.dir === Directions.DOWN)
-            this.player2.pos_Y += 0.5;
+            this.player2.pos_Y += 1;
 
-        //use angle
-        if (this.ball.pos_Y <= 6)
+        if (this.ball.pos_Y <= 6) {
             this.ball.dir_Y = Directions.DOWN;
-        if (this.ball.pos_Y >= 94)
+            console.log(this.angle);
+            this.angle = 360 - this.angle;
+            console.log(this.angle);
+            // return ;
+        }
+        if (this.ball.pos_Y >= 94) {
             this.ball.dir_Y = Directions.UP;
+            console.log(this.angle);
+            this.angle = 360 - this.angle;
+            console.log(this.angle);
+            // return ;
+        }
 
-        //set angle
         if (this.ball.pos_X <= 24 && (this.ball.pos_Y <= this.player1.pos_Y + 9 && this.ball.pos_Y >= this.player1.pos_Y - 9)) {
             if (this.ball.pos_Y - this.player1.pos_Y < 0)
                 this.ball.dir_Y = Directions.UP;
@@ -147,7 +160,7 @@ var Game = {
             }
             else
             {
-                this.angle = side - 1 * 8.75;
+                this.angle = side * 6.25;
                 var randomNumber = Math.floor(Math.random() * 10);
                 if (randomNumber < 5)
                     this.angle -= randomNumber / 2;
@@ -155,8 +168,8 @@ var Game = {
                     this.angle += randomNumber / 2;
 
             }
-            this.ball.dir_Y == Directions.UP ? this.angle = 90 - randomized_angle : this.angle = 90 + randomized_angle;
-            //random angle par abs des y
+            this.ball.dir_Y == Directions.DOWN ? this.angle = 360 - this.angle : this.angle = this.angle;
+            this.ball.speed += 0.3;
         }
         if (this.ball.pos_X >= 276 && (this.ball.pos_Y <= this.player2.pos_Y + 9 && this.ball.pos_Y >= this.player2.pos_Y - 9)) {
             if (this.ball.pos_Y - this.player2.pos_Y < 0)
@@ -164,6 +177,29 @@ var Game = {
             else if (this.ball.pos_Y - this.player2.pos_Y > 0)
                 this.ball.dir_Y = Directions.DOWN;
             this.ball.dir_X = Directions.LEFT;
+
+            var side = Math.abs(this.ball.pos_Y - this.player2.pos_Y);
+            if (side <= 1)
+            {
+                this.angle = 0;
+                var randomNumber = Math.floor(Math.random() * 10);
+                if (randomNumber < 5)
+                    this.angle -= randomNumber / 2;
+                else
+                    this.angle += randomNumber / 2;
+            }
+            else
+            {
+                this.angle = side * 6.25;
+                var randomNumber = Math.floor(Math.random() * 10);
+                if (randomNumber < 5)
+                    this.angle -= randomNumber / 2;
+                else
+                    this.angle += randomNumber / 2;
+
+            }
+            this.ball.dir_Y == Directions.DOWN ? this.angle = 180 + this.angle : this.angle = 180 - this.angle;
+            this.ball.speed += 0.3;
         }
 
         if (this.ball.pos_X <= 12)
@@ -177,15 +213,9 @@ var Game = {
             return ;
         }
 
-        if (this.ball.dir_Y === Directions.UP)
-            this.ball.pos_Y -= this.ball.speed;
-        else if (this.ball.dir_Y === Directions.DOWN)
-            this.ball.pos_Y += this.ball.speed;
-        if (this.ball.dir_X === Directions.LEFT)
-            this.ball.pos_X -= this.ball.speed;
-        else if (this.ball.dir_X === Directions.RIGHT)
-            this.ball.pos_X += this.ball.speed;
-
+        this.radAngle = -(this.angle * Math.PI / 180);
+        this.ball.pos_Y += this.ball.speed * Math.sin(this.radAngle);
+        this.ball.pos_X += this.ball.speed * Math.cos(this.radAngle);
     },
     _updateDisplay: function () {
         this.display.border_space = this.border_space * this.canvas.height / this.gameY;
@@ -229,19 +259,19 @@ var Game = {
         this.ctx.strokeStyle = '#ffffff';
         this.ctx.stroke();
 
-        this.ctx.font = '100px Verdana';
+        this.ctx.font = `${this.canvas.height / 6}px Verdana`;
         this.ctx.textAlign = 'center';
 
         this.ctx.fillText(
             this.player1.score.toString(),
-            (this.canvas.width / 2) - 50,
-            115
+            (this.canvas.width / 2) - this.canvas.height / 12,
+            this.canvas.height / 6 + this.display.border_space
         );
 
         this.ctx.fillText(
             this.player2.score.toString(),
-            (this.canvas.width / 2) + 50,
-            115
+            (this.canvas.width / 2) + this.canvas.height / 12,
+            this.canvas.height / 6 + this.display.border_space
         );
 
     },
@@ -263,6 +293,7 @@ var Game = {
                 }
             }
             this.ball.dir_X = Directions.LEFT;
+            this.angle = 0;
         }
         else
         {
@@ -280,6 +311,7 @@ var Game = {
                 }
             }
             this.ball.dir_X = Directions.RIGHT;
+            this.angle = 180;
         }
         this.player1.pos_Y = 50;
         this.player2.pos_Y = 50;
@@ -287,7 +319,7 @@ var Game = {
         this.player2.dir = Directions.NOTHING;
         this.ball.pos_X = 150;
         this.ball.pos_Y = 50;
-        this.ball.speed = 0.5;
+        this.ball.speed = 1;
     }
 }
 
