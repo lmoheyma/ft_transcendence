@@ -15,7 +15,8 @@ class   Player(models.Model):
 
     user        = models.OneToOneField(User, on_delete=models.CASCADE)
     avatar      = models.CharField(max_length=36,
-                                blank=True)
+                                    default='default.jpeg',
+                                    blank=True)
     games_no    = models.PositiveBigIntegerField(default=0)
     wins        = models.PositiveIntegerField(default=0)
     losses      = models.PositiveIntegerField(default=0)

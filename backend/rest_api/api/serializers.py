@@ -3,28 +3,43 @@ import rest_framework.validators as validators
 from .models import Player, User
 from django.contrib.auth.password_validation import validate_password
 
-class ScoreboardSerializer(serializers.HyperlinkedModelSerializer):
-    username = serializers.SerializerMethodField()
-    
+class ScoreboardSerializer(serializers.ModelSerializer):
+    username = serializers.CharField(source="user.username", read_only=True)
     class Meta:
         model = Player
         fields = [
-                'url',
                 'username',
                 'avatar', 
                 'games_no', 
                 'wins', 
                 'losses'
                 ]
-        
-class RegisterSerializer(serializers.ModelSerializer):
-    email = serializers.EmailField(required=True,
+
+class   AccountUpdateSerializer(serializers.ModelSerializer):
+    email           = serializers.EmailField(validators=[
+                                       validators.UniqueValidator(queryset=User.objects.all())
+                                       ])
+    password        = serializers.CharField(write_only=True,
+                                     required=True)
+    new_password    = serializers.CharField(write_only=True,
+                                      validators=[validate_password])
+    
+    class Meta:
+        model = User
+        fields = ['username',
+                  'email',
+                  'password',
+                  'new_password',
+                  ]
+
+class   RegisterSerializer(serializers.ModelSerializer):
+    email       = serializers.EmailField(required=True,
                                    validators=[
                                        validators.UniqueValidator(queryset=User.objects.all())
                                        ])
-    password1 = serializers.CharField(write_only=True,
+    password1   = serializers.CharField(write_only=True,
                                      required=True, validators=[validate_password])
-    password2 = serializers.CharField(write_only=True,
+    password2   = serializers.CharField(write_only=True,
                                       )
 
     class Meta:
@@ -39,7 +54,7 @@ class RegisterSerializer(serializers.ModelSerializer):
         if data['password1'] != data['password2'] :
             raise serializers.ValidationError("Passwords must match")
         return data
-    
+
     def create(self, validated_data):
         user = User.objects.create(
             username=validated_data['username'],
@@ -49,4 +64,8 @@ class RegisterSerializer(serializers.ModelSerializer):
         player = Player.objects.create(user=user)
         player.save()
         user.save()
+        resp = {
+                'success' : 1,
+                'message' : 'Account has been created !'
+                }
         return user

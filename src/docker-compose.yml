@@ -19,6 +19,10 @@ services :
     networks :
        - transcendance
     volumes:
-    volumes:
       - ../frontend:/var/www/frontend
       - ../backend:/var/www/backend
+    environment:
+      - DJANGO_SUPERUSER_PASSWORD=admin
+      - DJANGO_SUPERUSER_EMAIL=admin@gmail.com
+      - DJANGO_SUPERUSER_USERNAME=admin
+    
