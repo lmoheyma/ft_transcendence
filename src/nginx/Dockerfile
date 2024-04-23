@@ -2,6 +2,7 @@ FROM debian:bullseye
 
 RUN apt update -y && apt install -y nginx openssl
 
+ADD ./html      /var/www/html
 ADD ./entrypoint.sh /
 ADD ./conf/nginx.conf /etc/nginx/nginx.conf
 ADD ./conf/transcendance.conf /etc/nginx/sites-available/
