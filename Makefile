@@ -1,11 +1,11 @@
 CMPS_PATH	= -f ./src/docker-compose.yml
 
-all : run
+all : build run
 
 build :
 	docker-compose $(CMPS_PATH) build
 
-run : build
+run : 
 	docker-compose $(CMPS_PATH) up
 
 stop :

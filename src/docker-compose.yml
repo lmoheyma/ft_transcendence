@@ -7,7 +7,7 @@ services :
     container_name : nginx
     build : ./nginx/
     ports :
-      - 80:80
+      - 8000:80
     networks :
        - transcendance
     volumes:
@@ -19,4 +19,6 @@ services :
     networks :
        - transcendance
     volumes:
+    volumes:
+      - ../frontend:/var/www/frontend
       - ../backend:/var/www/backend
