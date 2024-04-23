@@ -15,6 +15,21 @@ class ScoreboardSerializer(serializers.ModelSerializer):
                 'losses'
                 ]
 
+class AccountGetSerializer(serializers.ModelSerializer):
+    username    = serializers.CharField(source="user.username", read_only=True)
+    email       = serializers.CharField(source="user.email", read_only=True)
+
+    class Meta:
+        model = Player
+        fields = [
+                'email',
+                'username',
+                'avatar', 
+                'games_no', 
+                'wins', 
+                'losses'
+                ]
+
 class   AccountUpdateSerializer(serializers.Serializer):
     username        = serializers.CharField(validators=[
                                         validators.UniqueValidator(queryset=User.objects.all()),
@@ -32,8 +47,8 @@ class   AccountUpdateSerializer(serializers.Serializer):
                                         required=False)
     
     def validate(self, attrs):
-        if attrs['password1'] != attrs['password2'] :
-            raise serializers.ValidationError("Passwords must match")
+        if attrs['password'] == attrs['new_password'] :
+            raise serializers.ValidationError("New password must be different from old password")
         return attrs
 
 class   RegisterSerializer(serializers.ModelSerializer):

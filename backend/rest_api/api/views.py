@@ -4,7 +4,8 @@ from rest_framework.authentication import TokenAuthentication
 from .models import Player
 from .serializers import ScoreboardSerializer, \
                             RegisterSerializer, \
-                            AccountUpdateSerializer
+                            AccountUpdateSerializer, \
+                            AccountGetSerializer
 from rest_framework.permissions import IsAuthenticated
 
 class   ScoreboardViewSet(viewsets.ModelViewSet):
@@ -16,19 +17,23 @@ class   RegisterViewSet(viewsets.ModelViewSet):
     http_method_names   = ['post', ]
     serializer_class    = RegisterSerializer
 
+class   AccountGetView(views.APIView):
+    http_method_names   = ['get']
+    authentication_classes = [TokenAuthentication]
+    permission_classes  = [IsAuthenticated]
+
+    def get(self, request, *args, **kwargs):
+        player = self.request.user.player
+        serializer = AccountGetSerializer(player)
+        return Response(serializer.data, status=status.HTTP_200_OK)
+
 class   AccountUpdateView(views.APIView):
-    http_method_names   = ['update', 'get']
-    serializer_class    = AccountUpdateSerializer
+    http_method_names   = ['update']
     authentication_classes = [TokenAuthentication]
     permission_classes  = [IsAuthenticated]
 
     def get_object(self, queryset=None):
         return self.request.user
-
-    def get(self, request, *args, **kwargs):
-        self.object = self.get_object()
-        serializer = AccountUpdateSerializer(self.object)
-        return Response(serializer.data, status=status.HTTP_200_OK)
 
     def update(self, request, *args, **kwargs):
         self.object = self.get_object()
