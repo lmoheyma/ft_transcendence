@@ -139,3 +139,10 @@ STATIC_URL = "static/"
 STATIC_ROOT = "/var/www/frontend/static/"
 
 APPEND_SLASH=False
+
+REST_FRAMEWORK = {
+    'DEFAULT_AUTHENTICATION_CLASSES': [
+        'rest_framework.authentication.BasicAuthentication',
+        'rest_framework.authentication.SessionAuthentication',
+    ]
+}

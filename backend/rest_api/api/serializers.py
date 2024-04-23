@@ -15,22 +15,26 @@ class ScoreboardSerializer(serializers.ModelSerializer):
                 'losses'
                 ]
 
-class   AccountUpdateSerializer(serializers.ModelSerializer):
+class   AccountUpdateSerializer(serializers.Serializer):
+    username        = serializers.CharField(validators=[
+                                        validators.UniqueValidator(queryset=User.objects.all()),
+                                       ],
+                                        required=False)
+
     email           = serializers.EmailField(validators=[
-                                       validators.UniqueValidator(queryset=User.objects.all())
-                                       ])
+                                        validators.UniqueValidator(queryset=User.objects.all()),
+                                       ],
+                                        required=False)
     password        = serializers.CharField(write_only=True,
-                                     required=True)
+                                        required=True)
     new_password    = serializers.CharField(write_only=True,
-                                      validators=[validate_password])
+                                        validators=[validate_password],
+                                        required=False)
     
-    class Meta:
-        model = User
-        fields = ['username',
-                  'email',
-                  'password',
-                  'new_password',
-                  ]
+    def validate(self, attrs):
+        if attrs['password1'] != attrs['password2'] :
+            raise serializers.ValidationError("Passwords must match")
+        return attrs
 
 class   RegisterSerializer(serializers.ModelSerializer):
     email       = serializers.EmailField(required=True,
@@ -64,8 +68,4 @@ class   RegisterSerializer(serializers.ModelSerializer):
         player = Player.objects.create(user=user)
         player.save()
         user.save()
-        resp = {
-                'success' : 1,
-                'message' : 'Account has been created !'
-                }
         return user
