@@ -1,15 +1,22 @@
 
 handleEventsRemote = function () {
 
-	var socket = new WebSocket("wss://bess-f2r3s1:8888");
+
+	var socket = new WebSocket("ws://localhost:8000/room/pong/");
+
 
 	socket.onopen = function(e) {
-		otherPlayerConnected();
+		console.log("Connected");
+		alert("Connected");
 	};
 	
 	socket.onmessage = function (event) {
 		alert(`[message] Data received from server: ${event.data}`);
-	  };
+	};
+	socket.onclose = function(event) {
+		console.log('Connection died');
+		alert('Connection died');
+	}
 
 	document.addEventListener('keydown', (event) => {
 		if (event.key === "w" && Game.is_playing)

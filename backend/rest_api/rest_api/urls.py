@@ -17,9 +17,12 @@ Including another URLconf
 from django.contrib import admin
 from django.urls import path, include
 from api.urls import router
+from django.urls import path
+from django.views.generic import TemplateView
 
 urlpatterns = [
     path('admin/', admin.site.urls),
     path('api/', include(router.urls)),
-    path('api/login/', include('rest_framework.urls', namespace='rest_framework'))
+    path('api/login/', include('rest_framework.urls', namespace='rest_framework')),
+    path('pong/', TemplateView.as_view(template_name='pong.html'), name='pong'),
 ]
