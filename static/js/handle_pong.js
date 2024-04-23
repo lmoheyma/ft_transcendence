@@ -32,11 +32,13 @@ var Game = {
 var Player1 = {
 	dir: 0,
 	pos_Y: 50,
+	score: 0,
 }
 
 var Player2 = {
 	dir: 0,
 	pos_Y: 50,
+	score: 0,
 }
 
 var Ball = {
@@ -59,6 +61,9 @@ var Display = {
 	ball_size: 0,
 }
 
+var connectedPlayers = 0;
+var type = "Host";
+
 handleEvents = function () {
 	document.addEventListener('click', (event) => {
 		if (!Game.is_playing)
@@ -79,8 +84,21 @@ handleEvents = function () {
 					Game.is_playing = true;
 					Game.gameOver = false;
 					Game.gamemod = GameMod.REMOTE;
-					handleEventsRemote();
+					handleEventsRemoteP1();
+					initializeGameData();
 					waitOtherPlayerConnected();
+					startGame();
+					break;
+				}
+				case "remote-btn2":
+				{
+					Game.is_playing = true;
+					Game.gameOver = false;
+					Game.gamemod = GameMod.REMOTE;
+					handleEventsRemoteP2();
+					initializeGameData();
+					waitOtherPlayerConnected();
+					startGame();
 					break;
 				}
 				default:
@@ -120,7 +138,8 @@ handleEvents = function () {
 }
 
 startGame = function () {
-	calculatePoses();
+	if (type === "Host")
+		calculatePoses();
 	if (!Game.gameOver)
 	{
 		drawAll();
