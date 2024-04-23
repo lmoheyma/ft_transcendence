@@ -19,6 +19,5 @@ services :
     networks :
        - transcendance
     volumes:
-    volumes:
       - ../frontend:/var/www/frontend
       - ../backend:/var/www/backend
