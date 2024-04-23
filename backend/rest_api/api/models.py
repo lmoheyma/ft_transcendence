@@ -7,11 +7,11 @@ class   Player(models.Model):
     OFFLINE = 'OFFLINE'
     INGAME = 'INGAME'
 
-    STATUS_CHOICES = {
-        OFFLINE : 'Offline',
-        ONLINE  : 'Online',
-        INGAME  : 'In-game'
-    }
+    STATUS_CHOICES = (
+        (OFFLINE , 'Offline'),
+        (ONLINE  , 'Online'),
+        (INGAME  , 'In-game')
+    )
 
     user        = models.OneToOneField(User, on_delete=models.CASCADE)
     avatar      = models.CharField(max_length=36,
