@@ -10,6 +10,8 @@ services :
       - 8000:80
     networks :
        - transcendance
+    volumes:
+      - ../frontend:/var/www/frontend
 
   django :
     container_name : django
@@ -17,4 +19,6 @@ services :
     networks :
        - transcendance
     volumes:
+    volumes:
+      - ../frontend:/var/www/frontend
       - ../backend:/var/www/backend

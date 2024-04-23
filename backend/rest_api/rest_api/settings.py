@@ -132,3 +132,6 @@ CHANNEL_LAYERS = {
         'BACKEND': "channels.layers.InMemoryChannelLayer"
     },
 }
+
+STATIC_URL = "static/"
+STATIC_ROOT = "/var/www/frontend/static/"
