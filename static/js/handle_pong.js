@@ -65,7 +65,7 @@ var connectedPlayers = 0;
 var waitOtherPlayer = false;
 var type = "Host";
 
-handleEvents = function () {
+handleEventsPong = function () {
 	document.addEventListener('click', (event) => {
 		if (!Game.is_playing)
 		{
@@ -74,7 +74,7 @@ handleEvents = function () {
 				{
 					Game.gameOver = false;
 					Game.gamemod = GameMod.MULTI;
-					handleEventsMultiplayer();
+					handleEventsPongMultiplayer();
 					initializeGameData();
 					Game.is_playing = true;
 					startGame();
@@ -84,7 +84,7 @@ handleEvents = function () {
 				{
 					Game.gameOver = false;
 					Game.gamemod = GameMod.REMOTE;
-					handleEventsRemoteP1();
+					handleEventsPongRemoteP1();
 					initializeGameData();
 					break;
 				}
@@ -92,7 +92,7 @@ handleEvents = function () {
 				{
 					Game.gameOver = false;
 					Game.gamemod = GameMod.REMOTE;
-					handleEventsRemoteP2();
+					handleEventsPongRemoteP2();
 					initializeGameData();
 					break;
 				}
@@ -434,4 +434,4 @@ gameWon = function (player) {
 }
 
 initialize();
-handleEvents();
+handleEventsPong();

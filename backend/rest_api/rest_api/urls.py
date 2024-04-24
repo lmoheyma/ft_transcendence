@@ -25,4 +25,5 @@ urlpatterns = [
     path('api/', include(router.urls)),
     path('api/login/', include('rest_framework.urls', namespace='rest_framework')),
     path('pong/', TemplateView.as_view(template_name='pong.html'), name='pong'),
+    path('tictactoe/', TemplateView.as_view(template_name='tictactoe.html'), name='tictactoe'),
 ]

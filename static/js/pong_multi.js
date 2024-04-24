@@ -1,5 +1,5 @@
 
-handleEventsMultiplayer = function () {
+handleEventsPongMultiplayer = function () {
 	document.addEventListener('keydown', (event) => {
 		if (event.key === "w" && Game.is_playing)
 			Player1.dir = Directions.UP;
