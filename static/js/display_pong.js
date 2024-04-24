@@ -55,4 +55,42 @@ drawAll = function () {
 		Game.canvas.height / 6 + Display.border_space
 	);
 
+	if (!Game.is_playing && !waitOtherPlayer)
+	{
+		Game.ctx.font = `${Game.canvas.height / 10}px Verdana`;
+		Game.ctx.setLineDash([]);
+	
+	
+		Game.ctx.fillStyle = "#FFFFFF";
+		Game.ctx.strokeStyle = "#000000";
+		Game.ctx.strokeText(
+			"Press the button to start",
+			(Game.canvas.width / 2),
+			Game.canvas.height / 1.25
+		);
+		Game.ctx.fillText(
+			"Press the button to start",
+			(Game.canvas.width / 2),
+			Game.canvas.height / 1.25
+		);
+	}
+	else if (!Game.is_playing && waitOtherPlayer)
+	{
+		Game.ctx.font = `${Game.canvas.height / 12}px Verdana`;
+		Game.ctx.setLineDash([]);
+	
+	
+		Game.ctx.fillStyle = "#FFFFFF";
+		Game.ctx.strokeStyle = "#000000";
+		Game.ctx.strokeText(
+			"Waiting creation of matchmaking",
+			(Game.canvas.width / 2),
+			Game.canvas.height / 1.25
+		);
+		Game.ctx.fillText(
+			"Waiting creation of matchmaking",
+			(Game.canvas.width / 2),
+			Game.canvas.height / 1.25
+		);
+	}
 }

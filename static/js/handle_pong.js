@@ -62,6 +62,7 @@ var Display = {
 }
 
 var connectedPlayers = 0;
+var waitOtherPlayer = false;
 var type = "Host";
 
 handleEvents = function () {
@@ -71,34 +72,28 @@ handleEvents = function () {
 			switch (event.target.id) {
 				case "multi-btn":
 				{
-					Game.is_playing = true;
 					Game.gameOver = false;
 					Game.gamemod = GameMod.MULTI;
 					handleEventsMultiplayer();
 					initializeGameData();
+					Game.is_playing = true;
 					startGame();
 					break;
 				}
 				case "remote-btn":
 				{
-					Game.is_playing = true;
 					Game.gameOver = false;
 					Game.gamemod = GameMod.REMOTE;
 					handleEventsRemoteP1();
 					initializeGameData();
-					waitOtherPlayerConnected();
-					startGame();
 					break;
 				}
 				case "remote-btn2":
 				{
-					Game.is_playing = true;
 					Game.gameOver = false;
 					Game.gamemod = GameMod.REMOTE;
 					handleEventsRemoteP2();
 					initializeGameData();
-					waitOtherPlayerConnected();
-					startGame();
 					break;
 				}
 				default:
@@ -181,23 +176,6 @@ initialize = function () {
 
 	initializeGameData();
 	drawAll()
-
-	Game.ctx.font = `${Game.canvas.height / 8}px Verdana`;
-	Game.ctx.setLineDash([]);
-
-
-	Game.ctx.fillStyle = "#FFFFFF";
-	Game.ctx.strokeStyle = "#000000";
-	Game.ctx.strokeText(
-		"Press the button to start",
-		(Game.canvas.width / 2),
-		Game.canvas.height / 1.25
-	);
-	Game.ctx.fillText(
-		"Press the button to start",
-		(Game.canvas.width / 2),
-		Game.canvas.height / 1.25
-	);
 }
 
 initializeGameData = function () {
@@ -355,7 +333,20 @@ pointWon = function (player) {
 	{
 		Player1.score++;
 		if (Player1.score > 2)
+		{
+			if (Game.gamemod === GameMod.REMOTE)
+			{
+				var send_data = {
+					"type" : "host",
+					"request": "win",
+					"wonPlayer": 1,
+					"player1_score": Player1.score,
+					"player2_score" : Player2.score,
+				};
+				socket.send(JSON.stringify(send_data));
+			}
 			gameWon(1);
+		}
 		switch (randomNumber) {
 			case 0:
 			{
@@ -375,7 +366,20 @@ pointWon = function (player) {
 	{
 		Player2.score++;
 		if (Player2.score > 2)
+		{
+			if (Game.gamemod === GameMod.REMOTE)
+			{
+				var send_data = {
+					"type" : "host",
+					"request": "win",
+					"wonPlayer": 2,
+					"player1_score": Player1.score,
+					"player2_score" : Player2.score,
+				};
+				socket.send(JSON.stringify(send_data));
+			}
 			gameWon(2);
+		}
 		switch (randomNumber) {
 			case 0:
 			{
