@@ -27,6 +27,18 @@ class   AccountGetView(views.APIView):
         serializer = AccountGetSerializer(player)
         return Response(serializer.data, status=status.HTTP_200_OK)
 
+class   LogoutView(views.APIView):
+    http_method_names   = ['get']
+    authentication_classes = [TokenAuthentication]
+    permission_classes  = [IsAuthenticated]
+
+    def get(self, request, *args, **kwargs):
+        try :
+            request.user.auth_token.delete()
+        except :
+            pass
+        return Response({'success' : 'Logged out'}, status=status.HTTP_200_OK)
+
 class   AccountUpdateView(views.APIView):
     http_method_names   = ['update']
     authentication_classes = [TokenAuthentication]
