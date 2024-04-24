@@ -7,6 +7,12 @@ from .serializers import ScoreboardSerializer, \
                             AccountUpdateSerializer, \
                             AccountGetSerializer
 from rest_framework.permissions import IsAuthenticated
+from rest_framework.parsers import FileUploadParser
+from django.core.files.uploadedfile import InMemoryUploadedFile
+
+import io, os
+from PIL import Image
+from hashlib import md5
 
 class   ScoreboardViewSet(viewsets.ModelViewSet):
     queryset = Player.objects.all().order_by('score')
@@ -72,3 +78,41 @@ class   AccountUpdateView(views.APIView):
             return Response(resp, status=200)
         return Response(serializer.errors,
                         status=status.HTTP_400_BAD_REQUEST)
+    
+class   AccountAvatarUpload(views.APIView):
+    parser_classes = (FileUploadParser, )
+    permission_classes  = [IsAuthenticated]
+    authentication_classes = [TokenAuthentication]
+
+    def get_object(self, queryset=None):
+        return self.request.user
+
+    
+    def randfilename(self):
+        m = md5()
+        m.update(os.urandom(32))
+        return m.hexdigest() + '.jpg'
+
+    def pil_to_inmem(self, pil_img):
+        thumb_io = io.BytesIO()
+        pil_img.save(thumb_io, format='JPEG')
+        return InMemoryUploadedFile(thumb_io,
+                                    None, 
+                                    self.randfilename(),
+                                    'image/jpeg',
+                                    thumb_io.tell(), None)
+
+
+    def put(self, request, format=None):
+        file_obj = request.data['file']
+        try :
+            img = Image.open(file_obj)
+        except :
+            return Response({"error" : "File type unrecognized"},
+                        status=status.HTTP_400_BAD_REQUEST)
+        if img.size[0] < 128 or img.size[1] < 128 :
+            raise ValueError("Invalid size")
+        player = self.request.user.player
+        player.avatar = self.pil_to_inmem(img.resize((128, 128)))
+        player.save()
+        return Response(status=204)

@@ -52,3 +52,7 @@ Response example :
     "new_password" : "<optional:new_password>"
 }
 ```
+
+## Uploading a new avatar
+`PUT /api/account/avatar_upload`
+The header Content-Disposition as such : `Content-Disposition : attachement; filename=upload.jpg`. Where the filename can be anything as it won't be taken into account in the upload process.
