@@ -134,12 +134,11 @@ CHANNEL_LAYERS = {
         'BACKEND': "channels.layers.InMemoryChannelLayer"
     },
 }
-
+MEDIA_URL = '/media/'
+MEDIA_ROOT = '/var/www/frontend/media/'
 STATIC_URL = "static/"
 STATIC_ROOT = "/var/www/frontend/static/"
-
 APPEND_SLASH=False
-
 REST_FRAMEWORK = {
     'DEFAULT_AUTHENTICATION_CLASSES': [
         'rest_framework.authentication.BasicAuthentication',

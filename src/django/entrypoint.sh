@@ -1,3 +1,4 @@
+mkdir -p /var/www/frontend/media/
 cd /var/www/backend/rest_api
 python3 manage.py createsuperuser --noinput
 python3 manage.py collectstatic --noinput
