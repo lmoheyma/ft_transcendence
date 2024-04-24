@@ -1,9 +1,8 @@
 
-handleEventsRemote = function () {
+import { initializeGameData , startGame } from './handle_pong.js';
 
-
+function handleEventsRemote() {
 	var socket = new WebSocket("ws://localhost:8000/room/pong/");
-
 
 	socket.onopen = function(e) {
 		console.log("Connected");
@@ -32,7 +31,9 @@ handleEventsRemote = function () {
 	})
 }
 
-otherPlayerConnected = function() {
+// initializeGameData();
+// startGame();
+
+export function initRemote() {
 	initializeGameData();
-	startGame();
 }

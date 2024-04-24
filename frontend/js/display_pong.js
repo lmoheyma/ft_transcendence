@@ -1,4 +1,11 @@
-updateDisplay = function () {
+import { Game } from './handle_pong.js';
+import { Display } from './handle_pong.js';
+import { Player1 } from './handle_pong.js';
+import { Player2 } from './handle_pong.js';
+import { Ball } from './handle_pong.js';
+
+console.log("hello");
+function updateDisplay() {
 	Display.border_space = Game.border_space * Game.canvas.height / Game.gameY;
 	Display.border_size = Display.border_space / 2;
 
@@ -10,9 +17,10 @@ updateDisplay = function () {
 	Display.ball_pos_X = Ball.pos_X * Game.canvas.width / Game.gameX;
 	Display.ball_pos_Y = Ball.pos_Y * Game.canvas.height / Game.gameY;
 	Display.ball_size = Ball.size * Game.canvas.height / Game.gameY;
+	console.log(Display);
 }
     
-drawAll = function () {
+export function drawAll() {
 	updateDisplay();
 	Game.ctx.clearRect(0, 0, Game.canvas.width, Game.canvas.height);
 
