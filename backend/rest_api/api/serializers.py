@@ -47,7 +47,7 @@ class   AccountUpdateSerializer(serializers.Serializer):
                                         required=False)
     
     def validate(self, attrs):
-        if attrs['password'] == attrs['new_password'] :
+        if 'new_password' in attrs and attrs['password'] == attrs['new_password'] :
             raise serializers.ValidationError("New password must be different from old password")
         return attrs
 

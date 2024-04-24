@@ -52,6 +52,10 @@ class   AccountUpdateView(views.APIView):
             if not new_username is None :
                 self.object.username = new_username
                 resp['username'] = 'Successfuly updated.'
+            new_email = serializer.validated_data.get('email', None)
+            if not new_email is None :
+                self.object.email = new_email
+                resp['email'] = 'Successfuly updated.'
             self.object.save()
             return Response(resp, status=200)
         return Response(serializer.errors,
