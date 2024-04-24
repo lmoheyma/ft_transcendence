@@ -26,7 +26,7 @@ export var Game = {
 	gameY: cgameY,
 	gameX: cgameX,
 	border_space: 3,
-	border_size: 1.5,
+	border_size: 0.5,
 	player_height: 18,
 	player_width: 3,
 	gamemod: 0,
@@ -170,18 +170,18 @@ function initialize() {
 	Game.ctx.setLineDash([]);
 
 
-	Game.ctx.fillStyle = "#FFFFFF";
-	Game.ctx.strokeStyle = "#000000";
-	Game.ctx.strokeText(
-		"Press the button to start",
-		(Game.canvas.width / 2),
-		Game.canvas.height / 1.25
-	);
-	Game.ctx.fillText(
-		"Press the button to start",
-		(Game.canvas.width / 2),
-		Game.canvas.height / 1.25
-	);
+	// Game.ctx.fillStyle = "#C850C0";
+	// Game.ctx.strokeStyle = "#000000";
+	// Game.ctx.strokeText(
+	// 	"Press the button to start",
+	// 	(Game.canvas.width / 2),
+	// 	Game.canvas.height / 1.25
+	// );
+	// Game.ctx.fillText(
+	// 	"Press the button to start",
+	// 	(Game.canvas.width / 2),
+	// 	Game.canvas.height / 1.25
+	// );
 }
 
 export function initializeGameData() {

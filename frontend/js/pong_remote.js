@@ -1,5 +1,5 @@
 
-import { initializeGameData , startGame } from './handle_pong.js';
+import { initializeGameData } from './handle_pong.js';
 
 function handleEventsRemote() {
 	var socket = new WebSocket("ws://localhost:8000/room/pong/");

@@ -17,17 +17,16 @@ function updateDisplay() {
 	Display.ball_pos_X = Ball.pos_X * Game.canvas.width / Game.gameX;
 	Display.ball_pos_Y = Ball.pos_Y * Game.canvas.height / Game.gameY;
 	Display.ball_size = Ball.size * Game.canvas.height / Game.gameY;
-	console.log(Display);
 }
-    
+
 export function drawAll() {
 	updateDisplay();
 	Game.ctx.clearRect(0, 0, Game.canvas.width, Game.canvas.height);
 
-	Game.ctx.fillStyle = "#000000";
-	Game.ctx.fillRect(0, 0, Game.canvas.width, Game.canvas.height);
+	// Game.ctx.fillStyle = "#000000";
+	// Game.ctx.fillRect(0, 0, Game.canvas.width, Game.canvas.height);
 
-	Game.ctx.fillStyle = "#FFFFFF";
+	Game.ctx.fillStyle = "rgba(255, 255, 255, 1)";
 
 	Game.ctx.fillRect(Display.border_space, Display.border_space, Game.canvas.width - (2 * Display.border_space), Display.border_size);
 	Game.ctx.fillRect(Display.border_space, Game.canvas.height - (2 * Display.border_space - Display.border_size), Game.canvas.width - (2 * Display.border_space), Display.border_size);
@@ -62,5 +61,4 @@ export function drawAll() {
 		(Game.canvas.width / 2) + Game.canvas.height / 12,
 		Game.canvas.height / 6 + Display.border_space
 	);
-
 }
