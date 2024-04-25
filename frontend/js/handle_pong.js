@@ -166,7 +166,7 @@ function initialize() {
 	initializeGameData();
 	drawAll();
 
-	Game.ctx.font = `${Game.canvas.height / 8}px Verdana`;
+	Game.ctx.font = `${Game.canvas.height / 8}px Helvetica`;
 	Game.ctx.setLineDash([]);
 
 
@@ -393,19 +393,19 @@ function gameWon(player) {
 	Ball.pos_Y = 50;
 	drawAll();
 
-	Game.ctx.font = `${Game.canvas.height / 8}px Verdana`;
+	Game.ctx.font = `${Game.canvas.height / 8}px Helvetica`;
 	Game.ctx.setLineDash([]);
 
 
 	Game.ctx.fillStyle = "#FFFFFF";
 	Game.ctx.strokeStyle = "#000000";
 	Game.ctx.strokeText(
-		`Player ${player} has won the game`,
+		`Player ${player} has won!`,
 		(Game.canvas.width / 2),
 		Game.canvas.height / 1.25
 	);
 	Game.ctx.fillText(
-		`Player ${player} has won the game`,
+		`Player ${player} has won!`,
 		(Game.canvas.width / 2),
 		Game.canvas.height / 1.25
 	);

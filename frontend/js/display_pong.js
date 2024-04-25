@@ -47,7 +47,7 @@ export function drawAll() {
 	Game.ctx.strokeStyle = '#ffffff';
 	Game.ctx.stroke();
 
-	Game.ctx.font = `${Game.canvas.height / 6}px Verdana`;
+	Game.ctx.font = `${Game.canvas.height / 6}px Helvetica`;
 	Game.ctx.textAlign = 'center';
 
 	Game.ctx.fillText(
