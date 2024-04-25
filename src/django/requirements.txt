@@ -6,3 +6,4 @@ gunicorn
 daphne
 channels
 channels_redis
+Pillow

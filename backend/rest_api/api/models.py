@@ -1,5 +1,6 @@
 from django.db import models
 from django.contrib.auth.models import User
+import os, base64
 
 class   Player(models.Model):
 
@@ -14,8 +15,8 @@ class   Player(models.Model):
     )
 
     user        = models.OneToOneField(User, on_delete=models.CASCADE)
-    avatar      = models.CharField(max_length=36,
-                                blank=True)
+    avatar      = models.ImageField(upload_to='avatars/',
+                                    blank=True)
     games_no    = models.PositiveBigIntegerField(default=0)
     wins        = models.PositiveIntegerField(default=0)
     losses      = models.PositiveIntegerField(default=0)
@@ -24,39 +25,46 @@ class   Player(models.Model):
                               choices=STATUS_CHOICES,
                               default=OFFLINE)
 
+def     gen_safe_randomcode():
+    return base64.urlsafe_b64encode(os.urandom(10))[:-2].decode()
+
 class   FriendInvite(models.Model):
-    player1         = models.ForeignKey(Player,
+    code        = models.CharField(max_length=14,
+                                   default=gen_safe_randomcode,
+                                   primary_key=True)
+    sender      = models.ForeignKey(Player,
                                         blank=False,
                                         null=True,
                                         on_delete=models.SET_NULL,
-                                        related_name='player1_invites')
-    player2         = models.ForeignKey(Player,
+                                        related_name='sent_invites')
+    receiver    = models.ForeignKey(Player,
                                         blank=False,
                                         null=True,
                                         on_delete=models.SET_NULL,
-                                        related_name='player2_invites')
+                                        related_name='received_invites')
     created_on  = models.DateTimeField(auto_now_add=True)
 
-class   Friends(models.Model):
+class   Friendship(models.Model):
     created_on  = models.DateTimeField(auto_now_add=True)
     friend1     = models.ForeignKey(Player,
                                     on_delete=models.CASCADE,
-                                    related_name='friend1_set')
+                                    related_name='friends1_set')
     friend2     = models.ForeignKey(Player,
                                     on_delete=models.CASCADE,
-                                    related_name='friend2_set')
+                                    related_name='friends2_set')
 
-class   Matches(models.Model):
+class   Game(models.Model):
     player1         = models.ForeignKey(Player,
                                         blank=False,
                                         null=True,
                                         on_delete=models.SET_NULL,
-                                        related_name='player1_set')
+                                        related_name='history1_set')
     player2         = models.ForeignKey(Player,
                                         blank=False,
                                         null=True,
                                         on_delete=models.SET_NULL,
-                                        related_name='player2_set')
-    score_player1   = models.PositiveIntegerField()
-    score_player2   = models.PositiveIntegerField()
+                                        related_name='history2_set')
+    score_player1   = models.PositiveIntegerField(default=0)
+    score_player2   = models.PositiveIntegerField(default=0)
+    created_on      = models.DateTimeField(auto_now_add=True)
 

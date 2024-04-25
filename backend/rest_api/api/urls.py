@@ -1,7 +1,7 @@
 from rest_framework import routers
-from .views import ScoreboardViewSet, RegisterViewSet, UpdateViewSet
+from .views import ScoreboardViewSet, RegisterViewSet, PlayerProfileView
 
 router = routers.DefaultRouter()
 router.register('scoreboard', ScoreboardViewSet, basename='scoreboard')
-router.register('account/register', RegisterViewSet, basename='register')
-router.register('account/update', UpdateViewSet, basename='update')
+router.register('register', RegisterViewSet, basename='register')
+router.register('profiles', PlayerProfileView, basename='profiles')
