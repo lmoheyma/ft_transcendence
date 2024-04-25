@@ -1,7 +1,11 @@
+@font-face {
+	font-family: 'DoodleJump';
+	src: url('//2ttf.com/webfont/9L8ZEUpWnuu/webfont.ttf') format('truetype');
+}
+
 body {
 	min-height: 100vh;
-	background-color: #4158D0;
-	background-image: linear-gradient(43deg, #4158D0 0%, #C850C0 46%, #FFCC70 100%);
+	background-image: linear-gradient(120deg, #fccb90 0%, #d57eeb 100%);
 	font-family: 'Lexend Exa', sans-serif;
 }
 .navbar {
@@ -26,7 +30,7 @@ body {
 	margin-right: 40px;
 }
 .navbar .navbar-nav .nav-item {
-	/* border: 2px solid transparent; */
+	border: 2px solid transparent;
 	border-radius: 5px;
 	padding: 10px;
 	transition: background 0.2s;
@@ -44,7 +48,7 @@ body {
 	transition: color 0.2s;
 }
 .navbar ul li ul {
-	/* visibility: hidden; */
+	visibility: hidden;
 	opacity: 0;
 	position: absolute;
 	display: block;

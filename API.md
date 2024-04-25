@@ -2,7 +2,7 @@
 
 ## Creating an account
 
-`POST /api/register` \
+`POST /api/register/` \
 Body example :
 ```json
 {

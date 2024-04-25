@@ -1,7 +1,6 @@
 
 const loadAndMarkScript = async (scriptPath) => {
     await import(scriptPath);
-    console.log("Script chargé avec attribut data-remove ajouté :", scriptPath);
     switch (scriptPath) {
         case "/js/display_pong.js":
             break;
@@ -42,9 +41,7 @@ const routes = {
 
 const handleLocation = async () => {
     const path = window.location.pathname;
-    console.log("Path: " + path);
     const route = routes[path] || routes[404];
-    console.log("Route: " + route);
     const response = await fetch(route, {
         method: 'GET',
         headers: {
