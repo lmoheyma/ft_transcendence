@@ -1,14 +1,13 @@
-let	session = null;
 
 async function login() {
-	const username = document.getElementById('typePseudoX').value;
-	const password = document.getElementById('typePasswordX').value;
+	const username = document.getElementById('username').value;
+	const password = document.getElementById('password').value;
 
 	const donnees = {username: username, password: password};
 	console.log(donnees);
 	try {
 		const reponse = await fetch("/api/token-auth/", {
-			method: "POST", // ou 'PUT'
+			method: "POST",
 			headers: {
 			"Content-Type": "application/json",
 			"Cookie" : document.cookie
@@ -35,7 +34,7 @@ async function logout()
 	if (session == null)
 		return ;
 	const reponse = await fetch("/api/logout", {
-		method: "GET", // ou 'PUT'
+		method: "GET",
 		headers: {
 		"Authorization" : "Token " + session,
 		}
@@ -54,16 +53,16 @@ async function logout()
 }
 
 async function register() {
-	const username = document.getElementById('typeLoginX').value;
-	const email = document.getElementById('typeEmailX').value;
-	const password = document.getElementById('typePasswordX').value;
-	const password2 = document.getElementById('typePassword2X').value;
+	const username = document.getElementById('username').value;
+	const email = document.getElementById('email').value;
+	const password = document.getElementById('password1').value;
+	const password2 = document.getElementById('password2').value;
 
 	const donnees = {username: username, email: email, password1: password, password2: password2};
 	console.log(donnees);
 	try {
 	  const reponse = await fetch("/api/register/", {
-		method: "POST", // ou 'PUT'
+		method: "POST",
 		headers: {
 		  "Content-Type": "application/json",
 		  "Cookie" : document.cookie

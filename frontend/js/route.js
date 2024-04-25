@@ -1,4 +1,6 @@
 
+// import { session, login } from './auth.js';
+
 const loadAndMarkScript = async (scriptPath) => {
     await import(scriptPath);
     switch (scriptPath) {
@@ -40,7 +42,10 @@ const routes = {
 };
 
 const handleLocation = async () => {
-    const path = window.location.pathname;
+    var path = window.location.pathname;
+    if (session == null) {
+        path = "/login";
+    }
     const route = routes[path] || routes[404];
     const response = await fetch(route, {
         method: 'GET',
