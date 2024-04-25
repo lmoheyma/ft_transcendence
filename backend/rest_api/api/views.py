@@ -1,4 +1,4 @@
-from rest_framework import viewsets, views, status
+from rest_framework import viewsets, views, status, mixins
 from rest_framework.response import Response
 from rest_framework.authentication import TokenAuthentication
 from .models import Player
@@ -15,18 +15,21 @@ import io, os
 from PIL import Image
 from hashlib import md5
 
-class   PlayerProfileView(viewsets.ModelViewSet):
+class   PlayerProfileView(mixins.RetrieveModelMixin, 
+                          viewsets.GenericViewSet):
+    queryset            = Player.objects.all().order_by('score')
+    serializer_class    = PlayerProfileSerializer
     authentication_classes = [TokenAuthentication]
     permission_classes  = [IsAuthenticated]
     http_method_names   = ['get', ]
 
-class   ScoreboardViewSet(viewsets.ModelViewSet):
+class   ScoreboardViewSet(mixins.ListModelMixin,
+                          viewsets.GenericViewSet):
     queryset            = Player.objects.all().order_by('score')
     serializer_class    = ScoreboardSerializer
     http_method_names   = ['get', ]
-    lookup_field        = 'username'
 
-class   RegisterViewSet(viewsets.ModelViewSet):
+class   RegisterViewSet(mixins.CreateModelMixin, viewsets.GenericViewSet):
     http_method_names   = ['post', ]
     serializer_class    = RegisterSerializer
 

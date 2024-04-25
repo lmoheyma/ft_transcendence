@@ -25,12 +25,12 @@ class   Player(models.Model):
                               default=OFFLINE)
 
 class   FriendInvite(models.Model):
-    player1         = models.ForeignKey(Player,
+    sender         = models.ForeignKey(Player,
                                         blank=False,
                                         null=True,
                                         on_delete=models.SET_NULL,
                                         related_name='player1_invites')
-    player2         = models.ForeignKey(Player,
+    receiver       = models.ForeignKey(Player,
                                         blank=False,
                                         null=True,
                                         on_delete=models.SET_NULL,

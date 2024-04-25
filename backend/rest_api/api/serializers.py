@@ -1,13 +1,12 @@
 from rest_framework import serializers
 import rest_framework.validators as validators
-from .models import Player, User, Game
+from .models import Player, User, Game, FriendInvite
 from django.contrib.auth.password_validation import validate_password
 
-class GameSerializer(serializers.ModelSerializer):
-
+class   GameSerializer(serializers.ModelSerializer):
     class Meta:
-        model = Game
-        fields = [
+        model   = Game
+        fields  = [
                 'player1',
                 'player2',
                 'score_player1',
@@ -15,49 +14,59 @@ class GameSerializer(serializers.ModelSerializer):
                 'created_on'
                 ]
 
-class ScoreboardSerializer(serializers.ModelSerializer):
-    username = serializers.CharField(source="user.username", read_only=True)
+class   ScoreboardSerializer(serializers.ModelSerializer):
+    username    = serializers.CharField(source="user.username", read_only=True)
+
     class Meta:
-        model = Player
-        fields = [
+        model   = Player
+        fields  = [
+                'id',
                 'username',
-                'avatar', 
-                'games_no', 
-                'wins', 
-                'losses'
+                'avatar',
+                'score'
                 ]
 
-class PlayerProfileSerializer(serializers.HyperlinkedModelSerializer):
+class   UserSerializer(serializers.ModelSerializer):
+    class Meta :
+        model = User
+        fields = [
+            'username'
+        ]
+
+class   PlayerProfileSerializer(serializers.ModelSerializer):
     username    = serializers.CharField(source="user.username", read_only=True)
     history     = serializers.SerializerMethodField()
+
     class Meta:
-        model = Player
-        fields = [
-                'url',
+        model   = Player
+        fields  = [
+                'id',
                 'username',
                 'avatar',
                 'games_no',
                 'wins',
                 'losses',
-                'history'
+                'history',
                 ]
 
     def get_history(self, obj):
         res = GameSerializer(obj.player1_set.all() | obj.player2_set.all(), many=True).data
         return res
 
-class AccountGetSerializer(serializers.ModelSerializer):
+class   AccountGetSerializer(serializers.ModelSerializer):
     username    = serializers.CharField(source="user.username", read_only=True)
     email       = serializers.CharField(source="user.email", read_only=True)
     history     = serializers.SerializerMethodField()
+
     class Meta:
-        model = Player
-        fields = [
+        model   = Player
+        fields  = [
+                'id',
                 'email',
                 'username',
-                'avatar', 
-                'games_no', 
-                'wins', 
+                'avatar',
+                'games_no',
+                'wins',
                 'losses',
                 'history'
                 ]
@@ -81,7 +90,7 @@ class   AccountUpdateSerializer(serializers.Serializer):
     new_password    = serializers.CharField(write_only=True,
                                         validators=[validate_password],
                                         required=False)
-
+    
     def validate(self, attrs):
         if 'new_password' in attrs and attrs['password'] == attrs['new_password'] :
             raise serializers.ValidationError("New password must be different from old password")
@@ -99,7 +108,8 @@ class   RegisterSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = User
-        fields = ['username',
+        fields = [
+                  'username',
                   'email',
                   'password1',
                   'password2',
@@ -120,3 +130,14 @@ class   RegisterSerializer(serializers.ModelSerializer):
         player.save()
         user.save()
         return user
+    
+
+class   Invitations(serializers.ModelSerializer):
+    sender      = PlayerProfileSerializer(read_only=True)
+
+    class Meta:
+        model   = FriendInvite
+        fields  = [
+                'sender',
+                'created_on'
+                ]
