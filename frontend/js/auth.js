@@ -1,10 +1,10 @@
 
-async function login() {
+
+async function login(event) {
 	const username = document.getElementById('username').value;
 	const password = document.getElementById('password').value;
 
 	const donnees = {username: username, password: password};
-	console.log(donnees);
 	try {
 		const reponse = await fetch("/api/token-auth/", {
 			method: "POST",
@@ -17,17 +17,46 @@ async function login() {
 		const resultat	= await reponse.json();
 		if (reponse.status == 200)
 		{
-			session			= resultat.token;
+			document.getElementById("status").innerHTML = "";
+			var status = document.getElementById("status");
+			var paragraph = document.createElement('p');
+			paragraph.textContent = "Logged!";
+			status.appendChild(paragraph);
+			paragraph.style.color = "white";
+			session = resultat.token;
+			// document.getElementById("submit-btn").addEventListener('click', null);
+			document.getElementById("submit-btn").href="/dashboard";
+			console.log("href: ", document.getElementById("submit-btn").href);
+			route(event);
+			// document.getElementById("submit-btn").onclick = function() {
+			// 	var link = document.getElementById("submit-btn");
+        	// 	link.setAttribute("href", "/dashboard");
+			// 	route();
+			// }
+			// route(event);
 			console.log("New session token : " + session);
 		}
-		else
+		else if (reponse.status == 400) 
 		{
-			console.error(resultat);
+			document.getElementById("status").innerHTML = "";
+			var status = document.getElementById("status");
+			Object.keys(resultat).forEach(function(key) {
+				var paragraph = document.createElement('p');
+				paragraph.textContent = resultat[key][0];
+				status.appendChild(paragraph);
+				paragraph.style.color = "red";
+				console.log(resultat[key][0]);
+			});
+			console.log("Fail :", resultat);
 		}
 	} catch (erreur) {
 	  console.error("Erreur :", erreur);
 	}
 }
+
+document.getElementById("monFormulaire").addEventListener("submit", function(event) {
+    login(event); // Appel de la fonction login avec l'objet event
+});
 
 async function logout()
 {
@@ -59,21 +88,41 @@ async function register() {
 	const password2 = document.getElementById('password2').value;
 
 	const donnees = {username: username, email: email, password1: password, password2: password2};
-	console.log(donnees);
 	try {
-	  const reponse = await fetch("/api/register/", {
-		method: "POST",
-		headers: {
-		  "Content-Type": "application/json",
-		  "Cookie" : document.cookie
-		},
-		body: JSON.stringify(donnees),
-	  });
-  
-	  const resultat = await reponse.json();
-	  console.log("Réussite :", resultat);
-	//   route();
+		const reponse = await fetch("/api/register/", {
+			method: "POST",
+			headers: {
+			"Content-Type": "application/json",
+			"Cookie" : document.cookie
+			},
+			body: JSON.stringify(donnees),
+		});
+		const resultat = await reponse.json();
+		console.log(reponse.status);
+		if (reponse.status == 201)
+		{
+			document.getElementById("status").innerHTML = "";
+			var status = document.getElementById("status");
+			var paragraph = document.createElement('p');
+			paragraph.textContent = "Logged!";
+			status.appendChild(paragraph);
+			paragraph.style.color = "white";
+			console.log("Réussite :", resultat);
+		}
+		else if (reponse.status == 400)
+		{
+			document.getElementById("status").innerHTML = "";
+			var status = document.getElementById("status");
+			Object.keys(resultat).forEach(function(key) {
+				var paragraph = document.createElement('p');
+				paragraph.textContent = resultat[key][0];
+				status.appendChild(paragraph);
+				paragraph.style.color = "red";
+				console.log(resultat[key][0]);
+			});
+			console.log("Fail :", resultat);
+		}
 	} catch (erreur) {
-	  console.error("Erreur :", erreur);
+		console.error("Fail!", erreur);
 	}
 }

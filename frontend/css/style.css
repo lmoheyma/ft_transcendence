@@ -47,6 +47,10 @@ body {
 	text-transform: uppercase;
 	transition: color 0.2s;
 }
+#logout {
+	cursor: pointer;
+}
+
 .navbar ul li ul {
 	visibility: hidden;
 	opacity: 0;

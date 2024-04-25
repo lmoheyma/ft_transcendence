@@ -1,6 +1,4 @@
 
-// import { session, login } from './auth.js';
-
 const loadAndMarkScript = async (scriptPath) => {
     await import(scriptPath);
     switch (scriptPath) {
@@ -43,7 +41,8 @@ const routes = {
 
 const handleLocation = async () => {
     var path = window.location.pathname;
-    if (session == null) {
+    console.log("Path: ", path);
+    if (session == null && path != "/register") {
         path = "/login";
     }
     const route = routes[path] || routes[404];
