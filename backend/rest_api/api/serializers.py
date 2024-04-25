@@ -50,7 +50,7 @@ class   PlayerProfileSerializer(serializers.ModelSerializer):
                 ]
 
     def get_history(self, obj):
-        res = GameSerializer(obj.player1_set.all() | obj.player2_set.all(), many=True).data
+        res = GameSerializer(obj.history1_set.all() | obj.history2_set.all(), many=True).data
         return res
 
 class   AccountGetSerializer(serializers.ModelSerializer):
@@ -72,7 +72,7 @@ class   AccountGetSerializer(serializers.ModelSerializer):
                 ]
 
     def get_history(self, obj):
-        res = GameSerializer(obj.player1_set.all() | obj.player2_set.all(), many=True).data
+        res = GameSerializer(obj.history1_set.all() | obj.history2_set.all(), many=True).data
         return res
 
 class   AccountUpdateSerializer(serializers.Serializer):
@@ -132,12 +132,19 @@ class   RegisterSerializer(serializers.ModelSerializer):
         return user
     
 
-class   Invitations(serializers.ModelSerializer):
+class   FriendInviteSerializer(serializers.ModelSerializer):
     sender      = PlayerProfileSerializer(read_only=True)
 
     class Meta:
         model   = FriendInvite
         fields  = [
+                'code',
                 'sender',
                 'created_on'
                 ]
+
+class   FriendReqSerializer(serializers.Serializer):
+    id          = serializers.IntegerField(required=True)
+
+    class Meta:
+        fields = ['id', ]

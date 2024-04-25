@@ -1,12 +1,14 @@
 from rest_framework import viewsets, views, status, mixins
 from rest_framework.response import Response
 from rest_framework.authentication import TokenAuthentication
-from .models import Player
+from .models import Player, FriendInvite, Friendship
 from .serializers import ScoreboardSerializer, \
                             RegisterSerializer, \
                             AccountUpdateSerializer, \
                             AccountGetSerializer, \
-                            PlayerProfileSerializer
+                            PlayerProfileSerializer, \
+                            FriendInviteSerializer, \
+                            FriendReqSerializer
 from rest_framework.permissions import IsAuthenticated
 from rest_framework.parsers import FileUploadParser
 from django.core.files.uploadedfile import InMemoryUploadedFile
@@ -32,16 +34,6 @@ class   ScoreboardViewSet(mixins.ListModelMixin,
 class   RegisterViewSet(mixins.CreateModelMixin, viewsets.GenericViewSet):
     http_method_names   = ['post', ]
     serializer_class    = RegisterSerializer
-
-class   AccountGetView(views.APIView):
-    http_method_names   = ['get']
-    authentication_classes = [TokenAuthentication]
-    permission_classes  = [IsAuthenticated]
-
-    def get(self, request, *args, **kwargs):
-        player = self.request.user.player
-        serializer = AccountGetSerializer(player)
-        return Response(serializer.data, status=status.HTTP_200_OK)
 
 class   AccountGetView(views.APIView):
     http_method_names   = ['get']
@@ -136,3 +128,52 @@ class   AccountAvatarUpload(views.APIView):
         player.avatar = self.pil_to_inmem(img.resize((128, 128)))
         player.save()
         return Response(status=204)
+
+def     getAllFriends(user : Player):
+    res = user.friends1_set.all() | user.friends1_set.all()
+    return res
+
+class   FriendInviteView(views.APIView):
+    permission_classes  = [IsAuthenticated]
+    authentication_classes = [TokenAuthentication]
+    http_method_names   = ['get', 'post']
+
+    def get(self, request, *args, **kwargs):
+        if 'accept' in request.query_params :
+            invite_code = request.query_params['accept']
+            try:
+                invite      = FriendInvite.objects.get(code=invite_code)
+            except :
+                invite      = None
+            if invite == None or invite.receiver != self.request.user.player :
+                return Response({'error':'Invalid invite.'},
+                                status=status.HTTP_400_BAD_REQUEST)
+            friend = Friendship(friend1=self.request.user.player, friend2=invite.sender)
+            friend.save()
+            return Response({'success' : 'Invite accepted.'}, status=status.HTTP_200_OK)
+        else :
+            invites = FriendInvite.objects.filter(receiver=self.request.user.player)
+            serializer = FriendInviteSerializer(invites, many=True)
+        return Response(serializer.data, status=status.HTTP_200_OK)
+
+    def post(self, request, *args, **kwargs):
+        serializer = FriendReqSerializer(data=request.data)
+        if serializer.is_valid() :
+            id = serializer.validated_data.get('id')
+            try :
+                target = Player.objects.get(id=id)
+            except :
+                target = None
+            if target != None :
+                if target in getAllFriends(self.request.user.player) :
+                    return Response({'error' : 'Already in your friendlist.'},
+                                    status=status.HTTP_400_BAD_REQUEST)
+                if target == self.request.user.player :
+                    return Response({'success' : 'Aren\'t you already your own friend ?'},
+                                    status=status.HTTP_400_BAD_REQUEST)
+                friendship = FriendInvite(receiver=target, sender=self.request.user.player)
+                friendship.save()
+                return Response({'success' : 'Friend request sent.'},
+                                status=status.HTTP_200_OK)
+        return Response({'error' : 'Bad friend request'},
+                        status=status.HTTP_400_BAD_REQUEST)
