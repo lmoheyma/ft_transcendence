@@ -21,7 +21,8 @@ from api.views import AccountUpdateView, \
                         AccountGetView, \
                         LogoutView, \
                         AccountAvatarUpload, \
-                        FriendInviteView
+                        FriendInviteView, \
+                        FriendListView
 from rest_framework.authtoken import views
 
 urlpatterns = [
@@ -30,6 +31,7 @@ urlpatterns = [
     path('api/account/avatar_upload', AccountAvatarUpload.as_view()),
     path('api/account', AccountGetView.as_view()),
     path('api/invites', FriendInviteView.as_view()),
+    path('api/friends', FriendListView.as_view()),
     path('api/logout', LogoutView.as_view()),
     path('api/', include(router.urls)),
     path('api/token-auth/', views.obtain_auth_token)

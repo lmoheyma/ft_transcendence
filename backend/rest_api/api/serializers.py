@@ -130,9 +130,21 @@ class   RegisterSerializer(serializers.ModelSerializer):
         player.save()
         user.save()
         return user
-    
 
-class   FriendInviteSerializer(serializers.ModelSerializer):
+
+class   FriendSerializer(serializers.ModelSerializer):
+    username    = serializers.CharField(source="user.username", read_only=True)
+
+    class Meta :
+        model = Player
+        fields  = [
+                'id',
+                'username',
+                'avatar',
+                'status',
+                ]
+
+class   FriendInviteSerializer(serializers.Serializer):
     sender      = PlayerProfileSerializer(read_only=True)
 
     class Meta:

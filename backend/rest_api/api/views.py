@@ -8,7 +8,8 @@ from .serializers import ScoreboardSerializer, \
                             AccountGetSerializer, \
                             PlayerProfileSerializer, \
                             FriendInviteSerializer, \
-                            FriendReqSerializer
+                            FriendReqSerializer, \
+                            FriendSerializer
 from rest_framework.permissions import IsAuthenticated
 from rest_framework.parsers import FileUploadParser
 from django.core.files.uploadedfile import InMemoryUploadedFile
@@ -130,8 +131,19 @@ class   AccountAvatarUpload(views.APIView):
         return Response(status=204)
 
 def     getAllFriends(user : Player):
-    res = user.friends1_set.all() | user.friends1_set.all()
+    res = [i.friend2 for i in user.friends1_set.all()]
+    res += [i.friend1 for i in user.friends2_set.all()]
     return res
+
+class   FriendListView(views.APIView):
+    permission_classes  = [IsAuthenticated]
+    authentication_classes = [TokenAuthentication]
+    http_method_names   = ['get']
+
+    def get(self, request, *args, **kwargs):
+        friends = getAllFriends(request.user.player)
+        serializer = FriendSerializer(friends, many=True)
+        return Response(serializer.data, status=status.HTTP_200_OK)
 
 class   FriendInviteView(views.APIView):
     permission_classes  = [IsAuthenticated]
