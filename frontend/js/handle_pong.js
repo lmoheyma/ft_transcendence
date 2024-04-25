@@ -1,7 +1,10 @@
+import { drawAll } from "./display_pong.js";
+import { handleEventsMultiplayer } from "./pong_multi.js";
+
 const cgameY = 100;
 const cgameX = 300;
-
-var Directions = {
+console.log("hello");
+export var Directions = {
     NOTHING: 0,
     UP: 1,
     DOWN: 2,
@@ -15,7 +18,7 @@ var GameMod = {
     AI: 2,
 }
 
-var Game = {
+export var Game = {
 	canvas: null,
 	ctx: null,
 	is_playing: false,
@@ -23,23 +26,23 @@ var Game = {
 	gameY: cgameY,
 	gameX: cgameX,
 	border_space: 3,
-	border_size: 1.5,
+	border_size: 0.5,
 	player_height: 18,
 	player_width: 3,
 	gamemod: 0,
 }
 
-var Player1 = {
+export var Player1 = {
 	dir: 0,
 	pos_Y: 50,
 }
 
-var Player2 = {
+export var Player2 = {
 	dir: 0,
 	pos_Y: 50,
 }
 
-var Ball = {
+export var Ball = {
 	pos_X: 150,
 	pos_Y: 50,
 	size: Game.border_space,
@@ -47,7 +50,7 @@ var Ball = {
 	angle: 0,
 }
 
-var Display = {
+export var Display = {
 	border_space: 0,
 	border_size: 0,
 	player1_pos_Y: 0,
@@ -59,7 +62,7 @@ var Display = {
 	ball_size: 0,
 }
 
-handleEvents = function () {
+function handleEvents() {
 	document.addEventListener('click', (event) => {
 		if (!Game.is_playing)
 		{
@@ -119,7 +122,7 @@ handleEvents = function () {
 
 }
 
-startGame = function () {
+export function startGame() {
 	calculatePoses();
 	if (!Game.gameOver)
 	{
@@ -128,7 +131,7 @@ startGame = function () {
 	}
 }
 
-initialize = function () {
+function initialize() {
 	Game.canvas = document.querySelector('canvas');
 	Game.ctx = Game.canvas.getContext('2d');
 
@@ -161,27 +164,27 @@ initialize = function () {
 		console.log("error");
 
 	initializeGameData();
-	drawAll()
+	drawAll();
 
-	Game.ctx.font = `${Game.canvas.height / 8}px Verdana`;
+	Game.ctx.font = `${Game.canvas.height / 8}px Helvetica`;
 	Game.ctx.setLineDash([]);
 
 
-	Game.ctx.fillStyle = "#FFFFFF";
-	Game.ctx.strokeStyle = "#000000";
-	Game.ctx.strokeText(
-		"Press the button to start",
-		(Game.canvas.width / 2),
-		Game.canvas.height / 1.25
-	);
-	Game.ctx.fillText(
-		"Press the button to start",
-		(Game.canvas.width / 2),
-		Game.canvas.height / 1.25
-	);
+	// Game.ctx.fillStyle = "#C850C0";
+	// Game.ctx.strokeStyle = "#000000";
+	// Game.ctx.strokeText(
+	// 	"Press the button to start",
+	// 	(Game.canvas.width / 2),
+	// 	Game.canvas.height / 1.25
+	// );
+	// Game.ctx.fillText(
+	// 	"Press the button to start",
+	// 	(Game.canvas.width / 2),
+	// 	Game.canvas.height / 1.25
+	// );
 }
 
-initializeGameData = function () {
+export function initializeGameData() {
 
 	Game.pos_X = 150;
 	Game.pos_Y = 50;
@@ -234,7 +237,7 @@ initializeGameData = function () {
 	}
 }
 
-calculatePoses = function () {
+function calculatePoses() {
 	if (Player1.pos_Y > 15 && Player1.dir === Directions.UP)
 		Player1.pos_Y -= 1;
 	if (Player1.pos_Y < 85 && Player1.dir === Directions.DOWN)
@@ -330,7 +333,7 @@ calculatePoses = function () {
 	Ball.pos_X += Ball.speed * Math.cos(radAngle);
 }
 
-pointWon = function (player) {
+function pointWon(player) {
 	var randomNumber = Math.floor(Math.random() * 2);
 	if (player === 1)
 	{
@@ -381,7 +384,7 @@ pointWon = function (player) {
 	Ball.speed = 1;
 }
 
-gameWon = function (player) {
+function gameWon(player) {
 	Player1.pos_Y = 50;
 	Player2.pos_Y = 50;
 	Player1.dir = Directions.NOTHING;
@@ -390,19 +393,19 @@ gameWon = function (player) {
 	Ball.pos_Y = 50;
 	drawAll();
 
-	Game.ctx.font = `${Game.canvas.height / 8}px Verdana`;
+	Game.ctx.font = `${Game.canvas.height / 8}px Helvetica`;
 	Game.ctx.setLineDash([]);
 
 
 	Game.ctx.fillStyle = "#FFFFFF";
 	Game.ctx.strokeStyle = "#000000";
 	Game.ctx.strokeText(
-		`Player ${player} has won the game`,
+		`Player ${player} has won!`,
 		(Game.canvas.width / 2),
 		Game.canvas.height / 1.25
 	);
 	Game.ctx.fillText(
-		`Player ${player} has won the game`,
+		`Player ${player} has won!`,
 		(Game.canvas.width / 2),
 		Game.canvas.height / 1.25
 	);
@@ -410,5 +413,7 @@ gameWon = function (player) {
 	Game.gameOver = true;
 }
 
-initialize();
-handleEvents();
+export function initHandlePong() {
+	initialize();
+	handleEvents();
+}

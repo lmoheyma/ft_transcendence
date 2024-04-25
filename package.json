@@ -18,7 +18,8 @@
   },
   "homepage": "https://github.com/lmoheyma/ft_transcendence#readme",
   "dependencies": {
-    "bootstrap": "^5.3.3"
+    "bootstrap": "^5.3.3",
+    "sass": "^1.75.0"
   },
   "devDependencies": {
     "node-sass": "^9.0.0"

@@ -18,14 +18,16 @@ html {
 	font-weight: bold;
 }
 
-.game-content {
-	width: 100%;
-	/* background-color: red; */
+.button-game {
+	margin: 0 auto;
+	margin-top: 20px;
 	display: flex;
-	align-items: center;
 	justify-content: center;
 }
 
+.mt-5 {
+	margin-top: 15vh !important;
+}
 
 #multi-btn {
 	margin-top: 1em;

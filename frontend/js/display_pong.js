@@ -1,4 +1,11 @@
-updateDisplay = function () {
+import { Game } from './handle_pong.js';
+import { Display } from './handle_pong.js';
+import { Player1 } from './handle_pong.js';
+import { Player2 } from './handle_pong.js';
+import { Ball } from './handle_pong.js';
+
+console.log("hello");
+function updateDisplay() {
 	Display.border_space = Game.border_space * Game.canvas.height / Game.gameY;
 	Display.border_size = Display.border_space / 2;
 
@@ -11,15 +18,15 @@ updateDisplay = function () {
 	Display.ball_pos_Y = Ball.pos_Y * Game.canvas.height / Game.gameY;
 	Display.ball_size = Ball.size * Game.canvas.height / Game.gameY;
 }
-    
-drawAll = function () {
+
+export function drawAll() {
 	updateDisplay();
 	Game.ctx.clearRect(0, 0, Game.canvas.width, Game.canvas.height);
 
-	Game.ctx.fillStyle = "#000000";
-	Game.ctx.fillRect(0, 0, Game.canvas.width, Game.canvas.height);
+	// Game.ctx.fillStyle = "#000000";
+	// Game.ctx.fillRect(0, 0, Game.canvas.width, Game.canvas.height);
 
-	Game.ctx.fillStyle = "#FFFFFF";
+	Game.ctx.fillStyle = "rgba(255, 255, 255, 1)";
 
 	Game.ctx.fillRect(Display.border_space, Display.border_space, Game.canvas.width - (2 * Display.border_space), Display.border_size);
 	Game.ctx.fillRect(Display.border_space, Game.canvas.height - (2 * Display.border_space - Display.border_size), Game.canvas.width - (2 * Display.border_space), Display.border_size);
@@ -40,7 +47,7 @@ drawAll = function () {
 	Game.ctx.strokeStyle = '#ffffff';
 	Game.ctx.stroke();
 
-	Game.ctx.font = `${Game.canvas.height / 6}px Verdana`;
+	Game.ctx.font = `${Game.canvas.height / 6}px Helvetica`;
 	Game.ctx.textAlign = 'center';
 
 	Game.ctx.fillText(
@@ -54,5 +61,4 @@ drawAll = function () {
 		(Game.canvas.width / 2) + Game.canvas.height / 12,
 		Game.canvas.height / 6 + Display.border_space
 	);
-
 }
