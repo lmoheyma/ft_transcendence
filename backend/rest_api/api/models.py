@@ -36,12 +36,12 @@ class   FriendInvite(models.Model):
                                         blank=False,
                                         null=True,
                                         on_delete=models.SET_NULL,
-                                        related_name='invites1')
+                                        related_name='sent_invites')
     receiver       = models.ForeignKey(Player,
                                         blank=False,
                                         null=True,
                                         on_delete=models.SET_NULL,
-                                        related_name='invites2')
+                                        related_name='received_invites')
     created_on  = models.DateTimeField(auto_now_add=True)
 
 class   Friendship(models.Model):

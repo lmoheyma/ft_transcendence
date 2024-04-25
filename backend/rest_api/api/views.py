@@ -130,25 +130,46 @@ class   AccountAvatarUpload(views.APIView):
         player.save()
         return Response(status=204)
 
-def     getAllFriends(user : Player):
+def     getAllFriendsAsUsers(user : Player):
     res = [i.friend2 for i in user.friends1_set.all()]
     res += [i.friend1 for i in user.friends2_set.all()]
+    return res
+
+def     getAllFriendships(user : Player):
+    res = user.friends1_set.all() | user.friends2_set.all()
     return res
 
 class   FriendListView(views.APIView):
     permission_classes  = [IsAuthenticated]
     authentication_classes = [TokenAuthentication]
-    http_method_names   = ['get']
+    http_method_names   = ['get', 'delete']
 
     def get(self, request, *args, **kwargs):
-        friends = getAllFriends(request.user.player)
+        friends = getAllFriendsAsUsers(request.user.player)
         serializer = FriendSerializer(friends, many=True)
         return Response(serializer.data, status=status.HTTP_200_OK)
+
+    def delete(self, request, *args, **kwargs):
+        serializer = FriendReqSerializer(data=request.data)
+        if serializer.is_valid() :
+            id = serializer.validated_data.get('id')
+            try :
+                friendship_to_del = [i for i in getAllFriendships(request.user.player)
+                                        if i.friend1.id == id or i.friend2.id == id][0]
+                friendship_to_del.delete()
+                return Response({'success' : 'Deleted friend'},
+                        status=status.HTTP_200_OK)
+            except :
+                friendship_to_del = None
+                return Response({'error' : 'Could not delete (Invalid ID).'},
+                        status=status.HTTP_400_BAD_REQUEST)
+        return Response({'error' : 'Could not delete.'},
+                        status=status.HTTP_400_BAD_REQUEST)
 
 class   FriendInviteView(views.APIView):
     permission_classes  = [IsAuthenticated]
     authentication_classes = [TokenAuthentication]
-    http_method_names   = ['get', 'post']
+    http_method_names   = ['get', 'post',]
 
     def get(self, request, *args, **kwargs):
         if 'accept' in request.query_params :
@@ -161,11 +182,12 @@ class   FriendInviteView(views.APIView):
                 return Response({'error':'Invalid invite.'},
                                 status=status.HTTP_400_BAD_REQUEST)
             friend = Friendship(friend1=self.request.user.player, friend2=invite.sender)
+            invite.delete()
             friend.save()
             return Response({'success' : 'Invite accepted.'}, status=status.HTTP_200_OK)
         else :
-            invites = FriendInvite.objects.filter(receiver=self.request.user.player)
-            serializer = FriendInviteSerializer(invites, many=True)
+            invites     = FriendInvite.objects.filter(receiver=self.request.user.player)
+            serializer  = FriendInviteSerializer(invites, many=True)
         return Response(serializer.data, status=status.HTTP_200_OK)
 
     def post(self, request, *args, **kwargs):
@@ -176,12 +198,17 @@ class   FriendInviteView(views.APIView):
                 target = Player.objects.get(id=id)
             except :
                 target = None
+            friends = getAllFriendsAsUsers(self.request.user.player)
             if target != None :
-                if target in getAllFriends(self.request.user.player) :
+                if target in friends:
                     return Response({'error' : 'Already in your friendlist.'},
                                     status=status.HTTP_400_BAD_REQUEST)
                 if target == self.request.user.player :
                     return Response({'success' : 'Aren\'t you already your own friend ?'},
+                                    status=status.HTTP_400_BAD_REQUEST)
+                if next((i for i in self.request.user.player.sent_invites.all()
+                            | self.request.user.player.received_invites.all() if i.sender == target or i.receiver), None) :
+                    return Response({'success' : 'Friend invite already sent or received.'},
                                     status=status.HTTP_400_BAD_REQUEST)
                 friendship = FriendInvite(receiver=target, sender=self.request.user.player)
                 friendship.save()

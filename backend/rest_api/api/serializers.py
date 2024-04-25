@@ -144,7 +144,7 @@ class   FriendSerializer(serializers.ModelSerializer):
                 'status',
                 ]
 
-class   FriendInviteSerializer(serializers.Serializer):
+class   FriendInviteSerializer(serializers.ModelSerializer):
     sender      = PlayerProfileSerializer(read_only=True)
 
     class Meta:
@@ -152,7 +152,7 @@ class   FriendInviteSerializer(serializers.Serializer):
         fields  = [
                 'code',
                 'sender',
-                'created_on'
+                'created_on',
                 ]
 
 class   FriendReqSerializer(serializers.Serializer):
