@@ -100,7 +100,6 @@ class   AccountAvatarUpload(views.APIView):
     def get_object(self, queryset=None):
         return self.request.user
 
-    
     def randfilename(self):
         m = md5()
         m.update(os.urandom(32))
@@ -108,7 +107,10 @@ class   AccountAvatarUpload(views.APIView):
 
     def pil_to_inmem(self, pil_img):
         thumb_io = io.BytesIO()
-        pil_img.save(thumb_io, format='png')
+        len = min(pil_img.size[0], pil_img.size[1])
+        cropped_img = pil_img.crop((0, 0, len, len))
+        cropped_img.thumbnail((128,128))
+        cropped_img.save(thumb_io, format='png')
         return InMemoryUploadedFile(thumb_io,
                                     None, 
                                     self.randfilename(),
@@ -126,7 +128,7 @@ class   AccountAvatarUpload(views.APIView):
             return Response({"error" : "Invalid image size"},
                         status=status.HTTP_400_BAD_REQUEST)
         player = self.request.user.player
-        player.avatar = self.pil_to_inmem(img.resize((128, 128)))
+        player.avatar = self.pil_to_inmem(img)
         player.save()
         return Response(status=204)
 
