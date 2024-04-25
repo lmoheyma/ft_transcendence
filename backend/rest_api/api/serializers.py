@@ -1,34 +1,79 @@
 from rest_framework import serializers
 import rest_framework.validators as validators
-from .models import Player, User
+from .models import Player, User, Game, FriendInvite
 from django.contrib.auth.password_validation import validate_password
 
-class ScoreboardSerializer(serializers.ModelSerializer):
-    username = serializers.CharField(source="user.username", read_only=True)
+class   GameSerializer(serializers.ModelSerializer):
     class Meta:
-        model = Player
-        fields = [
-                'username',
-                'avatar', 
-                'games_no', 
-                'wins', 
-                'losses'
+        model   = Game
+        fields  = [
+                'player1',
+                'player2',
+                'score_player1',
+                'score_player2',
+                'created_on'
                 ]
 
-class AccountGetSerializer(serializers.ModelSerializer):
+class   ScoreboardSerializer(serializers.ModelSerializer):
+    username    = serializers.CharField(source="user.username", read_only=True)
+
+    class Meta:
+        model   = Player
+        fields  = [
+                'id',
+                'username',
+                'avatar',
+                'score'
+                ]
+
+class   UserSerializer(serializers.ModelSerializer):
+    class Meta :
+        model = User
+        fields = [
+            'username'
+        ]
+
+class   PlayerProfileSerializer(serializers.ModelSerializer):
+    username    = serializers.CharField(source="user.username", read_only=True)
+    history     = serializers.SerializerMethodField()
+
+    class Meta:
+        model   = Player
+        fields  = [
+                'id',
+                'username',
+                'avatar',
+                'games_no',
+                'wins',
+                'losses',
+                'history',
+                ]
+
+    def get_history(self, obj):
+        res = GameSerializer(obj.history1_set.all() | obj.history2_set.all(), many=True).data
+        return res
+
+class   AccountGetSerializer(serializers.ModelSerializer):
     username    = serializers.CharField(source="user.username", read_only=True)
     email       = serializers.CharField(source="user.email", read_only=True)
+    history     = serializers.SerializerMethodField()
 
     class Meta:
-        model = Player
-        fields = [
+        model   = Player
+        fields  = [
+                'id',
                 'email',
                 'username',
-                'avatar', 
-                'games_no', 
-                'wins', 
-                'losses'
+                'avatar',
+                'games_no',
+                'wins',
+                'losses',
+                'history'
                 ]
+
+    def get_history(self, obj):
+        res = GameSerializer(obj.history1_set.all() | obj.history2_set.all(), many=True).data
+        return res
 
 class   AccountUpdateSerializer(serializers.Serializer):
     username        = serializers.CharField(validators=[
@@ -63,7 +108,8 @@ class   RegisterSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = User
-        fields = ['username',
+        fields = [
+                  'username',
                   'email',
                   'password1',
                   'password2',
@@ -84,3 +130,33 @@ class   RegisterSerializer(serializers.ModelSerializer):
         player.save()
         user.save()
         return user
+
+
+class   FriendSerializer(serializers.ModelSerializer):
+    username    = serializers.CharField(source="user.username", read_only=True)
+
+    class Meta :
+        model = Player
+        fields  = [
+                'id',
+                'username',
+                'avatar',
+                'status',
+                ]
+
+class   FriendInviteSerializer(serializers.ModelSerializer):
+    sender      = PlayerProfileSerializer(read_only=True)
+
+    class Meta:
+        model   = FriendInvite
+        fields  = [
+                'code',
+                'sender',
+                'created_on',
+                ]
+
+class   FriendReqSerializer(serializers.Serializer):
+    id          = serializers.IntegerField(required=True)
+
+    class Meta:
+        fields = ['id', ]

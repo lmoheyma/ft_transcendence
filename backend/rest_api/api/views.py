@@ -1,11 +1,15 @@
-from rest_framework import viewsets, views, status
+from rest_framework import viewsets, views, status, mixins
 from rest_framework.response import Response
 from rest_framework.authentication import TokenAuthentication
-from .models import Player
+from .models import Player, FriendInvite, Friendship
 from .serializers import ScoreboardSerializer, \
                             RegisterSerializer, \
                             AccountUpdateSerializer, \
-                            AccountGetSerializer
+                            AccountGetSerializer, \
+                            PlayerProfileSerializer, \
+                            FriendInviteSerializer, \
+                            FriendReqSerializer, \
+                            FriendSerializer
 from rest_framework.permissions import IsAuthenticated
 from rest_framework.parsers import FileUploadParser
 from django.core.files.uploadedfile import InMemoryUploadedFile
@@ -14,12 +18,21 @@ import io, os
 from PIL import Image
 from hashlib import md5
 
-class   ScoreboardViewSet(viewsets.ModelViewSet):
-    queryset = Player.objects.all().order_by('score')
+class   PlayerProfileView(mixins.RetrieveModelMixin, 
+                          viewsets.GenericViewSet):
+    queryset            = Player.objects.all().order_by('score')
+    serializer_class    = PlayerProfileSerializer
+    authentication_classes = [TokenAuthentication]
+    permission_classes  = [IsAuthenticated]
+    http_method_names   = ['get', ]
+
+class   ScoreboardViewSet(mixins.ListModelMixin,
+                          viewsets.GenericViewSet):
+    queryset            = Player.objects.all().order_by('score')
     serializer_class    = ScoreboardSerializer
     http_method_names   = ['get', ]
 
-class   RegisterViewSet(viewsets.ModelViewSet):
+class   RegisterViewSet(mixins.CreateModelMixin, viewsets.GenericViewSet):
     http_method_names   = ['post', ]
     serializer_class    = RegisterSerializer
 
@@ -91,28 +104,115 @@ class   AccountAvatarUpload(views.APIView):
     def randfilename(self):
         m = md5()
         m.update(os.urandom(32))
-        return m.hexdigest() + '.jpg'
+        return m.hexdigest() + '.png'
 
     def pil_to_inmem(self, pil_img):
         thumb_io = io.BytesIO()
-        pil_img.save(thumb_io, format='JPEG')
+        pil_img.save(thumb_io, format='png')
         return InMemoryUploadedFile(thumb_io,
                                     None, 
                                     self.randfilename(),
-                                    'image/jpeg',
+                                    'image/png',
                                     thumb_io.tell(), None)
 
-
     def put(self, request, format=None):
-        file_obj = request.data['file']
         try :
+            file_obj = request.data['file']
             img = Image.open(file_obj)
         except :
-            return Response({"error" : "File type unrecognized"},
+            return Response({"error" : "File error"},
                         status=status.HTTP_400_BAD_REQUEST)
         if img.size[0] < 128 or img.size[1] < 128 :
-            raise ValueError("Invalid size")
+            return Response({"error" : "Invalid image size"},
+                        status=status.HTTP_400_BAD_REQUEST)
         player = self.request.user.player
         player.avatar = self.pil_to_inmem(img.resize((128, 128)))
         player.save()
         return Response(status=204)
+
+def     getAllFriendsAsUsers(user : Player):
+    res = [i.friend2 for i in user.friends1_set.all()]
+    res += [i.friend1 for i in user.friends2_set.all()]
+    return res
+
+def     getAllFriendships(user : Player):
+    res = user.friends1_set.all() | user.friends2_set.all()
+    return res
+
+class   FriendListView(views.APIView):
+    permission_classes  = [IsAuthenticated]
+    authentication_classes = [TokenAuthentication]
+    http_method_names   = ['get', 'delete']
+
+    def get(self, request, *args, **kwargs):
+        friends = getAllFriendsAsUsers(request.user.player)
+        serializer = FriendSerializer(friends, many=True)
+        return Response(serializer.data, status=status.HTTP_200_OK)
+
+    def delete(self, request, *args, **kwargs):
+        serializer = FriendReqSerializer(data=request.data)
+        if serializer.is_valid() :
+            id = serializer.validated_data.get('id')
+            try :
+                friendship_to_del = [i for i in getAllFriendships(request.user.player)
+                                        if i.friend1.id == id or i.friend2.id == id][0]
+                friendship_to_del.delete()
+                return Response({'success' : 'Deleted friend'},
+                        status=status.HTTP_200_OK)
+            except :
+                friendship_to_del = None
+                return Response({'error' : 'Could not delete (Invalid ID).'},
+                        status=status.HTTP_400_BAD_REQUEST)
+        return Response({'error' : 'Could not delete.'},
+                        status=status.HTTP_400_BAD_REQUEST)
+
+class   FriendInviteView(views.APIView):
+    permission_classes  = [IsAuthenticated]
+    authentication_classes = [TokenAuthentication]
+    http_method_names   = ['get', 'post',]
+
+    def get(self, request, *args, **kwargs):
+        if 'accept' in request.query_params :
+            invite_code = request.query_params['accept']
+            try:
+                invite      = FriendInvite.objects.get(code=invite_code)
+            except :
+                invite      = None
+            if invite == None or invite.receiver != self.request.user.player :
+                return Response({'error':'Invalid invite.'},
+                                status=status.HTTP_400_BAD_REQUEST)
+            friend = Friendship(friend1=self.request.user.player, friend2=invite.sender)
+            invite.delete()
+            friend.save()
+            return Response({'success' : 'Invite accepted.'}, status=status.HTTP_200_OK)
+        else :
+            invites     = FriendInvite.objects.filter(receiver=self.request.user.player)
+            serializer  = FriendInviteSerializer(invites, many=True)
+        return Response(serializer.data, status=status.HTTP_200_OK)
+
+    def post(self, request, *args, **kwargs):
+        serializer = FriendReqSerializer(data=request.data)
+        if serializer.is_valid() :
+            id = serializer.validated_data.get('id')
+            try :
+                target = Player.objects.get(id=id)
+            except :
+                target = None
+            friends = getAllFriendsAsUsers(self.request.user.player)
+            if target != None :
+                if target in friends:
+                    return Response({'error' : 'Already in your friendlist.'},
+                                    status=status.HTTP_400_BAD_REQUEST)
+                if target == self.request.user.player :
+                    return Response({'success' : 'Aren\'t you already your own friend ?'},
+                                    status=status.HTTP_400_BAD_REQUEST)
+                if next((i for i in self.request.user.player.sent_invites.all()
+                            | self.request.user.player.received_invites.all() if i.sender == target or i.receiver), None) :
+                    return Response({'success' : 'Friend invite already sent or received.'},
+                                    status=status.HTTP_400_BAD_REQUEST)
+                friendship = FriendInvite(receiver=target, sender=self.request.user.player)
+                friendship.save()
+                return Response({'success' : 'Friend request sent.'},
+                                status=status.HTTP_200_OK)
+        return Response({'error' : 'Bad friend request'},
+                        status=status.HTTP_400_BAD_REQUEST)
