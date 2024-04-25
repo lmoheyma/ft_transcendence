@@ -1,7 +1,19 @@
 from rest_framework import serializers
 import rest_framework.validators as validators
-from .models import Player, User
+from .models import Player, User, Game
 from django.contrib.auth.password_validation import validate_password
+
+class GameSerializer(serializers.ModelSerializer):
+
+    class Meta:
+        model = Game
+        fields = [
+                'player1',
+                'player2',
+                'score_player1',
+                'score_player2',
+                'created_on'
+                ]
 
 class ScoreboardSerializer(serializers.ModelSerializer):
     username = serializers.CharField(source="user.username", read_only=True)
@@ -15,10 +27,29 @@ class ScoreboardSerializer(serializers.ModelSerializer):
                 'losses'
                 ]
 
+class PlayerProfileSerializer(serializers.HyperlinkedModelSerializer):
+    username    = serializers.CharField(source="user.username", read_only=True)
+    history     = serializers.SerializerMethodField()
+    class Meta:
+        model = Player
+        fields = [
+                'url',
+                'username',
+                'avatar',
+                'games_no',
+                'wins',
+                'losses',
+                'history'
+                ]
+
+    def get_history(self, obj):
+        res = GameSerializer(obj.player1_set.all() | obj.player2_set.all(), many=True).data
+        return res
+
 class AccountGetSerializer(serializers.ModelSerializer):
     username    = serializers.CharField(source="user.username", read_only=True)
     email       = serializers.CharField(source="user.email", read_only=True)
-
+    history     = serializers.SerializerMethodField()
     class Meta:
         model = Player
         fields = [
@@ -27,8 +58,13 @@ class AccountGetSerializer(serializers.ModelSerializer):
                 'avatar', 
                 'games_no', 
                 'wins', 
-                'losses'
+                'losses',
+                'history'
                 ]
+
+    def get_history(self, obj):
+        res = GameSerializer(obj.player1_set.all() | obj.player2_set.all(), many=True).data
+        return res
 
 class   AccountUpdateSerializer(serializers.Serializer):
     username        = serializers.CharField(validators=[
@@ -45,7 +81,7 @@ class   AccountUpdateSerializer(serializers.Serializer):
     new_password    = serializers.CharField(write_only=True,
                                         validators=[validate_password],
                                         required=False)
-    
+
     def validate(self, attrs):
         if 'new_password' in attrs and attrs['password'] == attrs['new_password'] :
             raise serializers.ValidationError("New password must be different from old password")

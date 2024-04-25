@@ -37,7 +37,7 @@ class   FriendInvite(models.Model):
                                         related_name='player2_invites')
     created_on  = models.DateTimeField(auto_now_add=True)
 
-class   Friends(models.Model):
+class   Friend(models.Model):
     created_on  = models.DateTimeField(auto_now_add=True)
     friend1     = models.ForeignKey(Player,
                                     on_delete=models.CASCADE,
@@ -46,7 +46,7 @@ class   Friends(models.Model):
                                     on_delete=models.CASCADE,
                                     related_name='friend2_set')
 
-class   Matches(models.Model):
+class   Game(models.Model):
     player1         = models.ForeignKey(Player,
                                         blank=False,
                                         null=True,
@@ -59,4 +59,5 @@ class   Matches(models.Model):
                                         related_name='player2_set')
     score_player1   = models.PositiveIntegerField()
     score_player2   = models.PositiveIntegerField()
+    created_on      = models.DateTimeField(auto_now_add=True)
 

@@ -5,7 +5,8 @@ from .models import Player
 from .serializers import ScoreboardSerializer, \
                             RegisterSerializer, \
                             AccountUpdateSerializer, \
-                            AccountGetSerializer
+                            AccountGetSerializer, \
+                            PlayerProfileSerializer
 from rest_framework.permissions import IsAuthenticated
 from rest_framework.parsers import FileUploadParser
 from django.core.files.uploadedfile import InMemoryUploadedFile
@@ -14,14 +15,30 @@ import io, os
 from PIL import Image
 from hashlib import md5
 
+class   PlayerProfileView(viewsets.ModelViewSet):
+    authentication_classes = [TokenAuthentication]
+    permission_classes  = [IsAuthenticated]
+    http_method_names   = ['get', ]
+
 class   ScoreboardViewSet(viewsets.ModelViewSet):
-    queryset = Player.objects.all().order_by('score')
+    queryset            = Player.objects.all().order_by('score')
     serializer_class    = ScoreboardSerializer
     http_method_names   = ['get', ]
+    lookup_field        = 'username'
 
 class   RegisterViewSet(viewsets.ModelViewSet):
     http_method_names   = ['post', ]
     serializer_class    = RegisterSerializer
+
+class   AccountGetView(views.APIView):
+    http_method_names   = ['get']
+    authentication_classes = [TokenAuthentication]
+    permission_classes  = [IsAuthenticated]
+
+    def get(self, request, *args, **kwargs):
+        player = self.request.user.player
+        serializer = AccountGetSerializer(player)
+        return Response(serializer.data, status=status.HTTP_200_OK)
 
 class   AccountGetView(views.APIView):
     http_method_names   = ['get']
@@ -91,27 +108,27 @@ class   AccountAvatarUpload(views.APIView):
     def randfilename(self):
         m = md5()
         m.update(os.urandom(32))
-        return m.hexdigest() + '.jpg'
+        return m.hexdigest() + '.png'
 
     def pil_to_inmem(self, pil_img):
         thumb_io = io.BytesIO()
-        pil_img.save(thumb_io, format='JPEG')
+        pil_img.save(thumb_io, format='png')
         return InMemoryUploadedFile(thumb_io,
                                     None, 
                                     self.randfilename(),
-                                    'image/jpeg',
+                                    'image/png',
                                     thumb_io.tell(), None)
 
-
     def put(self, request, format=None):
-        file_obj = request.data['file']
         try :
+            file_obj = request.data['file']
             img = Image.open(file_obj)
         except :
-            return Response({"error" : "File type unrecognized"},
+            return Response({"error" : "File error"},
                         status=status.HTTP_400_BAD_REQUEST)
         if img.size[0] < 128 or img.size[1] < 128 :
-            raise ValueError("Invalid size")
+            return Response({"error" : "Invalid image size"},
+                        status=status.HTTP_400_BAD_REQUEST)
         player = self.request.user.player
         player.avatar = self.pil_to_inmem(img.resize((128, 128)))
         player.save()
