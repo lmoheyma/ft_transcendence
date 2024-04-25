@@ -1,8 +1,34 @@
 import json
 from asgiref.sync import async_to_sync
-from channels.generic.websocket import WebsocketConsumer, AsyncWebsocketConsumer
+from channels.generic.websocket import AsyncWebsocketConsumer
+from rest_framework.authtoken.models import Token
+from api.models import Game
+from channels.db import database_sync_to_async
 
 class   PongConsumer(AsyncWebsocketConsumer):
+
+    @database_sync_to_async
+    def token_connect(self, token):
+        try :
+            token = Token.objects.get(key=token)
+        except :
+            token = None
+        if token != None :
+            self.user = token.user
+            try :
+                game = Game.objects.get(player1=self.user)
+            except :
+                game = None
+            if game == None :
+                game = Game(player1=self.user.player)
+                game.save()
+            elif game.player2 :
+                game.player2 = self.user.player
+            else :
+                return False
+            return True
+        return False
+
     async def connect(self):
         self.room_name = self.scope["url_route"]["kwargs"]["room_name"]
         self.player_no = self.scope["url_route"]["kwargs"]["player_no"]
