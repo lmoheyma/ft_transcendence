@@ -32,12 +32,12 @@ class   FriendInvite(models.Model):
     code        = models.CharField(max_length=14,
                                    default=gen_safe_randomcode,
                                    primary_key=True)
-    sender         = models.ForeignKey(Player,
+    sender      = models.ForeignKey(Player,
                                         blank=False,
                                         null=True,
                                         on_delete=models.SET_NULL,
                                         related_name='sent_invites')
-    receiver       = models.ForeignKey(Player,
+    receiver    = models.ForeignKey(Player,
                                         blank=False,
                                         null=True,
                                         on_delete=models.SET_NULL,
@@ -49,7 +49,7 @@ class   Friendship(models.Model):
     friend1     = models.ForeignKey(Player,
                                     on_delete=models.CASCADE,
                                     related_name='friends1_set')
-    friend2    = models.ForeignKey(Player,
+    friend2     = models.ForeignKey(Player,
                                     on_delete=models.CASCADE,
                                     related_name='friends2_set')
 
@@ -64,7 +64,7 @@ class   Game(models.Model):
                                         null=True,
                                         on_delete=models.SET_NULL,
                                         related_name='history2_set')
-    score_player1   = models.PositiveIntegerField()
-    score_player2   = models.PositiveIntegerField()
+    score_player1   = models.PositiveIntegerField(default=0)
+    score_player2   = models.PositiveIntegerField(default=0)
     created_on      = models.DateTimeField(auto_now_add=True)
 
