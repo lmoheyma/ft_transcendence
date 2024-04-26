@@ -1,5 +1,4 @@
 
-
 async function login(event) {
 	const username = document.getElementById('username').value;
 	const password = document.getElementById('password').value;
@@ -24,16 +23,8 @@ async function login(event) {
 			status.appendChild(paragraph);
 			paragraph.style.color = "white";
 			session = resultat.token;
-			// document.getElementById("submit-btn").addEventListener('click', null);
 			document.getElementById("submit-btn").href="/dashboard";
-			console.log("href: ", document.getElementById("submit-btn").href);
 			route(event);
-			// document.getElementById("submit-btn").onclick = function() {
-			// 	var link = document.getElementById("submit-btn");
-        	// 	link.setAttribute("href", "/dashboard");
-			// 	route();
-			// }
-			// route(event);
 			console.log("New session token : " + session);
 		}
 		else if (reponse.status == 400) 
@@ -53,11 +44,7 @@ async function login(event) {
 	  console.error("Erreur :", erreur);
 	}
 }
-
-document.getElementById("monFormulaire").addEventListener("submit", function(event) {
-    login(event); // Appel de la fonction login avec l'objet event
-});
-
+ 
 async function logout()
 {
 	if (session == null)
