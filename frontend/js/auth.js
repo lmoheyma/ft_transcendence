@@ -16,9 +16,7 @@ async function login(event) {
 		const resultat	= await reponse.json();
 		if (reponse.status == 200)
 		{
-			var ul = document.getElementById("navbarId");
-			var li = document.getElementById("loginId");
-			ul.removeChild(li);
+			document.getElementById("loginId").style.display = "none";
 			document.getElementById("logoutId").style.display = "block";
 			document.cookie = "Session=" + resultat.token;
 			session = resultat.token;
@@ -43,7 +41,7 @@ async function login(event) {
 	}
 }
 
-async function logout()
+async function logout(event)
 {
 	if (getCookie("Session") == "")
 		return ;
@@ -57,9 +55,13 @@ async function logout()
 	const resultat	= await reponse.json();
 	if (reponse.status == 200)
 	{
+		document.getElementById("logoutId").style.display = "none";
+		document.getElementById("loginId").style.display = "block";
 		console.log("Disconnected token : " + getCookie("Session"));
 		document.cookie = "Session=";
 		session	= null;
+		document.getElementById("logoutId").href="/login";
+		route(event);
 	}
 	else
 	{
@@ -67,7 +69,7 @@ async function logout()
 	}
 }
 
-async function register() {
+async function register(event) {
 	const username = document.getElementById('username').value;
 	const email = document.getElementById('email').value;
 	const password = document.getElementById('password1').value;
@@ -86,12 +88,8 @@ async function register() {
 		const resultat = await reponse.json();
 		if (reponse.status == 201)
 		{
-			document.getElementById("status").innerHTML = "";
-			var status = document.getElementById("status");
-			var paragraph = document.createElement('p');
-			paragraph.textContent = "Register!";
-			status.appendChild(paragraph);
-			paragraph.style.color = "white";
+			document.getElementById("submit-btn").href="/login";
+			route(event);
 			console.log("Réussite :", resultat);
 		}
 		else if (reponse.status == 400)
