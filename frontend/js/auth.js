@@ -16,12 +16,6 @@ async function login(event) {
 		const resultat	= await reponse.json();
 		if (reponse.status == 200)
 		{
-			document.getElementById("status").innerHTML = "";
-			var status = document.getElementById("status");
-			var paragraph = document.createElement('p');
-			paragraph.textContent = "Logged!";
-			status.appendChild(paragraph);
-			paragraph.style.color = "white";
 			session = resultat.token;
 			document.getElementById("submit-btn").href="/dashboard";
 			route(event);
@@ -41,26 +35,27 @@ async function login(event) {
 			console.log("Fail :", resultat);
 		}
 	} catch (erreur) {
-	  console.error("Erreur :", erreur);
+		console.error("Erreur :", erreur);
 	}
 }
- 
+
 async function logout()
 {
-	if (session == null)
+	if (getCookie("Session") == "")
 		return ;
+	console.log("session: " + session);
 	const reponse = await fetch("/api/logout", {
 		method: "GET",
 		headers: {
-		"Authorization" : "Token " + session,
+		"Authorization" : "Token " + getCookie("Session"),
 		}
 	});
 	const resultat	= await reponse.json();
 	if (reponse.status == 200)
 	{
-		console.log("Disconnected token : " + session);
+		console.log("Disconnected token : " + getCookie("Session"));
+		document.cookie = "Session=";
 		session	= null;
-		console.log("New token : " + session);
 	}
 	else
 	{
@@ -68,7 +63,7 @@ async function logout()
 	}
 }
 
-async function register() {
+async function register(event) {
 	const username = document.getElementById('username').value;
 	const email = document.getElementById('email').value;
 	const password = document.getElementById('password1').value;
@@ -85,15 +80,10 @@ async function register() {
 			body: JSON.stringify(donnees),
 		});
 		const resultat = await reponse.json();
-		console.log(reponse.status);
 		if (reponse.status == 201)
 		{
-			document.getElementById("status").innerHTML = "";
-			var status = document.getElementById("status");
-			var paragraph = document.createElement('p');
-			paragraph.textContent = "Logged!";
-			status.appendChild(paragraph);
-			paragraph.style.color = "white";
+			document.getElementById("submit-btn").href="/login";
+			route(event);
 			console.log("Réussite :", resultat);
 		}
 		else if (reponse.status == 400)
@@ -107,7 +97,6 @@ async function register() {
 				paragraph.style.color = "red";
 				console.log(resultat[key][0]);
 			});
-			console.log("Fail :", resultat);
 		}
 	} catch (erreur) {
 		console.error("Fail!", erreur);

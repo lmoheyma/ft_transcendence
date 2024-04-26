@@ -1,4 +1,20 @@
 
+function getCookie(cname) {
+    let name = cname + "=";
+    let decodedCookie = decodeURIComponent(document.cookie);
+    let ca = decodedCookie.split(';');
+    for(let i = 0; i <ca.length; i++) {
+      let c = ca[i];
+      while (c.charAt(0) == ' ') {
+        c = c.substring(1);
+      }
+      if (c.indexOf(name) == 0) {
+        return c.substring(name.length, c.length);
+      }
+    }
+    return "";
+}
+
 const loadAndMarkScript = async (scriptPath) => {
     await import(scriptPath);
     switch (scriptPath) {
@@ -41,8 +57,7 @@ const routes = {
 
 const handleLocation = async () => {
     var path = window.location.pathname;
-    console.log("Path: ", path);
-    if (session == null && path != "/register") {
+    if (getCookie("Session") == "" && path != "/register") {
         path = "/login";
     }
     const route = routes[path] || routes[404];
@@ -58,7 +73,6 @@ const handleLocation = async () => {
     });
     const html = await response.text();
     document.getElementById("main-page").innerHTML = html;
-
     if (path === "/pong") {
         await loadScriptsSequentially([
             "/js/display_pong.js",
