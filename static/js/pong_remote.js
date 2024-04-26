@@ -2,7 +2,6 @@ var socket;
 var interval;
 
 handleEventsPongRemoteP1 = function () {
-	socket = new WebSocket(`ws://localhost:8000/ws/room/pong/1`);
 	console.log(1);
 
 	socket.onopen = function(e) {
@@ -130,7 +129,6 @@ handleEventsPongRemoteP1 = function () {
 
 
 handleEventsPongRemoteP2 = function () {
-	var socket = new WebSocket(`ws://localhost:8000/ws/room/pong/2`);
 	console.log(2);
 	type = "Guest";
 

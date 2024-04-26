@@ -14,7 +14,7 @@ TicTacToe = {
 	gameOver: false,
 	gamemod: 0,
 	playerTurn: 0,
-	wonPlayer: 0,
+	wonPlayer: -1,
 }
 
 var GameMod = {
@@ -22,6 +22,10 @@ var GameMod = {
     REMOTE: 1,
     AI: 2,
 }
+
+var waitOtherPlayer = false;
+
+// remote
 
 initializeTicTacToe = function () {
 	TicTacToe.canvas = document.querySelector('canvas');
@@ -71,33 +75,63 @@ handleEventsTicTacToe = function () {
 				{
 					TicTacToe.gameOver = false;
 					TicTacToe.gamemod = GameMod.MULTI;
-					// initializeGameData();
 					TicTacToe.is_playing = true;
 					initializeTTTData();
 					drawTicTacToe();
 					handleEventsTTTMultiplayer();
 					break;
 				}
-				// case "remote-btn":
-				// {
-				// 	Game.gameOver = false;
-				// 	Game.gamemod = GameMod.REMOTE;
-				// 	handleEventsPongRemoteP1();
-				// 	initializeGameData();
-				// 	break;
-				// }
-				// case "remote-btn2":
-				// {
-				// 	Game.gameOver = false;
-				// 	Game.gamemod = GameMod.REMOTE;
-				// 	handleEventsPongRemoteP2();
-				// 	initializeGameData();
-				// 	break;
-				// }
+				case "remote-btn":
+				{
+					TicTacToe.gameOver = false;
+					TicTacToe.gamemod = GameMod.REMOTE;
+					socket = new WebSocket(`ws://localhost:8000/ws/room/pong/1`);
+					initializeTTTData();
+					handleEventsTTTRemoteP1();
+					break;
+				}
+				case "remote-btn2":
+				{
+					TicTacToe.gameOver = false;
+					TicTacToe.gamemod = GameMod.REMOTE;
+					socket = new WebSocket(`ws://localhost:8000/ws/room/pong/2`);
+					initializeTTTData();
+					handleEventsTTTRemoteP2();
+					break;
+				}
 				default:
 					break;
 			}
 		}
+	});
+	window.addEventListener("resize", (event) => {
+		var totalSize;
+		if (window.innerHeight < window.innerWidth)
+		{
+			totalSize = window.innerHeight - 300;
+			TicTacToe.canvas.height = totalSize;
+			TicTacToe.canvas.width = totalSize;
+		}
+		else
+		{
+			totalSize = window.innerWidth - 300;
+			TicTacToe.canvas.height = totalSize;
+			TicTacToe.canvas.width = totalSize;
+		}
+
+		if (TicTacToe.canvas.width > 900)
+		{
+			TicTacToe.canvas.height = 900;
+			TicTacToe.canvas.width = 900;
+		}
+
+		if (window.innerHeight < 450)
+		{
+			TicTacToe.canvas.height = 150;
+			TicTacToe.canvas.width = 150;
+		}
+
+		drawTicTacToe();
 	});
 
 }
@@ -124,7 +158,7 @@ drawTicTacToe = function () {
 	var x;
 	var y;
 	TicTacToe.ctx.strokeStyle = "#FFFFFF";
-	TicTacToe.ctx.lineWidth = 20;
+	TicTacToe.ctx.lineWidth = TicTacToe.Display.cellSize / 10;
 	
 	for (let i = 0; i < 3; i++)
 	{
@@ -142,7 +176,7 @@ drawTicTacToe = function () {
 	TicTacToe.ctx.fillStyle = "#000000";
 	TicTacToe.ctx.textAlign = 'center';
 	TicTacToe.ctx.font = `${TicTacToe.canvas.height / 15}px Verdana`;
-	if (!TicTacToe.is_playing && !TicTacToe.gameOver)
+	if (!TicTacToe.is_playing && !waitOtherPlayer)
 	{
 		TicTacToe.ctx.fillText(
 			"Press the button to start",
@@ -150,30 +184,53 @@ drawTicTacToe = function () {
 			TicTacToe.canvas.height / 2
 		);
 	}
-	else if (!TicTacToe.is_playing && TicTacToe.gameOver)
+	else if (!TicTacToe.is_playing && waitOtherPlayer)
+	{
+		TicTacToe.ctx.fillText(
+			"Waiting creation of matchmaking",
+			TicTacToe.canvas.width / 2,
+			TicTacToe.canvas.height / 2
+		);
+	}
+	else if (!TicTacToe.is_playing && TicTacToe.gameOver && TicTacToe.wonPlayer > 0)
 	{
 		TicTacToe.ctx.fillText(
 			`Player ${TicTacToe.wonPlayer} has won the game`,
 			TicTacToe.canvas.width / 2,
 			TicTacToe.canvas.height / 2
 		);
-
+	}
+	else if (!TicTacToe.is_playing && TicTacToe.gameOver && TicTacToe.wonPlayer == 0)
+	{
+		TicTacToe.ctx.fillText(
+			`Nobody won the game`,
+			TicTacToe.canvas.width / 2,
+			TicTacToe.canvas.height / 2
+		);
+	}
+	else
+	{
+		TicTacToe.ctx.fillText(
+			`Turn of player ${TicTacToe.playerTurn}`,
+			TicTacToe.canvas.width / 2,
+			TicTacToe.canvas.height / 18
+		);
 	}
 }
 
 drawO = function (x, y) {
 	TicTacToe.ctx.beginPath();
-    TicTacToe.ctx.arc(x, y, 100, 0, 2 * Math.PI);
+    TicTacToe.ctx.arc(x, y, TicTacToe.Display.cellSize / 2.5, 0, 2 * Math.PI);
     TicTacToe.ctx.stroke();
 }
 
 
 drawX = function (x, y) {
     TicTacToe.ctx.beginPath();
-    TicTacToe.ctx.moveTo(x - 100, y - 100);
-    TicTacToe.ctx.lineTo(x + 100, y + 100);
-    TicTacToe.ctx.moveTo(x - 100, y + 100);
-    TicTacToe.ctx.lineTo(x + 100, y - 100);
+    TicTacToe.ctx.moveTo(x - (TicTacToe.Display.cellSize / 2.5), y - (TicTacToe.Display.cellSize / 2.5));
+    TicTacToe.ctx.lineTo(x + (TicTacToe.Display.cellSize / 2.5), y + (TicTacToe.Display.cellSize / 2.5));
+    TicTacToe.ctx.moveTo(x - (TicTacToe.Display.cellSize / 2.5), y + (TicTacToe.Display.cellSize / 2.5));
+    TicTacToe.ctx.lineTo(x + (TicTacToe.Display.cellSize / 2.5), y - (TicTacToe.Display.cellSize / 2.5));
     TicTacToe.ctx.stroke();
 }
 
@@ -182,21 +239,21 @@ handleEventsTTTMultiplayer = function () {
 		const rect = TicTacToe.canvas.getBoundingClientRect();
 		const x = event.clientX - rect.left;
 		const y = event.clientY - rect.top;
-		playGame(x, y);
+		playGame(getCaseFromAxe(x), getCaseFromAxe(y));
 	});
 }
 
 playGame = function (x, y) {
-	var i = getCaseFromAxe(y);
-	var j = getCaseFromAxe(x);
-	if (i == -1 || j == -1 || TicTacToe.cells[i][j] != 0 || TicTacToe.gameOver)
+	if (y == -1 || x == -1 || TicTacToe.cells[y][x] != 0 || TicTacToe.gameOver)
 		return;
-	TicTacToe.cells[i][j] = TicTacToe.playerTurn;
+	TicTacToe.cells[y][x] = TicTacToe.playerTurn;
 	TicTacToe.playerTurn == 1 ? TicTacToe.playerTurn = 2 : TicTacToe.playerTurn = 1;
 	drawTicTacToe();
 	var wonPlayer = checkWin();
-	if (wonPlayer != -1)
+	if (wonPlayer > 0)
 		wonTTT(wonPlayer);
+	if (wonPlayer == 0)
+		noWonTTT();
 }
 
 getCaseFromAxe = function (pos) {
@@ -230,7 +287,14 @@ checkWin = function () {
 		return (2);
 	if (TicTacToe.cells[0][2] == 2 && TicTacToe.cells[1][1] == 2 && TicTacToe.cells[2][0] == 2)
 		return (2);
-	return (-1);
+
+	for (let i = 0; i < 3; i++) {
+		for (let j = 0; j < 3; j++) {
+			if (TicTacToe.cells[i][j] == 0)
+				return (-1);
+		}
+	}
+	return (0);
 }
 
 wonTTT = function (wonPlayer) {
@@ -238,6 +302,32 @@ wonTTT = function (wonPlayer) {
 	TicTacToe.gameOver = true;
 	TicTacToe.wonPlayer = wonPlayer;
 	drawTicTacToe();
+	if (TicTacToe.gamemod == GameMod.REMOTE)
+	{
+		var send_data = {
+			"type" : "host",
+			"request": "win",
+			"wonPlayer": TicTacToe.wonPlayer,
+		};
+		socket.send(JSON.stringify(send_data));
+	}
+}
+
+
+noWonTTT = function () {
+	TicTacToe.is_playing = false;
+	TicTacToe.gameOver = true;
+	TicTacToe.wonPlayer = 0;
+	drawTicTacToe();
+	if (TicTacToe.gamemod == GameMod.REMOTE)
+	{
+		var send_data = {
+			"type" : "host",
+			"request": "win",
+			"wonPlayer": TicTacToe.wonPlayer,
+		};
+		socket.send(JSON.stringify(send_data));
+	}
 }
 
 
