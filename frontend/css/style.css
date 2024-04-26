@@ -101,3 +101,7 @@ body {
 		top: 15px;
    }
 }
+
+#logoutId {
+	display: none;
+}

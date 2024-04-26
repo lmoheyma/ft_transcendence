@@ -3,7 +3,7 @@ import { handleEventsMultiplayer } from "./pong_multi.js";
 
 const cgameY = 100;
 const cgameX = 300;
-console.log("hello");
+
 export var Directions = {
     NOTHING: 0,
     UP: 1,

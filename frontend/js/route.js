@@ -56,22 +56,13 @@ const routes = {
 };
 
 const handleLocation = async () => {
+
     var path = window.location.pathname;
     if (getCookie("Session") == "" && path != "/register") {
         path = "/login";
     }
     const route = routes[path] || routes[404];
-    const response = await fetch(route, {
-        method: 'GET',
-        headers: {
-            'Cache-Control': 'no-cache',
-            'Pragma': 'no-cache',
-            'Expires': '0',
-            'ETag': 'unique_identifier',
-            'Last-Modified': 'date'
-        }
-    });
-    const html = await response.text();
+    const html = await fetch(route).then((data) => data.text());
     document.getElementById("main-page").innerHTML = html;
     if (path === "/pong") {
         await loadScriptsSequentially([
@@ -90,6 +81,7 @@ const route = (event) => {
     handleLocation();
 };
 
+// debugger;
 window.onpopstate = handleLocation;
 window.route = route;
 

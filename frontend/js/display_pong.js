@@ -4,7 +4,6 @@ import { Player1 } from './handle_pong.js';
 import { Player2 } from './handle_pong.js';
 import { Ball } from './handle_pong.js';
 
-console.log("hello");
 function updateDisplay() {
 	Display.border_space = Game.border_space * Game.canvas.height / Game.gameY;
 	Display.border_size = Display.border_space / 2;
