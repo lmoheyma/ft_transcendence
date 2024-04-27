@@ -124,9 +124,9 @@ USE_TZ = True
 
 STATIC_URL = 'static/'
 
-STATICFILES_DIRS = [
-    os.path.join(BASE_DIR, '../../static'),
-]
+# STATICFILES_DIRS = [
+#     os.path.join(BASE_DIR, '../../static'),
+# ]
 
 
 # Default primary key field type
@@ -147,7 +147,6 @@ STATIC_ROOT = "/var/www/frontend/static/"
 APPEND_SLASH=False
 REST_FRAMEWORK = {
     'DEFAULT_AUTHENTICATION_CLASSES': [
-        'rest_framework.authentication.BasicAuthentication',
         'rest_framework.authentication.SessionAuthentication',
     ]
 }

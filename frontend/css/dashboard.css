@@ -1,0 +1,14 @@
+.py-5 {
+	padding-top: 20vh !important;
+	padding-bottom: 20vh !important;
+	padding-left: 10vh !important;
+}
+
+.py-5 .title h1 {
+	/* margin-bottom: -1.0rem !important; */
+}
+
+.title h1 {
+	color: #FFFAF0;
+	font-weight: bold;
+}

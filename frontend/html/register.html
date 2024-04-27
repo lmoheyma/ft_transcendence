@@ -3,36 +3,33 @@
 	<head>
 		<meta charset="utf-8">
    		<meta name="viewport" content="width=device-width, initial-scale=1">
-		<title>Resgiter Page</title>
+		<title>Register Page</title>
 		<link href="/css/login.css" rel="stylesheet">
 	</head>
 	<body>
 		<div class="container py-5">
 			<div class="row d-flex justify-content-center align-items-center h-100">
-			<div class="col-12 col-md-8 col-lg-6 col-xl-5">
-				<div class="card bg-dark text-white" style="border-radius: 1rem;">
-				<div class="card-body p-5 text-center">
-					<div class="mb-md-5 mt-2 md-5 pb-5">
-						<h2 class="fw-bold mb-4 text-uppercase">Create an account</h2>
-					<div data-mdb-input-init class="form-outline form-white mb-4">
-						<input type="text" id="typeLoginX" class="form-control form-control-lg" placeholder="Login"/>
-					</div>
-					<div data-mdb-input-init class="form-outline form-white mb-4">
-						<input type="email" id="typeEmailX" class="form-control form-control-lg" placeholder="Email"/>
-					</div>
-					<div data-mdb-input-init class="form-outline form-white mb-4">
-						<input type="password" id="typePasswordX" class="form-control form-control-lg" placeholder="Password"/>
-					</div>
-					<div data-mdb-input-init class="form-outline form-white mb-4">
-						<input type="password" id="typePasswordX" class="form-control form-control-lg" placeholder="Repeat your password"/>
-					</div>
-						<button data-mdb-button-init data-mdb-ripple-init class="btn btn-outline-light btn-lg mt-4 px-5" type="submit">Login</button>
-					</div>
-					<div>
-						<p class="mb-0">Already have an account? <a href="/login" onClick="route()" class="text-white-50 fw-bold">Login here</a></p>
-					</div>
+			<div id="form_area">
+				<h2 class="fw-bold mb-2 text-uppercase" id="title">Sign up</h2>
+				<div class="mb-3">
+					<label for="username" class="form-label">Username</label>
+					<input type="text" id="username" class="form-control" placeholder="Enter your username"/>
 				</div>
+				<div class="mb-3">
+					<label for="email" class="form-label">Email</label>
+					<input type="email" id="email" class="form-control" placeholder="Enter your email"/>
 				</div>
+				<div class="mb-3">
+					<label for="password1" class="form-label">Password</label>
+					<input type="password" id="password1" class="form-control" placeholder="Enter your password"/>
+				</div>
+				<div class="mb-3">
+					<label for="password2" class="form-label">Repeat password</label>
+					<input type="password" id="password2" class="form-control" placeholder="Repeat your password"/>
+				</div>
+				<button class="btn" id="submit-btn" type="submit" onclick="register(event)">Sign Up!</button>
+				<div class="pt-2" id="status"></div>
+				<p>Already have an account? <a href="/login" onclick="route()" class="link">Login Here!</p>
 			</div>
 			</div>
 		</div>

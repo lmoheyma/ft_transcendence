@@ -1,7 +1,28 @@
 
+function getCookie(cname) {
+    let name = cname + "=";
+    let decodedCookie = decodeURIComponent(document.cookie);
+    let ca = decodedCookie.split(';');
+    for(let i = 0; i <ca.length; i++) {
+      let c = ca[i];
+      while (c.charAt(0) == ' ') {
+        c = c.substring(1);
+      }
+      if (c.indexOf(name) == 0) {
+        return c.substring(name.length, c.length);
+      }
+    }
+    return "";
+}
+
+function redirectToSettings(event) {
+    // event.preventDefault();
+    window.history.pushState({}, '', '/settings');
+    window.location.href = "/settings";
+}
+
 const loadAndMarkScript = async (scriptPath) => {
     await import(scriptPath);
-    console.log("Script chargé avec attribut data-remove ajouté :", scriptPath);
     switch (scriptPath) {
         case "/js/display_pong.js":
             break;
@@ -14,10 +35,10 @@ const loadAndMarkScript = async (scriptPath) => {
         case "/js/pong_multi.js":
             break;
         case "/js/pong_remote.js":
-            if (window.location.pathname === '/pong') {
-                const { initRemote } = await import('./pong_remote.js');
-                initRemote()
-            }
+            // if (window.location.pathname === '/pong') {
+            //     const { initRemote } = await import('./pong_remote.js');
+            //     initRemote()
+            // }
             break;
         default:
             break;
@@ -37,27 +58,18 @@ const routes = {
     "/login": "html/login.html",
     "/pong": "html/pong.html",
     "/register": "html/register.html",
-    "/user-info": "html/user-info.html",
+    "/settings": "html/settings.html",
 };
 
 const handleLocation = async () => {
-    const path = window.location.pathname;
-    console.log("Path: " + path);
-    const route = routes[path] || routes[404];
-    console.log("Route: " + route);
-    const response = await fetch(route, {
-        method: 'GET',
-        headers: {
-            'Cache-Control': 'no-cache',
-            'Pragma': 'no-cache',
-            'Expires': '0',
-            'ETag': 'unique_identifier',
-            'Last-Modified': 'date'
-        }
-    });
-    const html = await response.text();
-    document.getElementById("main-page").innerHTML = html;
 
+    var path = window.location.pathname;
+    if (getCookie("Session") == "" && path != "/register") {
+        path = "/login";
+    }
+    const route = routes[path] || routes[404];
+    const html = await fetch(route).then((data) => data.text());
+    document.getElementById("main-page").innerHTML = html;
     if (path === "/pong") {
         await loadScriptsSequentially([
             "/js/display_pong.js",

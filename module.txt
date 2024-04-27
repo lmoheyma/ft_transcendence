@@ -15,4 +15,3 @@ ModSecurity avec une configuration renforcée et utilisez HashiCorp Vault pour
 la gestion des secrets.
 Module mineur : Étendre la compatibilité des navigateurs web.
 Module mineur : Support de multiple langues
-`

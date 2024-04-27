@@ -1,10 +1,6 @@
-import { Game } from './handle_pong.js';
-import { Display } from './handle_pong.js';
-import { Player1 } from './handle_pong.js';
-import { Player2 } from './handle_pong.js';
-import { Ball } from './handle_pong.js';
+import { Game, Display, Player1, Player2, Ball } from './handle_pong.js';
+import { waitOtherPlayer } from './pong_remote.js'
 
-console.log("hello");
 function updateDisplay() {
 	Display.border_space = Game.border_space * Game.canvas.height / Game.gameY;
 	Display.border_size = Display.border_space / 2;
@@ -50,6 +46,17 @@ export function drawAll() {
 	Game.ctx.font = `${Game.canvas.height / 6}px Helvetica`;
 	Game.ctx.textAlign = 'center';
 
+	// Game.ctx.fillText(
+	// 	Player1.score.toString(),
+	// 	(Game.canvas.width / 2) - Game.canvas.height / 12,
+	// 	Game.canvas.height / 6 + Display.border_space
+	// );
+
+	// Game.ctx.fillText(
+	// 	Player2.score.toString(),
+	// 	(Game.canvas.width / 2) + Game.canvas.height / 12,
+	// 	Game.canvas.height / 6 + Display.border_space
+	// );
 	Game.ctx.fillText(
 		Player1.score.toString(),
 		(Game.canvas.width / 2) - Game.canvas.height / 12,
@@ -61,4 +68,43 @@ export function drawAll() {
 		(Game.canvas.width / 2) + Game.canvas.height / 12,
 		Game.canvas.height / 6 + Display.border_space
 	);
+
+	if (!Game.is_playing && !waitOtherPlayer)
+	{
+		Game.ctx.font = `${Game.canvas.height / 10}px Verdana`;
+		Game.ctx.setLineDash([]);
+	
+	
+		Game.ctx.fillStyle = "#FFFFFF";
+		Game.ctx.strokeStyle = "#000000";
+		Game.ctx.strokeText(
+			"Press the button to start",
+			(Game.canvas.width / 2),
+			Game.canvas.height / 1.25
+		);
+		Game.ctx.fillText(
+			"Press the button to start",
+			(Game.canvas.width / 2),
+			Game.canvas.height / 1.25
+		);
+	}
+	else if (!Game.is_playing && waitOtherPlayer)
+	{
+		Game.ctx.font = `${Game.canvas.height / 12}px Verdana`;
+		Game.ctx.setLineDash([]);
+	
+	
+		Game.ctx.fillStyle = "#FFFFFF";
+		Game.ctx.strokeStyle = "#000000";
+		Game.ctx.strokeText(
+			"Waiting creation of matchmaking",
+			(Game.canvas.width / 2),
+			Game.canvas.height / 1.25
+		);
+		Game.ctx.fillText(
+			"Waiting creation of matchmaking",
+			(Game.canvas.width / 2),
+			Game.canvas.height / 1.25
+		);
+	}
 }
