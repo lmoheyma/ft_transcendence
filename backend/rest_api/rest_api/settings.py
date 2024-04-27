@@ -82,8 +82,12 @@ WSGI_APPLICATION = 'rest_api.wsgi.application'
 
 DATABASES = {
     'default': {
-        'ENGINE': 'django.db.backends.sqlite3',
-        'NAME': BASE_DIR / 'db.sqlite3',
+        'ENGINE': 'django.db.backends.postgresql',
+        'NAME' : 'transcendence_db',
+        'USER' : 'django',
+        'PASSWORD' : 'django',
+        'HOST' : 'postgres_db',
+        'PORT' : '5432'
     }
 }
 
@@ -147,6 +151,6 @@ STATIC_ROOT = "/var/www/frontend/static/"
 APPEND_SLASH=False
 REST_FRAMEWORK = {
     'DEFAULT_AUTHENTICATION_CLASSES': [
-        'rest_framework.authentication.SessionAuthentication',
+        'rest_framework.authentication.TokenAuthentication',
     ]
 }
