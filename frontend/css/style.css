@@ -151,7 +151,7 @@ body {
 .navbar .link-image {
 	display: inline-block;
 	width: 42px;
-	background-image: url('/media/settings_icon.png');
+	background-image: url('/img/settings_icon.png');
 	background-size: contain;
 	background-repeat: no-repeat;
 	background-position: center;
