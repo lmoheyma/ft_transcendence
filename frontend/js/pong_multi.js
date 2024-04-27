@@ -3,7 +3,7 @@ import { Player2 } from './handle_pong.js';
 import { Game } from './handle_pong.js';
 import { Directions } from './handle_pong.js';
 
-export function handleEventsMultiplayer() {
+export function handleEventsPongMultiplayer() {
 	document.addEventListener('keydown', (event) => {
 		if (event.key === "w" && Game.is_playing)
 			Player1.dir = Directions.UP;

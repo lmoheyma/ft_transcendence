@@ -35,10 +35,10 @@ const loadAndMarkScript = async (scriptPath) => {
         case "/js/pong_multi.js":
             break;
         case "/js/pong_remote.js":
-            if (window.location.pathname === '/pong') {
-                const { initRemote } = await import('./pong_remote.js');
-                initRemote()
-            }
+            // if (window.location.pathname === '/pong') {
+            //     const { initRemote } = await import('./pong_remote.js');
+            //     initRemote()
+            // }
             break;
         default:
             break;
@@ -64,7 +64,6 @@ const routes = {
 const handleLocation = async () => {
 
     var path = window.location.pathname;
-    console.log("Path: " + path);
     if (getCookie("Session") == "" && path != "/register") {
         path = "/login";
     }
