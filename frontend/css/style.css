@@ -138,3 +138,22 @@ body {
 #logoutId {
 	display: none;
 }
+
+#settingsId {
+	background-color: #FFA776;
+	box-shadow: 3px 2px 0px 1px #000;
+}
+
+#settingsId:hover {
+	background-color: #f57e3f;
+}
+
+.navbar .link-image {
+	display: inline-block;
+	width: 42px;
+	background-image: url('/media/settings_icon.png');
+	background-size: contain;
+	background-repeat: no-repeat;
+	background-position: center;
+	text-indent: -9999px;
+}

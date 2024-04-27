@@ -15,6 +15,12 @@ function getCookie(cname) {
     return "";
 }
 
+function redirectToSettings(event) {
+    // event.preventDefault();
+    window.history.pushState({}, '', '/settings');
+    window.location.href = "/settings";
+}
+
 const loadAndMarkScript = async (scriptPath) => {
     await import(scriptPath);
     switch (scriptPath) {
@@ -52,12 +58,13 @@ const routes = {
     "/login": "html/login.html",
     "/pong": "html/pong.html",
     "/register": "html/register.html",
-    "/user-info": "html/user-info.html",
+    "/settings": "html/settings.html",
 };
 
 const handleLocation = async () => {
 
     var path = window.location.pathname;
+    console.log("Path: " + path);
     if (getCookie("Session") == "" && path != "/register") {
         path = "/login";
     }
@@ -81,7 +88,6 @@ const route = (event) => {
     handleLocation();
 };
 
-// debugger;
 window.onpopstate = handleLocation;
 window.route = route;
 
