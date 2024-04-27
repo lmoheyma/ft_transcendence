@@ -445,7 +445,7 @@ function handleEventsPong() {
 				{
 					Game.gameOver = false;
 					Game.gamemod = GameMod.REMOTE;
-					socket = new WebSocket(`ws://localhost:8000/ws/room/pong/1`);
+					socket = new WebSocket(`wss://localhost:8000/ws/room/pong/1`);
 					handleEventsPongRemoteP1();
 					initializeGameData();
 					break;
@@ -454,7 +454,7 @@ function handleEventsPong() {
 				{
 					Game.gameOver = false;
 					Game.gamemod = GameMod.REMOTE;
-					socket = new WebSocket(`ws://localhost:8000/ws/room/pong/2`);
+					socket = new WebSocket(`wss://localhost:8000/ws/room/pong/2`);
 					handleEventsPongRemoteP2();
 					initializeGameData();
 					break;

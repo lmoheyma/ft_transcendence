@@ -1,15 +1,15 @@
 networks:
-  transcendance :
-    name : transcendance
+  transcendence :
+    name : transcendence
 
 services :
   nginx :
     container_name : nginx
     build : ./nginx/
     ports :
-      - 8000:80
+      - 8000:443
     networks :
-       - transcendance
+       - transcendence
     volumes:
       - ../frontend:/var/www/frontend
 
@@ -17,10 +17,12 @@ services :
     container_name : django
     build : ./django
     networks :
-       - transcendance
+       - transcendence
     volumes:
       - ../frontend:/var/www/frontend
       - ../backend:/var/www/backend
+    depends_on :
+      - postgres_db
     environment:
       - DJANGO_SUPERUSER_PASSWORD=admin
       - DJANGO_SUPERUSER_EMAIL=admin@gmail.com
@@ -34,5 +36,9 @@ services :
       - POSTGRES_PASSWORD=django
       - POSTGRES_DB=transcendence_db
     networks :
-      - transcendance
-    
+      - transcendence
+    volumes:
+      - postgres_data:/var/lib/postgresql/data/
+
+volumes:
+  postgres_data:
