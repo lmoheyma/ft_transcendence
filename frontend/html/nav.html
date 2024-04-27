@@ -11,32 +11,34 @@
 		<div id="root">
 			<nav class="navbar navbar-expand-lg">
 				<div class="container-fluid">
-				  <a class="navbar-brand" href="/home" onclick="route()">Home</a>
 				  <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNavDropdown" aria-controls="navbarNavDropdown" aria-expanded="false" aria-label="Toggle navigation">
 					<span class="navbar-toggler-icon"></span>
 				  </button>
 				  <div class="collapse navbar-collapse" id="navbarNavDropdown">
 					<ul class="navbar-nav" id="navbarId">
-					  <li class="nav-item">
-						<a class="nav-link" aria-current="page" href="/dashboard" onclick="route()">Dashboard</a>
-					  </li>
-					  <li class="nav-item" id="loginId">
-						<a class="nav-link" href="/login" onclick="route()">Login</a>
-					  </li>
-					  <li class="nav-item" id="logoutId">
-						<a class="nav-link" id="logout" onclick="logout(event)">Logout</a>
-					  </li>
-					  <li class="nav-item dropdown">
-						<a class="nav-link dropdown-toggle" role="button" data-bs-toggle="dropdown" aria-expanded="false">
-						  Games
-						</a>
-						<ul class="dropdown-menu">
-							<li><a class="dropdown-item" href="/pong" onclick="route()">Pong</a></li>
-							<li><a class="dropdown-item" href="#">Another Game</a></li>
-							<li><hr class="dropdown-divider"></li>
-							<li><a class="dropdown-item" href="/tournament" onclick="route()">Tournament</a></li>
-						</ul>
-					  </li>
+						<li class="nav-item" id="homeId">
+							<a class="nav-link" aria-current="page" href="/home" onclick="route(); changeActivePage()">Home</a>
+						</li>
+						<li class="nav-item" id="dashboardId">
+							<a class="nav-link" aria-current="page" href="/dashboard" onclick="route(); changeActivePage()">Dashboard</a>
+						</li>
+						<li class="nav-item" id="loginId">
+							<a class="nav-link" href="/login" onclick="route(); changeActivePage()">Login</a>
+						</li>
+						<li class="nav-item" id="logoutId">
+							<a class="nav-link" id="logout" onclick="logout(event); changeActivePage()">Logout</a>
+						</li>
+						<li class="nav-item dropdown">
+							<a class="nav-link dropdown-toggle" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+							Games
+							</a>
+							<ul class="dropdown-menu">
+								<li><a class="dropdown-item" id="pongId" href="/pong" onclick="route(); changeActivePage()">Pong</a></li>
+								<li><a class="dropdown-item" href="#">Another Game</a></li>
+								<li><hr class="dropdown-divider"></li>
+								<li><a class="dropdown-item" href="/tournament" onclick="route()">Tournament</a></li>
+							</ul>
+						</li>
 					</ul>
 				  </div>
 				</div>
