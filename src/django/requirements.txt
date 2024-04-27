@@ -7,3 +7,4 @@ daphne
 channels
 channels_redis
 Pillow
+psycopg2-binary
