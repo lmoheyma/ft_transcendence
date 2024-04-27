@@ -22,6 +22,7 @@ async function login(event) {
 			session = resultat.token;
 			document.getElementById("submit-btn").href="/dashboard";
 			route(event);
+			loginActivePage();
 			console.log("New session token : " + session);
 		}
 		else if (reponse.status == 400) 

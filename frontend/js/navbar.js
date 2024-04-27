@@ -19,8 +19,14 @@ function deleteAllActiveClass() {
 	element.classList.remove("active");
 }
 
+function loginActivePage() {
+	var element = document.getElementById("dashboardId");
+	element.classList.add("active");
+}
+
 function changeActivePage() {
 	var path = window.location.pathname;
+	console.log(path);
 	var element;
 
 	deleteAllActiveClass();
