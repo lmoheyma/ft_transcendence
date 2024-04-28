@@ -29,13 +29,14 @@ DEBUG = True
 
 ALLOWED_HOSTS = ['*']
 
+IS_WS = 'IS_WS' in os.environ
 
 # Application definition
 
 INSTALLED_APPS = [
     'api',
     'daphne',
-    'pongrooms',
+    'pong_server',
     'django.contrib.admin',
     'django.contrib.auth',
     'django.contrib.contenttypes',
