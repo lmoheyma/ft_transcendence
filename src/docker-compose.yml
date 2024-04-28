@@ -28,6 +28,22 @@ services :
       - DJANGO_SUPERUSER_EMAIL=admin@gmail.com
       - DJANGO_SUPERUSER_USERNAME=admin
 
+  pong_server :
+    container_name : pong_server
+    build : ./django
+    networks :
+       - transcendence
+    volumes:
+      - ../frontend:/var/www/frontend
+      - ../backend:/var/www/backend
+    depends_on :
+      - postgres_db
+    environment:
+      - IS_WS=1
+      - DJANGO_SUPERUSER_PASSWORD=admin
+      - DJANGO_SUPERUSER_EMAIL=admin@gmail.com
+      - DJANGO_SUPERUSER_USERNAME=admin
+
   postgres_db :
     container_name : postgres_db
     image : postgres:15
