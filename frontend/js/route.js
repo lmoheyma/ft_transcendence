@@ -15,12 +15,6 @@ function getCookie(cname) {
     return "";
 }
 
-function redirectToSettings(event) {
-    // event.preventDefault();
-    window.history.pushState({}, '', '/settings');
-    window.location.href = "/settings";
-}
-
 const loadAndMarkScript = async (scriptPath) => {
     await import(scriptPath);
     switch (scriptPath) {
