@@ -12,6 +12,9 @@ services :
        - transcendence
     volumes:
       - ../frontend:/var/www/frontend
+    depends_on :
+      - django
+    restart: on-failure
 
   django :
     container_name : django

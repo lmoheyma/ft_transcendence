@@ -1,3 +1,8 @@
+function hideNavbar() {	
+	console.log("here");
+	document.getElementById('navbarId').style.display = "none";
+}
+
 function setupNavbar() {
 	var cookieValue = getCookie("Session");
 	if (cookieValue) {
@@ -7,6 +12,8 @@ function setupNavbar() {
 }
 
 function deleteAllActiveClass() {
+	var element;
+
 	element = document.getElementById("homeId");
 	element.classList.remove("active");
 	element = document.getElementById("dashboardId");
@@ -46,10 +53,10 @@ function changeActivePage() {
 			element = document.getElementById("logoutId");
 			element.classList.add("active");
 			break ;
-		case "/pong":
-			element = document.getElementById("pongId");
-			element.classList.add("active");
-			break ;
+		// case "/pong":
+		// 	element = document.getElementById("pongId");
+		// 	element.classList.add("active");
+		// 	break ;
 		default:
 			break;
 	}
