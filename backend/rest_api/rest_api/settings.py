@@ -16,7 +16,7 @@ import os
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
 
-CSRF_TRUSTED_ORIGINS = [ "http://localhost:8000",]
+CSRF_TRUSTED_ORIGINS = [ "https://localhost:8000",]
 
 # Quick-start development settings - unsuitable for production
 # See https://docs.djangoproject.com/en/5.0/howto/deployment/checklist/
@@ -29,13 +29,14 @@ DEBUG = True
 
 ALLOWED_HOSTS = ['*']
 
+IS_WS = 'IS_WS' in os.environ
 
 # Application definition
 
 INSTALLED_APPS = [
     'api',
     'daphne',
-    'pongrooms',
+    'pong_server',
     'django.contrib.admin',
     'django.contrib.auth',
     'django.contrib.contenttypes',
@@ -82,8 +83,12 @@ WSGI_APPLICATION = 'rest_api.wsgi.application'
 
 DATABASES = {
     'default': {
-        'ENGINE': 'django.db.backends.sqlite3',
-        'NAME': BASE_DIR / 'db.sqlite3',
+        'ENGINE': 'django.db.backends.postgresql',
+        'NAME' : 'transcendence_db',
+        'USER' : 'django',
+        'PASSWORD' : 'django',
+        'HOST' : 'postgres_db',
+        'PORT' : '5432'
     }
 }
 
@@ -147,6 +152,6 @@ STATIC_ROOT = "/var/www/frontend/static/"
 APPEND_SLASH=False
 REST_FRAMEWORK = {
     'DEFAULT_AUTHENTICATION_CLASSES': [
-        'rest_framework.authentication.SessionAuthentication',
+        'rest_framework.authentication.TokenAuthentication',
     ]
 }

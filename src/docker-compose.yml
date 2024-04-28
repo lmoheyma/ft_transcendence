@@ -1,15 +1,15 @@
 networks:
-  transcendance :
-    name : transcendance
+  transcendence :
+    name : transcendence
 
 services :
   nginx :
     container_name : nginx
     build : ./nginx/
     ports :
-      - 8000:80
+      - 8000:443
     networks :
-       - transcendance
+       - transcendence
     volumes:
       - ../frontend:/var/www/frontend
 
@@ -17,12 +17,44 @@ services :
     container_name : django
     build : ./django
     networks :
-       - transcendance
+       - transcendence
     volumes:
       - ../frontend:/var/www/frontend
       - ../backend:/var/www/backend
+    depends_on :
+      - postgres_db
     environment:
       - DJANGO_SUPERUSER_PASSWORD=admin
       - DJANGO_SUPERUSER_EMAIL=admin@gmail.com
       - DJANGO_SUPERUSER_USERNAME=admin
-    
+
+  pong_server :
+    container_name : pong_server
+    build : ./django
+    networks :
+       - transcendence
+    volumes:
+      - ../frontend:/var/www/frontend
+      - ../backend:/var/www/backend
+    depends_on :
+      - postgres_db
+    environment:
+      - IS_WS=1
+      - DJANGO_SUPERUSER_PASSWORD=admin
+      - DJANGO_SUPERUSER_EMAIL=admin@gmail.com
+      - DJANGO_SUPERUSER_USERNAME=admin
+
+  postgres_db :
+    container_name : postgres_db
+    image : postgres:15
+    environment :
+      - POSTGRES_USER=django
+      - POSTGRES_PASSWORD=django
+      - POSTGRES_DB=transcendence_db
+    networks :
+      - transcendence
+    volumes:
+      - postgres_data:/var/lib/postgresql/data/
+
+volumes:
+  postgres_data:
