@@ -1,14 +1,80 @@
-.py-5 {
+
+.padd {
 	padding-top: 20vh !important;
-	padding-bottom: 20vh !important;
-	padding-left: 10vh !important;
 }
 
-.py-5 .title h1 {
-	/* margin-bottom: -1.0rem !important; */
-}
-
-.title h1 {
-	color: #FFFAF0;
+.title {
+	color: #272727;
 	font-weight: bold;
+}
+
+.sub-title {
+	font-weight: bold;
+    font-size: 1.5em;
+    margin-top: 20px;
+	color: #272727;
+	margin-bottom: 25px;
+}
+
+.info {
+	/* margin-top: 5px; */
+}
+
+.info .info-title {
+	text-align: center;
+	margin-bottom: -5px;
+}
+
+.info .info-title + .info-title {
+	text-align: center;
+}
+
+.info .info-text {
+	font-weight: bold;
+	font-size: 35px;
+	text-align: center;
+}
+
+.custom-div {
+	position: relative;
+	display: flex;
+    align-items: center;
+    flex-direction: column;
+    /* height: 50vh; */
+	height: 351.5px;
+    width: auto;
+	padding: 0 50px;
+    border-radius: 20px;
+	background-color: #FFFAF0;
+	margin-top: 5vh;
+	box-shadow: 10px 10px #000000;
+}
+
+.custom-div + .custom-div {
+	margin-left: 5%;
+}
+
+.btn {
+	position: absolute;
+    /* padding: 15px;
+    margin: 30px 0px; */
+	bottom: 17px;
+	left: 50%;
+	transform: translateX(-50%);
+    width: 90%;
+    font-size: 15px;
+    background: #FFA776;
+    border-radius: 15px;
+    font-weight: 700;
+    box-shadow: 5px 5px #000;
+	text-transform: uppercase;
+}
+
+.tab-header {
+	background-color: #FFFAF0 !important;
+}
+
+.oponent {
+	/* color: #FFFAF0; */
+	background-color: #272727;
 }

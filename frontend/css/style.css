@@ -157,3 +157,7 @@ body {
 	background-position: center;
 	text-indent: -9999px;
 }
+
+.dropdown-menu {
+	z-index: 9999 !important;
+}

@@ -7,10 +7,44 @@
 		<link href="/css/dashboard.css" rel="stylesheet">
 	</head>
 	<body>
-		<div class="py-5">
-			<div class="row d-flex justify-content-between align-items-center h-100">
-				<div class="title">
-					<h1>Dashboard</h1>
+		<div class="container padd">
+			<h1 class="title">Dashboard</h1>
+			<div class="d-flex flex-wrap justify-content-between align-items-center">
+				<div class="custom-div col">
+					<h2 class="sub-title">Stats</h2>
+					<div class="info">
+						<p class="info-title">Games Played</p>
+						<p class="info-text">4</p>
+						<p class="info-title">Wins</p>
+						<p class="info-text">3</p>
+						<p class="info-title">Loses</p>
+						<p class="info-text">1</p>
+					</div>
+				</div>
+				<div class="custom-div col">
+					<h2 class="sub-title">Game History</h2>
+					<table class="table w-100">
+						<thead class="">
+							<tr>
+							  <th scope="col" class="tab-header">Opponent</th>
+							  <th scope="col" class="tab-header">Score</th>
+							</tr>
+						</thead>
+						<tbody>
+							<tr>
+								<td class="oponent">vs Bot</td>
+								<td class="score">3 - 1</td>
+							</tr>
+							<tr>
+								<td class="oponent">vs Bot</td>
+								<td class="score">2 - 3</td>
+							</tr>
+						</tbody>
+					  </table>
+					<button type="submit" id="submit-btn" class="btn" onclick="">Show all</button>
+				</div>
+				<div class="custom-div col">
+					<h2 class="sub-title">Friends</h2>
 				</div>
 			</div>
 		</div>
