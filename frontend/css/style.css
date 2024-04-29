@@ -4,8 +4,6 @@ body {
 	height: 100vh;
     width: 100vw;
     background: #7b4397;
-	/* background-image: linear-gradient(120deg, #fccb90 0%, #d57eeb 100%); */
-	/* background-color: #FFFAF0; */
 	font-family: 'Poppins', sans-serif;
 }
 
@@ -14,15 +12,22 @@ body {
 }
 
 .navbar-toggler {
-	outline: none;
-    box-shadow: none;
+	border: none;
 }
+
+.navbar>.container-fluid {
+	display: flex;
+    flex-wrap: inherit;
+    align-items: center;
+    justify-content: center;
+} 
 
 .navbar-toggler:focus,
 .navbar-toggler:active,
 .navbar-toggler-icon:focus {
     outline: none;
     box-shadow: none;
+	z-index: 10;
 }
 
 .navbar {
@@ -31,10 +36,10 @@ body {
 	left: 50%;
 	transform: translateX(-50%);
 	display: inline-block;
-	/* border: 2px solid #ebecf1; */
 	border-radius: 50px;
 	animation: slide-in 1s ease-out;
 	background-color: #272727;
+	z-index: 10;
 }
 
 .navbar .navbar-nav {
@@ -51,7 +56,6 @@ body {
 }
 
 .navbar .navbar-nav .nav-item {
-	border: 2px solid transparent;
 	border-radius: 50px;
 	padding: 10px;
 	transition: background 0.2s;
@@ -60,7 +64,6 @@ body {
 .navbar .navbar-nav .nav-item a {
 	color: #ffffff;
 	text-decoration: none;
-	/* text-transform: uppercase; */
 	transition: color 0.2s;
 }
 
@@ -76,11 +79,7 @@ body {
 	margin: 5px -5px;
 	padding: 10px;
 	background-color: #272727;
-	/* background-color: red; */
 	border-radius: 25px;
-	/* border: 2px solid #386caf;
-	border-right: 2px solid #386caf;
-	border-bottom: 2px solid #386caf; */
 	transition: opacity 0.2s, visibility 0.2s;
 }
 
@@ -88,7 +87,6 @@ body {
 	margin: 2px;
 	width: calc(100% - 20px);
 	line-height: 1.7;
-	/* background-color: red; */
 }
 
 .navbar ul li ul li > hr {
@@ -131,11 +129,6 @@ body {
 	border-radius: 25px;
 }
 
-/* .navbar .dropdown-menu {
-	border-radius: 25px;
-	/* transition: background-color 0.3s;
-} */
-
 @keyframes slide-in {
 	0% {
 		top: -50px;
@@ -158,6 +151,9 @@ body {
 #settingsId {
 	background-color: #FFA776;
 	box-shadow: 3px 2px 0px 1px #000;
+	display: flex;
+    justify-content: center;
+    align-items: center;
 }
 
 #settingsId:hover {

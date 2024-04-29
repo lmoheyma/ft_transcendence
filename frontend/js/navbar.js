@@ -1,5 +1,4 @@
-function hideNavbar() {	
-	console.log("here");
+function hideNavbar() {
 	document.getElementById('navbarId').style.display = "none";
 }
 
