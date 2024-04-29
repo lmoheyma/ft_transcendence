@@ -5,6 +5,8 @@ from rest_framework.authtoken.models import Token
 from api.models import Game
 from channels.db import database_sync_to_async
 
+connected_clients = set()
+
 class   PongConsumer(AsyncWebsocketConsumer):
 
     @database_sync_to_async
@@ -37,12 +39,14 @@ class   PongConsumer(AsyncWebsocketConsumer):
         self.versus_no = 1 if self.player_no == 2 else 2
         self.adversary_name = f"player{self.versus_no}_{self.room_name}"
         self.player_name    = f"player{self.player_no}_{self.room_name}"
+        connected_clients.add(self.channel_name)
         await self.channel_layer.group_add(
             self.player_name, self.channel_name
         )
         await self.accept()
 
     async def disconnect(self, code):
+        connected_clients.remove(self.channel_name)
         await self.channel_layer.group_discard(
             self.player_name, self.channel_name
         )
@@ -50,6 +54,7 @@ class   PongConsumer(AsyncWebsocketConsumer):
     async def receive(self, text_data=None, bytes_data=None):
         try :
             obj = json.loads(text_data)
+            obj['connected_clients'] = len(connected_clients)
         except :
             obj = {'type' : 'error', 'message' : 'Invalid JSON'}
         await self.channel_layer.group_send(

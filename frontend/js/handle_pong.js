@@ -767,7 +767,7 @@ function pointWon(player) {
 	Ball.speed = 1;
 }
 
-function gameWon(player) {
+export function gameWon(player) {
 	Player1.pos_Y = 50;
 	Player2.pos_Y = 50;
 	Player1.dir = Directions.NOTHING;
