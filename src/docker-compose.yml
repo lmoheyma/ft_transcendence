@@ -59,5 +59,11 @@ services :
     volumes:
       - postgres_data:/var/lib/postgresql/data/
 
+  redis_channel :
+    container_name : redis_channel
+    image : redis:7
+    networks :
+      - transcendence
+
 volumes:
   postgres_data:

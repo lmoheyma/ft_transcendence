@@ -142,7 +142,10 @@ DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 ASGI_APPLICATION = "rest_api.asgi.application"
 CHANNEL_LAYERS = {
     "default": {
-        'BACKEND': "channels.layers.InMemoryChannelLayer"
+        "BACKEND": "channels_redis.core.RedisChannelLayer",
+        "CONFIG" : {
+            "hosts" : [("redis_channel", 6379)]
+        }
     },
 }
 MEDIA_URL = '/media/'
