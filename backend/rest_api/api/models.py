@@ -68,3 +68,35 @@ class   Game(models.Model):
     score_player2   = models.PositiveIntegerField(default=0)
     created_on      = models.DateTimeField(auto_now_add=True)
 
+class   Tournament(models.Model):
+    code        = models.CharField(max_length=14,
+                                   default=gen_safe_randomcode,
+                                   primary_key=True)
+    created_on      = models.DateTimeField(auto_now_add=True)
+    creator         = models.ForeignKey(Player,
+                                        blank=True,
+                                        null=True,
+                                        on_delete=models.CASCADE,
+                                        related_name='created_tournaments')
+    player_no       = models.PositiveBigIntegerField(default=0)
+    winner          = models.ForeignKey(Player,
+                                        blank=True,
+                                        null=True,
+                                        on_delete=models.CASCADE,
+                                        related_name='won_tournaments')
+    round_no        = models.PositiveSmallIntegerField(default=0)
+    is_started      = models.BooleanField(default=False)
+
+class   TournamentParticipant(models.Model):
+    tournament      = models.ForeignKey(Tournament,
+                                        null=False,
+                                        on_delete=models.CASCADE)
+    player          = models.ForeignKey(Player,
+                                        null=False,
+                                        on_delete=models.CASCADE)
+
+class   TournamentGame(models.Model):
+    game            = models.ForeignKey(Game,
+                                        null=False,
+                                        on_delete=models.CASCADE)
+    round_no        = models.PositiveIntegerField()

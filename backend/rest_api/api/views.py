@@ -1,7 +1,11 @@
 from rest_framework import viewsets, views, status, mixins
 from rest_framework.response import Response
 from rest_framework.authentication import TokenAuthentication
-from .models import Player, FriendInvite, Friendship
+from .models import Player, \
+                    FriendInvite, \
+                    Friendship, \
+                    Tournament, \
+                    TournamentParticipant
 from .serializers import ScoreboardSerializer, \
                             RegisterSerializer, \
                             AccountUpdateSerializer, \
@@ -218,3 +222,45 @@ class   FriendInviteView(views.APIView):
                                 status=status.HTTP_200_OK)
         return Response({'error' : 'Bad friend request'},
                         status=status.HTTP_400_BAD_REQUEST)
+
+
+class   CreateTournamentView(views.APIView):
+    permission_classes  = [IsAuthenticated]
+    authentication_classes = [TokenAuthentication]
+    http_method_names   = ['get',]
+
+    def get(self, request, *args, **kwargs):
+        tournament = Tournament()
+        creator_participant = TournamentParticipant(player=request.user.player, tournament=tournament)
+        tournament.save()
+        creator_participant.save()
+        return Response({
+                            'success' : 'Tournamenent created.', 
+                            'code' : tournament.code
+                         },
+                        status=status.HTTP_200_OK)
+
+class   JoinTournamentView(views.APIView):
+    permission_classes  = [IsAuthenticated]
+    authentication_classes = [TokenAuthentication]
+    http_method_names   = ['get',]
+
+    def get(self, request, *args, **kwargs):
+        code = self.request.query_params.get('code', None)
+        if code == None or len(code) != 14:
+            return Response({'error' : 'Invalid tournament code'},
+                            status=status.HTTP_400_BAD_REQUEST)
+        try :
+            tournament      = Tournament.objects.get(code=code)
+        except :
+            tournament      = None
+        if tournament == None :
+            return Response({'error' : 'Invalid tournament code'},
+                            status=status.HTTP_400_BAD_REQUEST)
+        if tournament.is_started == True :
+            return Response({'error' : 'Can\'t join because tournament has already started'},
+                            status=status.HTTP_400_BAD_REQUEST)
+        particant = TournamentParticipant(tournament=tournament,
+                                            player=self.request.user.player)
+        particant.save()
+        return Response({'success' : 'Successfully joined tournament'})
