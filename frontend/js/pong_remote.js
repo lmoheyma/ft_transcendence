@@ -1,5 +1,5 @@
 
-import { socket, Player1, Player2, Ball } from './handle_pong.js';
+import { socket, Game, Player1, Player2, Ball, startGame, Directions, gameWon } from './handle_pong.js';
 import { drawAll } from './display_pong.js';
 
 // function handleEventsRemote() {
@@ -47,6 +47,7 @@ export var connectedPlayers = 0;
 
 export function handleEventsPongRemoteP1() {
 	console.log(1);
+	console.log(Game);
 
 	socket.onopen = function(e) {
 		console.log("Connected");
@@ -67,6 +68,7 @@ export function handleEventsPongRemoteP1() {
 				"ball_speed" : Ball.speed
 			};
 			socket.send(JSON.stringify(send_data));
+			// console.log("Msg send");
 		}, 10);
 		drawAll();
 	};
@@ -88,6 +90,15 @@ export function handleEventsPongRemoteP1() {
 						waitOtherPlayer = false;
 						startGame();
 					}
+					break;
+				}
+				case "win":
+				{
+					clearInterval(interval);
+					socket.close();
+					waitOtherPlayer = false;
+					Game.is_playing = false;
+					Game.gameOver = true;
 					break;
 				}
 				case "ff":
@@ -169,6 +180,42 @@ export function handleEventsPongRemoteP1() {
 			alert('Forfait');
 		}
 	})
+	document.addEventListener('click', (event) => {
+		if (Game.is_playing || waitOtherPlayer)
+		{
+			if (event.target.id == "leave-match")
+			{
+				if (Game.is_playing)
+				{
+					var send_data = {
+						"type" : "host",
+						"request": "ff",
+						"wonPlayer": 2,
+						"player1_score": Player1.score,
+						"player2_score" : Player2.score,
+					};
+					socket.send(JSON.stringify(send_data));
+					Player1.pos_Y = 50;
+					Player2.pos_Y = 50;
+					Player1.dir = Directions.NOTHING;
+					Player2.dir = Directions.NOTHING;
+					Player1.score = 0;
+					Player2.score = 0;
+					Ball.pos_X = 150;
+					Ball.pos_Y = 50;
+					Game.gameOver = true;
+				}
+				if (Game.is_playing || waitOtherPlayer)
+				{
+					clearInterval(interval);
+					socket.close();
+					Game.is_playing = false;
+					waitOtherPlayer = false;
+					drawAll();
+				}
+			}
+		}
+	});
 }
 
 
@@ -188,6 +235,7 @@ export function handleEventsPongRemoteP2() {
 				"player2_dir": Player2.dir,
 			};
 			socket.send(JSON.stringify(send_data));
+			// console.log("Msg send");
 		}, 10);
 		drawAll();
 	};
@@ -222,8 +270,20 @@ export function handleEventsPongRemoteP2() {
 				{
 					Player1.score = data.player1_score;
 					Player2.score = data.player2_score;
-					drawAll();
+					var send_data = {
+						"type" : "guest",
+						"request": "win",
+						"wonPlayer": data.wonPlayer,
+						"player1_score": data.player1_score,
+						"player2_score" : data.player2_score,
+					};
 					gameWon(data.wonPlayer);
+					waitOtherPlayer = false;
+					Game.is_playing = false;
+					Game.gameOver = true;
+					socket.send(JSON.stringify(send_data));
+					clearInterval(interval);
+					socket.close();
 					break;
 				}
 				case "ff":
@@ -301,4 +361,40 @@ export function handleEventsPongRemoteP2() {
 			alert('Forfait');
 		}
 	})
+	document.addEventListener('click', (event) => {
+		if (Game.is_playing || waitOtherPlayer)
+		{
+			if (event.target.id == "leave-match")
+			{
+				if (Game.is_playing)
+				{
+					var send_data = {
+						"type" : "guest",
+						"request": "ff",
+						"wonPlayer": 1,
+						"player1_score": Player1.score,
+						"player2_score" : Player2.score,
+					};
+					socket.send(JSON.stringify(send_data));
+					Player1.pos_Y = 50;
+					Player2.pos_Y = 50;
+					Player1.dir = Directions.NOTHING;
+					Player2.dir = Directions.NOTHING;
+					Player1.score = 0;
+					Player2.score = 0;
+					Ball.pos_X = 150;
+					Ball.pos_Y = 50;
+					Game.gameOver = true;
+				}
+				if (Game.is_playing || waitOtherPlayer)
+				{
+					clearInterval(interval);
+					socket.close();
+					Game.is_playing = false;
+					waitOtherPlayer = false;
+					drawAll();
+				}
+			}
+		}
+	});
 }
