@@ -74,8 +74,9 @@ body {
 	position: absolute;
 	display: block;
 	margin: 5px -5px;
-	padding: 0;
+	padding: 10px;
 	background-color: #272727;
+	/* background-color: red; */
 	border-radius: 25px;
 	/* border: 2px solid #386caf;
 	border-right: 2px solid #386caf;

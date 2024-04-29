@@ -29,21 +29,29 @@ html {
 	margin-top: 15vh !important;
 }
 
-#multi-btn {
-	margin-top: 1em;
-	margin-right: 1em;
-	width: 9em;
-	height: 4em;
+.custom-div {
+	position: relative;
+	display: flex;
+    align-items: center;
+    flex-direction: column;
+	padding: 0 50px;
+	margin-top: 40px;
 }
 
-#remote-btn {
-	margin: 1em;
-	width: 9em;
-	height: 4em;
+.col {
+	flex: unset;
 }
 
-#remote-btn2 {
-	margin: 1em;
-	width: 9em;
-	height: 4em;
+.btn {
+    padding: 15px;
+    font-size: 15px;
+    background: #FFA776;
+    border-radius: 15px;
+    font-weight: 700;
+    box-shadow: 5px 5px #000;
+	text-transform: uppercase;
+}
+
+.btn:hover {
+	background-color: #f57e3f;
 }

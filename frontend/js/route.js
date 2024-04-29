@@ -53,6 +53,8 @@ const routes = {
     "/pong": "html/pong.html",
     "/register": "html/register.html",
     "/settings": "html/settings.html",
+    "/tournament": "html/tournament.html",
+    "/tictactoe": "html/tic-tac-toe.html",
 };
 
 const handleLocation = async () => {

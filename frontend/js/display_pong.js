@@ -22,6 +22,11 @@ export function drawAll() {
 	// Game.ctx.fillStyle = "#000000";
 	// Game.ctx.fillRect(0, 0, Game.canvas.width, Game.canvas.height);
 
+	Game.ctx.fillStyle = "rgba(0, 0, 0, 1)";
+
+	Game.ctx.fillRect(Display.border_space + 10, Game.canvas.height - (2 * Display.border_space - Display.border_size) + 10, Game.canvas.width - (2 * Display.border_space), Display.border_size);
+	Game.ctx.fillRect(Game.canvas.width - (2 * Display.border_space - Display.border_size) + 10, Display.border_space + 10, Display.border_size, Game.canvas.height - (2 * Display.border_space));
+
 	Game.ctx.fillStyle = "rgba(255, 255, 255, 1)";
 
 	Game.ctx.fillRect(Display.border_space, Display.border_space, Game.canvas.width - (2 * Display.border_space), Display.border_size);

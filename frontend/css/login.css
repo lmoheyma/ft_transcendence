@@ -70,6 +70,10 @@
 	text-transform: uppercase;
 }
 
+.btn:hover {
+    background-color: #ad5fd4 !important;
+}
+
 p {
     margin: 20px 0px;
 }

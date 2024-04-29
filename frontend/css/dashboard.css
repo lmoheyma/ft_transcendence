@@ -65,6 +65,10 @@
 	text-transform: uppercase;
 }
 
+.btn:hover {
+	background-color: #f57e3f !important;
+}
+
 .tab-header {
 	background-color: #FFFAF0 !important;
 }
