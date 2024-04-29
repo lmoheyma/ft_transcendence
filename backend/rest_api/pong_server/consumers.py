@@ -22,7 +22,7 @@ class   PongConsumer(AsyncWebsocketConsumer):
             if game == None :
                 game = Game(player1=self.user.player)
                 game.save()
-            elif game.player2 :
+            elif game.player2 == None :
                 game.player2 = self.user.player
             else :
                 return False
@@ -31,6 +31,9 @@ class   PongConsumer(AsyncWebsocketConsumer):
 
     async def connect(self):
         self.room_name = self.scope["url_route"]["kwargs"]["room_name"]
+        self.token     = self.scope["url_route"]["kwargs"]["token"]
+        if self.token_connect(self.token) == False :
+            self.close()
         self.player_no = self.scope["url_route"]["kwargs"]["player_no"]
         if self.player_no != 1 and self.player_no != 2:
             self.close()

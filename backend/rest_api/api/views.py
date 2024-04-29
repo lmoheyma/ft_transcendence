@@ -223,6 +223,15 @@ class   FriendInviteView(views.APIView):
         return Response({'error' : 'Bad friend request'},
                         status=status.HTTP_400_BAD_REQUEST)
 
+def     fetch_tournament(request):
+    code = request.query_params.get('code', None)
+    if code == None or len(code) != 14:
+        return None
+    try :
+        tournament      = Tournament.objects.get(code=code)
+    except :
+        tournament      = None
+    return tournament
 
 class   CreateTournamentView(views.APIView):
     permission_classes  = [IsAuthenticated]
@@ -237,7 +246,7 @@ class   CreateTournamentView(views.APIView):
         return Response({
                             'success' : 'Tournamenent created.', 
                             'code' : tournament.code
-                         },
+                        },
                         status=status.HTTP_200_OK)
 
 class   JoinTournamentView(views.APIView):
@@ -246,14 +255,7 @@ class   JoinTournamentView(views.APIView):
     http_method_names   = ['get',]
 
     def get(self, request, *args, **kwargs):
-        code = self.request.query_params.get('code', None)
-        if code == None or len(code) != 14:
-            return Response({'error' : 'Invalid tournament code'},
-                            status=status.HTTP_400_BAD_REQUEST)
-        try :
-            tournament      = Tournament.objects.get(code=code)
-        except :
-            tournament      = None
+        tournament = fetch_tournament(request=request)
         if tournament == None :
             return Response({'error' : 'Invalid tournament code'},
                             status=status.HTTP_400_BAD_REQUEST)
@@ -262,5 +264,24 @@ class   JoinTournamentView(views.APIView):
                             status=status.HTTP_400_BAD_REQUEST)
         particant = TournamentParticipant(tournament=tournament,
                                             player=self.request.user.player)
+        tournament.player_no += 1
         particant.save()
+        tournament.save()
         return Response({'success' : 'Successfully joined tournament'})
+
+class   StartTournamentView(views.APIView):
+    permission_classes  = [IsAuthenticated]
+    authentication_classes = [TokenAuthentication]
+    http_method_names   = ['get',]
+
+    def get(self, request, *args, **kwargs):
+        tournament = fetch_tournament()
+        if tournament == None :
+            return Response({'error' : 'Invalid tournament code'},
+                            status=status.HTTP_400_BAD_REQUEST)
+        if tournament.is_started == True :
+            return Response({'error' : 'Can\'t start because tournament has already started'},
+                            status=status.HTTP_400_BAD_REQUEST)
+        if tournament.player_no > 2 :
+            return Response({'error' : 'Not enough players (player_count > 2)'},
+                            status=status.HTTP_400_BAD_REQUEST)

@@ -445,7 +445,7 @@ function handleEventsPong() {
 				{
 					Game.gameOver = false;
 					Game.gamemod = GameMod.REMOTE;
-					socket = new WebSocket(`wss://localhost:8000/ws/room/pong/1`);
+					socket = new WebSocket(`wss://localhost:8000/ws/room/pong/?token`);
 					handleEventsPongRemoteP1();
 					initializeGameData();
 					break;
