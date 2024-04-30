@@ -1,7 +1,5 @@
-import { Player1 } from './handle_pong.js';
-import { Player2 } from './handle_pong.js';
-import { Game } from './handle_pong.js';
-import { Directions } from './handle_pong.js';
+import { Player1, Player2, Game, Ball, Directions } from './handle_pong.js';
+import { drawAll } from './display_pong.js';
 
 export function handleEventsPongMultiplayer() {
 	document.addEventListener('keydown', (event) => {
@@ -23,5 +21,22 @@ export function handleEventsPongMultiplayer() {
 			Player2.dir = Directions.NOTHING;
 		if (event.key === "ArrowDown" && Player2.dir === Directions.DOWN)
 			Player2.dir = Directions.NOTHING;
+	});
+	document.addEventListener('click', (event) => {
+		if (Game.is_playing)
+		{
+			if (event.target.id == "leave-match")
+			{
+				Player1.pos_Y = 50;
+				Player2.pos_Y = 50;
+				Player1.dir = Directions.NOTHING;
+				Player2.dir = Directions.NOTHING;
+				Ball.pos_X = 150;
+				Ball.pos_Y = 50;
+				Game.is_playing = false;
+				Game.gameOver = true;
+				drawAll();
+			}
+		}
 	});
 }

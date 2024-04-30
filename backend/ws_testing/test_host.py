@@ -1,8 +1,10 @@
 import websocket
+import ssl
 import json
 
+ssl_opts = {"cert_reqs": ssl.CERT_NONE}
 websocket.enableTrace(True)
-ws = websocket.create_connection("ws://localhost:8000/ws/room/test/")
+ws = websocket.create_connection("wss://localhost:8000/ws/room/test/1", sslopt=ssl_opts)
 packet = {
 "type" : "host",
 "player1_pos_Y": 0,

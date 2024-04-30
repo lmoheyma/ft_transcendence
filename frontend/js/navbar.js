@@ -1,6 +1,10 @@
-function hideNavbar() {	
-	console.log("here");
+function hideNavbar() {
 	document.getElementById('navbarId').style.display = "none";
+}
+
+function displayNavbar() {	
+	console.log("here2");
+	document.getElementById('navbarId').style.display = "block";
 }
 
 function setupNavbar() {

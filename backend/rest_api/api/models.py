@@ -54,6 +54,9 @@ class   Friendship(models.Model):
                                     related_name='friends2_set')
 
 class   Game(models.Model):
+    name            = models.CharField(max_length=64,
+                                        primary_key=True,
+                                        default=gen_safe_randomcode)
     player1         = models.ForeignKey(Player,
                                         blank=False,
                                         null=True,
