@@ -24,27 +24,23 @@ class   PongConsumer(AsyncWebsocketConsumer):
         if token_obj != None :
             self.user = token_obj.user
             try :
-                self.game = Game.objects.get(name=self.room_name)
+                game = Game.objects.get(name=self.room_name)
             except :
-                self.game = None
-            if self.game == None :
-                self.game = Game(name=self.room_name, player1=self.user.player)
+                game = None
+            if game == None :
+                game = Game(name=self.room_name, player1=self.user.player)
                 self.player_no = 1
-                self.game.save()
-            elif self.game.player2 == None:
-                if self.game.player1 == self.game.player2 :
+                game.save()
+            elif game.player2 == None:
+                if game.player1 == game.player2 :
                     return connect_status.ALREADY_CONNECTED
-                self.game.player2 = self.user.player
-                self.game.save()
+                game.player2 = self.user.player
+                game.save()
                 self.player_no = 2
             else :
                 return connect_status.TOO_MANY_PLAYERS
             return connect_status.SUCCESS
         return connect_status.INVALID_TOKEN
-
-    @database_sync_to_async
-    def fetch_username(self, player):
-        return player.user.username
 
     async def connect(self):
         self.user = None
@@ -56,7 +52,7 @@ class   PongConsumer(AsyncWebsocketConsumer):
             await self.close()
             return
         await self.channel_layer.group_add(
-            self.user.username, self.channel_name
+            self.room_name + str(self.player_no), self.channel_name
         )
         await self.accept()
 
@@ -73,12 +69,8 @@ class   PongConsumer(AsyncWebsocketConsumer):
             obj['connected_clients'] = len(connected_clients)
         except :
             obj = {'type' : 'error', 'message' : 'Invalid JSON'}
-        if self.player_no == 2 :
-            target_name = await self.fetch_username(self.game.player1)
-        else :
-            target_name = await self.fetch_username(self.game.player2)
         await self.channel_layer.group_send(
-            target_name,
+            self.room_name + str(((self.player_no - 1) ^ 1 & 1) + 1),
             {
                 "type" : "send_packet",
                 "message" : json.dumps(obj)
