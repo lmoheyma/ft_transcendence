@@ -34,6 +34,9 @@ const loadAndMarkScript = async (scriptPath) => {
             //     initRemote()
             // }
             break;
+        case "/js/uploadAvatar.js":
+            displayAvatar();
+            break;
         default:
             break;
     }
@@ -72,6 +75,11 @@ const handleLocation = async () => {
             "/js/handle_pong.js",
             "/js/pong_multi.js",
             "/js/pong_remote.js"
+        ]);
+    }
+    else if (path === "/settings") {
+        await loadScriptsSequentially([
+            "/js/uploadAvatar.js"
         ]);
     }
 };

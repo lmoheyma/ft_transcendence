@@ -9,11 +9,13 @@
 	<body>
 		<div class="container padd">
 			<h1 class="title">Settings</h1>
-			<!-- <input type="file" id="input" multiple/> -->
-			<form action="" method="put" enctype="multipart/form-data" id="formAvatar">
+			<form id="formAvatar" onsubmit="handleSubmit(event)">
 				<input type="file" name="fileToUpload" id="fileToUpload">
 				<input type="submit" value="Uploader le fichier" name="submit">
 			</form>
+			<div id="avatar">
+				<img id="avatarImg" src="/img/default.png" alt="Avatar"/>
+			</div>
 		</div>
 	</body>
 </html>
