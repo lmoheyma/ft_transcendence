@@ -29,13 +29,15 @@ const loadAndMarkScript = async (scriptPath) => {
         case "/js/pong_multi.js":
             break;
         case "/js/pong_remote.js":
-            // if (window.location.pathname === '/pong') {
-            //     const { initRemote } = await import('./pong_remote.js');
-            //     initRemote()
-            // }
             break;
         case "/js/uploadAvatar.js":
             displayAvatar();
+            break;
+        case "/js/friends.js":
+            // console.log("here");
+            hideFriendsRequests();
+            // displayFriendsRequestsList();
+            displayFriendsList();
             break;
         default:
             break;
@@ -80,6 +82,11 @@ const handleLocation = async () => {
     else if (path === "/settings") {
         await loadScriptsSequentially([
             "/js/uploadAvatar.js"
+        ]);
+    }
+    else if (path === "/dashboard") {
+        await loadScriptsSequentially([
+            "/js/friends.js"
         ]);
     }
 };

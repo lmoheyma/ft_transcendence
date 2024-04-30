@@ -13,6 +13,7 @@ from .serializers import ScoreboardSerializer, \
 from rest_framework.permissions import IsAuthenticated
 from rest_framework.parsers import FileUploadParser
 from django.core.files.uploadedfile import InMemoryUploadedFile
+from django.contrib.auth.models import User
 
 import io, os
 from PIL import Image
@@ -197,7 +198,7 @@ class   FriendInviteView(views.APIView):
         if serializer.is_valid() :
             id = serializer.validated_data.get('id')
             try :
-                target = Player.objects.get(id=id)
+                target = User.objects.get(username=id).player
             except :
                 target = None
             friends = getAllFriendsAsUsers(self.request.user.player)

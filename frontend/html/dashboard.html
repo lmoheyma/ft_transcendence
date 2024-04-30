@@ -43,9 +43,35 @@
 					  </table>
 					<button type="submit" id="submit-btn" class="btn" onclick="">Show all</button>
 				</div>
-				<div class="custom-div col">
+				<div class="custom-div col" id="friendsDiv">
 					<h2 class="sub-title">Friends</h2>
-					<button type="submit" id="submit-btn" class="btn" onclick="">Show friends requests</button>
+					<table class="table table-borderless w-100">
+						<thead class="">
+							<tr>
+							  <th scope="col" class="tab-header">Name</th>
+							  <th scope="col" class="tab-header">Status</th>
+							</tr>
+						</thead>
+						<tbody id="friendsBody">
+							
+						</tbody>
+					  </table>
+					<button id="submit-btn" class="btn" onclick="displayFriendsRequests(); displayFriendsRequestsList();">Show friends requests</button>
+				</div>
+				<div class="custom-div col" id="friendsRequestDiv">
+					<h2 class="sub-title">Friends Requests</h2>
+					<table class="table table-borderless w-100">
+						<thead class="">
+							<tr>
+							  <th scope="col" class="tab-header">Name</th>
+							  <!-- <th scope="col" class="tab-header">Status</th> -->
+							</tr>
+						</thead>
+						<tbody id="friendsRequestsBody">
+							
+						</tbody>
+					  </table>
+					<button id="submit-btn" class="btn" onclick="hideFriendsRequests()">Hide friends requests</button>
 				</div>
 			</div>
 		</div>

@@ -2,8 +2,7 @@ function hideNavbar() {
 	document.getElementById('navbarId').style.display = "none";
 }
 
-function displayNavbar() {	
-	console.log("here2");
+function displayNavbar() {
 	document.getElementById('navbarId').style.display = "block";
 }
 

@@ -1,11 +1,19 @@
 
 async function displayAvatar() {
-    var img = document.getElementById('avatarImg');
+    var img = document.getElementById("avatarImg");
+    if (img)
+        img.parentNode.removeChild(img);
     try {
         var pathAvatar = await getAvatarPath();
+        var div = document.getElementById("avatar");
+        var img = document.createElement('img');
+        console.log(pathAvatar);
         if (!pathAvatar)
             pathAvatar = "/img/default.png"; // Must change it, it has to be setup at account creation
         img.src = pathAvatar;
+        img.alt = "Avatar";
+        img.id = "avatarImg";
+        div.appendChild(img);
     } catch (erreur) {
         console.error("Error: ", erreur);
     }
