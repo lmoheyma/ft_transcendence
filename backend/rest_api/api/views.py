@@ -5,7 +5,9 @@ from .models import Player, \
                     FriendInvite, \
                     Friendship, \
                     Tournament, \
-                    TournamentParticipant
+                    TournamentParticipant, \
+                    TournamentGame, \
+                    Game
 from .serializers import ScoreboardSerializer, \
                             RegisterSerializer, \
                             AccountUpdateSerializer, \
@@ -21,6 +23,7 @@ from django.core.files.uploadedfile import InMemoryUploadedFile
 import io, os
 from PIL import Image
 from hashlib import md5
+import random as rd
 
 class   PlayerProfileView(mixins.RetrieveModelMixin, 
                           viewsets.GenericViewSet):
@@ -181,7 +184,7 @@ class   FriendInviteView(views.APIView):
         if 'accept' in request.query_params :
             invite_code = request.query_params['accept']
             try:
-                invite      = FriendInvite.objects.get(code=invite_code)
+                invite      = FriendInvite.objects.get(code=invite_code, )
             except :
                 invite      = None
             if invite == None or invite.receiver != self.request.user.player :
@@ -274,14 +277,47 @@ class   StartTournamentView(views.APIView):
     authentication_classes = [TokenAuthentication]
     http_method_names   = ['get',]
 
+    def autogen_matches(self):
+        N = self.tournament.player_no
+        bracket_no =  N // 2 
+        if N % 2 == 1 and bracket_no % 2 == 0 :
+            bracket_no -= 1
+        round_no = 0
+        while N > 1 :
+            for i in range(bracket_no):
+                new_game = Game()
+                new_game.save()
+                tournament_game = TournamentGame(game=new_game, tournament=self.tournament, round_no=round_no)
+                tournament_game.save()
+            N -= bracket_no
+            bracket_no = N // 2
+            round_no += 1
+    
+    def assign_first_matches(self):
+        participants    = list(self.tournament.participants.all())
+        matches         = list(TournamentGame.objects.filter(round_no=0, tournament=self.tournament))
+        permut          = [i for i in range(len(matches) * 2)]
+        rd.shuffle(permut)
+        for p in permut :
+            m       = matches[p//2].game
+            if p % 2 == 0 :
+                m.player1 = participants[p].player
+            else :
+                m.player2 = participants[p].player
+            m.save()
+
     def get(self, request, *args, **kwargs):
-        tournament = fetch_tournament()
-        if tournament == None :
+        self.tournament = fetch_tournament(request)
+        if self.tournament == None :
             return Response({'error' : 'Invalid tournament code'},
                             status=status.HTTP_400_BAD_REQUEST)
-        if tournament.is_started == True :
+        if self.tournament.is_started == True :
             return Response({'error' : 'Can\'t start because tournament has already started'},
                             status=status.HTTP_400_BAD_REQUEST)
-        if tournament.player_no > 2 :
+        if self.tournament.player_no <= 2 :
             return Response({'error' : 'Not enough players (player_count > 2)'},
                             status=status.HTTP_400_BAD_REQUEST)
+        self.autogen_matches()
+        self.assign_first_matches()
+        return Response({'success' : 'Tournament has been started'},
+                            status=status.HTTP_200_OK)
