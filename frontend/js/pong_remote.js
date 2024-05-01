@@ -107,7 +107,7 @@ export function handleEventsPongRemote() {
 					{
 						Game.is_playing = true;
 						waitOtherPlayer = false;
-						startGame();
+						startGame(true);
 					}
 					break;
 				}
@@ -169,6 +169,7 @@ export function handleEventsPongRemote() {
 					{
 						Game.is_playing = true;
 						waitOtherPlayer = false;
+						startGame(false);
 					}
 					break;
 				}

@@ -451,7 +451,7 @@ function handleEventsPong() {
 					handleEventsPongMultiplayer();
 					initializeGameData();
 					Game.is_playing = true;
-					startGame();
+					startGame(true);
 					break;
 				}
 				case "remote-btn":
@@ -508,13 +508,13 @@ function handleEventsPong() {
 
 }
 
-export function startGame() {
-	if (type === "Host")
+export function startGame(calcul) {
+	if (calcul)
 		calculatePoses();
 	if (!Game.gameOver)
 	{
 		drawAll();
-		requestAnimationFrame(startGame.bind(this)); 
+		requestAnimationFrame(startGame.bind(this, true)); 
 	}
 }
 
