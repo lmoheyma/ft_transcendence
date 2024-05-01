@@ -1,5 +1,5 @@
 import { drawAll } from "./display_pong.js";
-import { handleEventsPongRemoteP1, handleEventsPongRemoteP2, type } from "./pong_remote.js";
+import { handleEventsPongRemote, type } from "./pong_remote.js";
 import { handleEventsPongMultiplayer } from "./pong_multi.js";
 
 const cgameY = 100;
@@ -438,7 +438,6 @@ function getCookie(name) {
     }
     return "";
 }
-
 
 function handleEventsPong() {
 	document.addEventListener('click', (event) => {
