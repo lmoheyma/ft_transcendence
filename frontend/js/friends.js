@@ -9,9 +9,73 @@ function displayFriendsRequests() {
 	document.getElementById('friendsDiv').style.display = "none";
 }
 
-function sendFriendRequest() {
-	console.log("Send friend request!");
-	// in progress
+async function deleteFriends(username) {
+	const donnees = {id: username};
+	try {
+        const reponse = await fetch("/api/friends", {
+            method: "DELETE",
+            headers: {
+                "Authorization" : "Token " + getCookie("Session"),
+				"Content-Type": "application/json"
+            },
+			body: JSON.stringify(donnees),
+        });
+		const resultat	= await reponse.json();
+        if (reponse.status == 200) {
+			console.log("Success!", resultat, username);
+			displayFriendsList();
+        }
+        else {
+			console.log("Error!", resultat.error, username);
+        }
+    } catch (erreur) {
+        console.error("Fail!", erreur);
+    }
+}
+
+async function sendFriendRequest() {
+	const username = document.getElementById('friendUsername').value;
+	const donnees = {id: username};
+	try {
+        const reponse = await fetch("/api/invites", {
+            method: "POST",
+            headers: {
+                "Authorization" : "Token " + getCookie("Session"),
+				"Content-Type": "application/json"
+            },
+			body: JSON.stringify(donnees),
+        });
+		const resultat	= await reponse.json();
+        if (reponse.status == 200) {
+			document.getElementById("status").innerHTML = "";
+			var status = document.getElementById("status");
+			var paragraph = document.createElement('p');
+			if (resultat.error)
+				paragraph.textContent = resultat.error;
+			else
+				paragraph.textContent = resultat.success;
+			status.appendChild(paragraph);
+			paragraph.style.color = "white";
+        }
+        else {
+			document.getElementById("status").innerHTML = "";
+			var status = document.getElementById("status");
+			var paragraph = document.createElement('p');
+			if (resultat.error)
+			{
+				paragraph.textContent = resultat.error;
+				paragraph.style.color = "red";
+			}
+			else
+			{
+				paragraph.textContent = resultat.success;
+				paragraph.style.color = "white";
+			}
+			status.appendChild(paragraph);
+        }
+    } catch (erreur) {
+        console.error("Fail!", erreur);
+    }
 }
 
 async function acceptFriendInvite(token) {
@@ -24,10 +88,7 @@ async function acceptFriendInvite(token) {
         });
 		const resultat	= await reponse.json();
         if (reponse.status == 200) {
-			console.log("here", resultat);
-			// var toDelete = document.getElementById("td" + key);
-			// toDelete.remove();
-			
+			displayFriendsRequestsList()
         }
         else {
             console.log("Error!");
@@ -64,16 +125,14 @@ async function displayFriendsRequestsList() {
 		const resultat	= await reponse.json();
         if (reponse.status == 200) {
 			document.getElementById("friendsRequestsBody").innerHTML = "";
-			console.log(resultat.length);
+			document.getElementById("noFriendsRequests").innerHTML = "";
 			if (resultat.length == 0) {
-				document.getElementById("noFriendsRequests").innerHTML = "";
 				document.getElementById('friendsRequestsHead').style.display = "none";
 				var noFriendsRequests = document.getElementById("noFriendsRequests");
 				var paragraph = document.createElement('p');
 				paragraph.setAttribute('style', 'white-space: pre;');
 				paragraph.textContent = "No\r\nfriends\r\nrequests";
 				noFriendsRequests.appendChild(paragraph);
-				console.log(noFriendsRequests);
 				return ;
 			}
 			var friendsList = document.getElementById("friendsRequestsBody");
@@ -105,8 +164,8 @@ async function displayFriendsList() {
 		const resultat	= await reponse.json();
         if (reponse.status == 200) {
             document.getElementById("friendsBody").innerHTML = "";
+			document.getElementById("noFriends").innerHTML = "";
 			if (resultat.length == 0) {
-				document.getElementById("noFriends").innerHTML = "";
 				document.getElementById('friendsHead').style.display = "none";
 				var noFriends = document.getElementById("noFriends");
 				var paragraph = document.createElement('p');
@@ -135,6 +194,9 @@ async function displayFriendsList() {
 					tr.appendChild(tdName);
 					tr.appendChild(tdStatus);
 					tr.appendChild(removeButton);
+					removeButton.onclick = function() {
+						deleteFriends(item.username)
+					};
 				});
 			}
         }

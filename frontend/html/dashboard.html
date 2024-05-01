@@ -77,7 +77,7 @@
 						</tbody>
 					  </table>
 					  <div id="noFriendsRequests"></div>
-					<button id="submit-btn" class="btn" onclick="hideFriendsRequests()">Hide friends requests</button>
+					<button id="submit-btn" class="btn" onclick="hideFriendsRequests(); displayFriendsList()">Hide friends requests</button>
 				</div>
 			</div>
 		</div>
@@ -91,13 +91,14 @@
 				</div>
 				<div class="modal-body">
 					<div class="mb-3">
-						<label for="friend-name" class="col-form-label text-light">Username</label>
-						<input type="text" class="form-control bg-dark border-secondary text-light" id="friend-name">
+						<label for="friendUsername" class="col-form-label text-light">Username</label>
+						<input type="text" class="form-control bg-dark border-secondary text-light" id="friendUsername">
 					</div>
 				</div>
 				<div class="modal-footer border-secondary">
-				  <!-- <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button> -->
-				  <button type="button" data-bs-dismiss="modal" onclick="sendFriendRequest()" class="btn btn-success">ADD!</button>
+					<div id="status"></div>
+					<button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+					<button type="button" onclick="sendFriendRequest()" class="btn btn-success">ADD!</button>
 				</div>
 			  </div>
 			</div>

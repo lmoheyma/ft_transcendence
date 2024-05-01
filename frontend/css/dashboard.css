@@ -172,3 +172,10 @@
 	background-color: red;
 	color: white !important;
 }
+
+#status {
+	margin-right: 5vw;
+	font-weight: bold;
+	text-align: center;
+	white-space: pre;
+}

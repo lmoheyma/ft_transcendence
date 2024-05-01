@@ -34,9 +34,7 @@ const loadAndMarkScript = async (scriptPath) => {
             displayAvatar();
             break;
         case "/js/friends.js":
-            // console.log("here");
             hideFriendsRequests();
-            // displayFriendsRequestsList();
             displayFriendsList();
             break;
         default:
