@@ -17,7 +17,6 @@ async function displayAvatar() {
     } catch (erreur) {
         console.error("Error: ", erreur);
     }
-    console.log("Success!");
 }
 
 async function getAvatarPath() {
