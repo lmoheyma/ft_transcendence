@@ -34,6 +34,11 @@ const loadAndMarkScript = async (scriptPath) => {
             //     initRemote()
             // }
             break;
+        case "/js/tictactoe.js":
+            initHandleTTT();
+            break;
+        case "/js/tictactoe_remote.js":
+            break;
         default:
             break;
     }
@@ -72,6 +77,12 @@ const handleLocation = async () => {
             "/js/handle_pong.js",
             "/js/pong_multi.js",
             "/js/pong_remote.js"
+        ]);
+    }
+    if (path === "/pong") {
+        await loadScriptsSequentially([
+            "/js/tictactoe.js",
+            "/js/tictactoe_remote.js"
         ]);
     }
 };
