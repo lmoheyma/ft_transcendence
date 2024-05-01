@@ -1,3 +1,5 @@
+import { handleEventsTTTRemoteP1, handleEventsTTTRemoteP2 } from "./tictactoe_remote.js";
+
 export var TicTacToe = {
 	canva: null,
 	ctx: null,

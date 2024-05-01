@@ -35,7 +35,10 @@ const loadAndMarkScript = async (scriptPath) => {
             // }
             break;
         case "/js/tictactoe.js":
-            initHandleTTT();
+            if (window.location.pathname === '/tictactoe') {
+                const { initHandleTTT } = await import('./tictactoe.js');
+                initHandleTTT();
+            }
             break;
         case "/js/tictactoe_remote.js":
             break;

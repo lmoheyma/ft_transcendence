@@ -1,7 +1,7 @@
-var socket;
-var interval;
+export var socket;
+export var interval;
 
-handleEventsTTTRemoteP1 = function () {
+export function handleEventsTTTRemoteP1() {
 	console.log(1);
 
 	socket.onopen = function(e) {
@@ -140,7 +140,7 @@ handleEventsTTTRemoteP1 = function () {
 }
 
 
-handleEventsTTTRemoteP2 = function () {
+export function handleEventsTTTRemoteP2() {
 	console.log(2);
 	type = "Guest";
 
