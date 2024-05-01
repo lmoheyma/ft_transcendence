@@ -128,7 +128,7 @@ async function displayFriendsList() {
 					tdStatus.classList.add('status');
 					tdStatus.textContent = item.status;
 					var removeButton = document.createElement('button');
-					removeButton.textContent = "X";
+					removeButton.textContent = "x";
 					removeButton.type = "button";
 					removeButton.classList.add('btn');
 					removeButton.id = "removeButtonId";

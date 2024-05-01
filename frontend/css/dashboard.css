@@ -117,6 +117,7 @@
 	border-radius: 10px ;
     box-shadow: 3px 3px 0px black;
     border: 2px solid black ;
+	font-weight: bold;
 }
 
 #acceptButtonId {
