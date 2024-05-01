@@ -50,8 +50,8 @@ const loadScriptsSequentially = async (scriptPaths) => {
 };
 
 const routes = {
-    "/": "html/home.html",
-    "/home": "html/home.html",
+    "/": "html/dashboard.html",
+    // "/home": "html/home.html",
     "/dashboard": "html/dashboard.html",
     "/login": "html/login.html",
     "/pong": "html/pong.html",
@@ -84,6 +84,11 @@ const handleLocation = async () => {
         ]);
     }
     else if (path === "/dashboard") {
+        await loadScriptsSequentially([
+            "/js/friends.js"
+        ]);
+    }
+    else if (path === "/") {
         await loadScriptsSequentially([
             "/js/friends.js"
         ]);

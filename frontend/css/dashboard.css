@@ -123,7 +123,7 @@
 #acceptButtonId {
 	margin-left: 20px;
 	margin-right: -60px;
-	background-color: rgb(61, 160, 21);
+	background-color: rgb(41, 207, 22);
 	color: #FFFAF0;
 	border-radius: 5px ;
     box-shadow: 3px 3px 0px black;
@@ -131,7 +131,7 @@
 }
 
 #acceptButtonId:hover {
-	background-color: rgb(22, 130, 10);
+	background-color: rgb(49, 168, 36);
 }
 
 #noFriends{

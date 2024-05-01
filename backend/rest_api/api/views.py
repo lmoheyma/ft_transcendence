@@ -204,14 +204,14 @@ class   FriendInviteView(views.APIView):
             friends = getAllFriendsAsUsers(self.request.user.player)
             if target != None :
                 if target in friends:
-                    return Response({'error' : '📢 Already in your friendlist.'},
+                    return Response({'error' : '📢 Already in your\r\nfriendlist.'},
                                     status=status.HTTP_400_BAD_REQUEST)
                 if target == self.request.user.player :
                     return Response({'success' : '🤔 Aren\'t you already\r\nyour own friend ?'},
                                     status=status.HTTP_400_BAD_REQUEST)
                 if next((i for i in self.request.user.player.sent_invites.all()
                             | self.request.user.player.received_invites.all() if i.sender == target or i.receiver), None) :
-                    return Response({'success' : '📢 Friend invite already sent or received.'},
+                    return Response({'success' : '📢 Friend invite already\r\nsent or received.'},
                                     status=status.HTTP_400_BAD_REQUEST)
                 friendship = FriendInvite(receiver=target, sender=self.request.user.player)
                 friendship.save()

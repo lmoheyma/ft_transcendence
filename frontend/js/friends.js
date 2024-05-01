@@ -103,7 +103,7 @@ function createButtons(tr, item) {
 	tdName.classList.add('name');
 	tdName.textContent = item.sender.username;
 	var acceptButton = document.createElement('button');
-	acceptButton.textContent = "Accept";
+	acceptButton.textContent = "ACCEPT!";
 	acceptButton.type = "button";
 	acceptButton.classList.add('btn');
 	acceptButton.id = "acceptButtonId";
@@ -126,6 +126,7 @@ async function displayFriendsRequestsList() {
         if (reponse.status == 200) {
 			document.getElementById("friendsRequestsBody").innerHTML = "";
 			document.getElementById("noFriendsRequests").innerHTML = "";
+			document.getElementById('friendsRequestsHead').style.display = "table-header-group";
 			if (resultat.length == 0) {
 				document.getElementById('friendsRequestsHead').style.display = "none";
 				var noFriendsRequests = document.getElementById("noFriendsRequests");
@@ -165,6 +166,7 @@ async function displayFriendsList() {
         if (reponse.status == 200) {
             document.getElementById("friendsBody").innerHTML = "";
 			document.getElementById("noFriends").innerHTML = "";
+			document.getElementById('friendsHead').style.display = "table-header-group";
 			if (resultat.length == 0) {
 				document.getElementById('friendsHead').style.display = "none";
 				var noFriends = document.getElementById("noFriends");
