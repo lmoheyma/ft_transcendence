@@ -426,6 +426,20 @@ export var socket;
 // 	handleEvents();
 // }
 
+function getCookie(name) {
+    let cookies = document.cookie;
+    let parts = cookies.split('; ');
+    for (let i = 0; i < parts.length; i++) {
+        let part = parts[i];
+        let [cookieName, cookieValue] = part.split('=');
+        if (cookieName === name) {
+            return decodeURIComponent(cookieValue);
+        }
+    }
+    return "";
+}
+
+
 function handleEventsPong() {
 	document.addEventListener('click', (event) => {
 		if (!Game.is_playing)
@@ -445,8 +459,8 @@ function handleEventsPong() {
 				{
 					Game.gameOver = false;
 					Game.gamemod = GameMod.REMOTE;
-					socket = new WebSocket(`wss://localhost:8000/ws/room/pong/?token`);
-					handleEventsPongRemoteP1();
+					socket = new WebSocket(`wss://localhost:8000/ws/room/pong/${getCookie("Session")}`);
+					handleEventsPongRemote();
 					initializeGameData();
 					break;
 				}
@@ -454,8 +468,8 @@ function handleEventsPong() {
 				{
 					Game.gameOver = false;
 					Game.gamemod = GameMod.REMOTE;
-					socket = new WebSocket(`wss://localhost:8000/ws/room/pong/2`);
-					handleEventsPongRemoteP2();
+					socket = new WebSocket(`wss://localhost:8000/ws/room/pong/${getCookie("Session")}`);
+					handleEventsPongRemote();
 					initializeGameData();
 					break;
 				}

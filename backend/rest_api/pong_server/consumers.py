@@ -54,6 +54,17 @@ class   PongConsumer(AsyncWebsocketConsumer):
         await self.channel_layer.group_add(
             self.room_name + str(self.player_no), self.channel_name
         )
+        packet = {
+        "type" : "player",
+        "you": self.player_no
+        }
+        await self.channel_layer.group_send(
+            self.room_name + str(self.player_no),
+            {
+                "type" : "send_packet",
+                "message" : json.dumps(packet)
+            }
+        )
         await self.accept()
 
     async def disconnect(self, code):
