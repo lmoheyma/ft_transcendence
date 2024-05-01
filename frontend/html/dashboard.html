@@ -45,8 +45,13 @@
 				</div>
 				<div class="custom-div col" id="friendsDiv">
 					<h2 class="sub-title">Friends</h2>
+					<div class="position-absolute top-0 end-0 p-3">
+						<button type="button" class="btn btn-success" data-bs-toggle="modal" data-bs-target="#addFriendsModal">
+							ADD
+						</button>
+					</div>
 					<table class="table table-borderless w-100">
-						<thead class="">
+						<thead id="friendsHead">
 							<tr>
 							  <th scope="col" class="tab-header">Name</th>
 							  <th scope="col" class="tab-header">Status</th>
@@ -56,24 +61,46 @@
 							
 						</tbody>
 					  </table>
+					  <div id="noFriends"></div>
 					<button id="submit-btn" class="btn" onclick="displayFriendsRequests(); displayFriendsRequestsList();">Show friends requests</button>
 				</div>
 				<div class="custom-div col" id="friendsRequestDiv">
 					<h2 class="sub-title">Friends Requests</h2>
 					<table class="table table-borderless w-100">
-						<thead class="">
+						<thead id="friendsRequestsHead">
 							<tr>
 							  <th scope="col" class="tab-header">Name</th>
-							  <!-- <th scope="col" class="tab-header">Status</th> -->
 							</tr>
 						</thead>
 						<tbody id="friendsRequestsBody">
 							
 						</tbody>
 					  </table>
+					  <div id="noFriendsRequests"></div>
 					<button id="submit-btn" class="btn" onclick="hideFriendsRequests()">Hide friends requests</button>
 				</div>
 			</div>
 		</div>
+		<!-- Modal -->
+		<div class="modal fade" id="addFriendsModal" tabindex="-1" aria-labelledby="addFriendsModalLabel" aria-hidden="true">
+			<div class="modal-dialog">
+			  <div class="modal-content bg-dark">
+				<div class="modal-header border-secondary">
+				  <h1 class="modal-title fs-5 text-light" id="addFriendsModalLabel">Add friend</h1>
+				  <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close" id="customCloseButton"></button>
+				</div>
+				<div class="modal-body">
+					<div class="mb-3">
+						<label for="friend-name" class="col-form-label text-light">Username</label>
+						<input type="text" class="form-control bg-dark border-secondary text-light" id="friend-name">
+					</div>
+				</div>
+				<div class="modal-footer border-secondary">
+				  <!-- <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button> -->
+				  <button type="button" data-bs-dismiss="modal" onclick="sendFriendRequest()" class="btn btn-success">ADD!</button>
+				</div>
+			  </div>
+			</div>
+		  </div>
 	</body>
 </html>

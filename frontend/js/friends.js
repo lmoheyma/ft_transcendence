@@ -9,11 +9,12 @@ function displayFriendsRequests() {
 	document.getElementById('friendsDiv').style.display = "none";
 }
 
-async function rejectFriendInvite() {
-
+function sendFriendRequest() {
+	console.log("Send friend request!");
+	// in progress
 }
 
-async function acceptFriendInvite(token, key) {
+async function acceptFriendInvite(token) {
 	try {
         const reponse = await fetch("api/invites?accept=" + token, {
             method: "GET",
@@ -21,9 +22,9 @@ async function acceptFriendInvite(token, key) {
                 "Authorization" : "Token " + getCookie("Session")
             },
         });
-		// const resultat	= await reponse.json();
+		const resultat	= await reponse.json();
         if (reponse.status == 200) {
-			console.log()
+			console.log("here", resultat);
 			// var toDelete = document.getElementById("td" + key);
 			// toDelete.remove();
 			
@@ -36,28 +37,19 @@ async function acceptFriendInvite(token, key) {
     }
 }
 
-function createButtons(tr, item, key) {
+function createButtons(tr, item) {
 	var tdName = document.createElement('td');
 	tdName.classList.add('name');
-	tdName.id = "td" + key;
 	tdName.textContent = item.sender.username;
-	var rejectButton = document.createElement('button');
-	rejectButton.textContent = "X";
-	rejectButton.type = "button";
-	rejectButton.classList.add('btn');
-	rejectButton.id = "rejectButtonId";
 	var acceptButton = document.createElement('button');
-	acceptButton.textContent = "Y";
+	acceptButton.textContent = "Accept";
 	acceptButton.type = "button";
 	acceptButton.classList.add('btn');
 	acceptButton.id = "acceptButtonId";
 	tr.appendChild(tdName);
-	tr.appendChild(rejectButton);
 	tr.appendChild(acceptButton);
-	// rejectButton.addEventListener('click', rejectFriendInvite());
-	// acceptButton.addEventListener('click', acceptFriendInvite(item.code, key));
 	acceptButton.onclick = function() {
-		acceptFriendInvite(item.code, key) 
+		acceptFriendInvite(item.code) 
 	};
 }
 
@@ -71,14 +63,26 @@ async function displayFriendsRequestsList() {
         });
 		const resultat	= await reponse.json();
         if (reponse.status == 200) {
-            document.getElementById("friendsRequestsBody").innerHTML = "";
+			document.getElementById("friendsRequestsBody").innerHTML = "";
+			console.log(resultat.length);
+			if (resultat.length == 0) {
+				document.getElementById("noFriendsRequests").innerHTML = "";
+				document.getElementById('friendsRequestsHead').style.display = "none";
+				var noFriendsRequests = document.getElementById("noFriendsRequests");
+				var paragraph = document.createElement('p');
+				paragraph.setAttribute('style', 'white-space: pre;');
+				paragraph.textContent = "No\r\nfriends\r\nrequests";
+				noFriendsRequests.appendChild(paragraph);
+				console.log(noFriendsRequests);
+				return ;
+			}
 			var friendsList = document.getElementById("friendsRequestsBody");
 			for (const key in resultat) {
 				var itemsArray = Array.isArray(resultat[key]) ? resultat[key] : [resultat[key]];
 				itemsArray.forEach(item => {
 					var tr = document.createElement('tr');
 					friendsList.appendChild(tr);
-					createButtons(tr, item, key);
+					createButtons(tr, item);
 				});
 			}
         }
@@ -101,14 +105,17 @@ async function displayFriendsList() {
 		const resultat	= await reponse.json();
         if (reponse.status == 200) {
             document.getElementById("friendsBody").innerHTML = "";
-			var friendsList = document.getElementById("friendsBody");
 			if (resultat.length == 0) {
+				document.getElementById("noFriends").innerHTML = "";
+				document.getElementById('friendsHead').style.display = "none";
+				var noFriends = document.getElementById("noFriends");
 				var paragraph = document.createElement('p');
-				paragraph.id = "noFriendsId";
-				paragraph.textContent = "No friends :(";
-				friendsList.appendChild(paragraph);
-				// return ;
+				paragraph.setAttribute('style', 'white-space: pre;');
+				paragraph.textContent = "No\r\nfriends";
+				noFriends.appendChild(paragraph);
+				return ;
 			}
+			var friendsList = document.getElementById("friendsBody");
 			for (const key in resultat) {
 				var itemsArray = Array.isArray(resultat[key]) ? resultat[key] : [resultat[key]];
 				itemsArray.forEach(item => {

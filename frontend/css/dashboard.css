@@ -51,8 +51,6 @@
 
 #submit-btn {
 	position: absolute;
-    /* padding: 15px;
-    margin: 30px 0px; */
 	bottom: 17px;
 	left: 50%;
 	transform: translateX(-50%);
@@ -111,21 +109,12 @@
 }
 
 #removeButtonId {
+	width: 37px;
 	margin-left: 20px;
 	margin-right: -20px;
 	background-color: red;
 	color: #FFFAF0;
-	border-radius: 5px ;
-    box-shadow: 3px 3px 0px black;
-    border: 2px solid black ;
-}
-
-#rejectButtonId {
-	margin-left: 20px;
-	margin-right: 10px;
-	background-color: red;
-	color: #FFFAF0;
-	border-radius: 5px ;
+	border-radius: 10px ;
     box-shadow: 3px 3px 0px black;
     border: 2px solid black ;
 }
@@ -140,17 +129,45 @@
     border: 2px solid black ;
 }
 
-#friendsBody {
-	position: relative;
-	display: flex;
-    align-items: center;
-    flex-direction: column;
-    width: auto;
+#acceptButtonId:hover {
+	background-color: rgb(22, 130, 10);
 }
 
-#noFriendsId {  
-	padding-top: 2vw; /* change it */
-	padding-left: 2vw;
+#noFriends{
+	position: absolute;
+	top: 30%;
 	text-align: center;
-	font-weight: bold;
+	font-weight: 1000;
+	font-size: 40px;
+	opacity: 50%;
+}
+
+#noFriendsRequests {
+	position: absolute;
+	top: 23%;
+	text-align: center;
+	font-weight: 1000;
+	font-size: 40px;
+	opacity: 50%;
+}
+
+.btn-success {
+	background-color: rgb(41, 207, 22);
+	box-shadow: 3px 3px 0px black;
+    border: 2px solid black ;
+}
+
+.btn-success:hover {
+	background-color: rgb(49, 168, 36);
+}
+
+#customCloseButton::before,
+#customCloseButton::after {
+	
+    color: white !important;
+}
+
+#customCloseButton {
+	background-color: red;
+	color: white !important;
 }
