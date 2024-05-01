@@ -1,5 +1,5 @@
 .padd {
-	padding-top: 20vh !important;
+	padding-top: 15vh !important;
 }
 
 .title {
@@ -7,7 +7,86 @@
 	font-weight: bold;
 }
 
-#formAvatar {
-	padding-top: 8vh;
-	padding-bottom: 8vh;
+.sub-title {
+	/* position: absolute; */
+	/* top: 80px; */
+	/* left: 120px; */
+	font-weight: bold;
+    font-size: 3.5em;
+    /* margin-top: 20px; */
+	color: #272727;
+	/* margin-bottom: 25px; */
+}
+
+.custom-avatar {
+	position: relative;
+	display: flex;
+	flex-direction: column;
+	align-items: center;
+	padding: 50px;
+	padding-top: 75px;
+	padding-left: 65px;
+	width: 250px;
+}
+
+.custom-avatar .row:not(:last-child) {
+	padding-bottom: 18px;
+}
+
+.custom-div {
+	position: relative;
+	display: flex;
+    /* align-items: center; */
+    flex-direction: column;
+    /* height: 50vh; */
+	height: 600px;
+    width: auto;
+	padding: 0 50px;
+    border-radius: 20px;
+	background-color: #FFFAF0;
+	margin-top: 5vh;
+	box-shadow: 10px 10px #000000;
+}
+
+#avatarImg {
+	border: 5px solid black;
+	border-radius: 50%;
+	width: 200px;
+}
+
+.btn-warning {
+	background-color: #FFA776;
+}
+
+.btn-success {
+	background-color: rgb(41, 207, 22);
+}
+
+input[type="file"], input[type="submit"] {
+	display: none;
+}
+
+.customUpload:not(:last-child) {
+	box-shadow: 3px 3px 0px black;
+    border: 4px solid black ;
+	cursor: pointer;
+	width: 150px;
+	margin-bottom: 10px;
+	color: #000000;
+	font-weight: bold;
+}
+
+p {
+	padding-top: 10px;
+	text-align: center;
+	font-weight: bold;
+}
+
+.vertical {
+	border-left: 6px solid black;
+	height: 450px;
+	position: absolute;
+	left: 32%;
+	top: 13%;
+	width: 6px;
 }

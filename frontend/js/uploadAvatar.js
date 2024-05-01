@@ -1,4 +1,11 @@
 
+function getFileName(myfile) {
+    var file = myfile.files[0];  
+    var filename = file.name;
+    const div = document.getElementById('filenameId');
+    div.textContent = filename;
+}
+
 async function displayAvatar() {
     var img = document.getElementById("avatarImg");
     if (img)
@@ -7,7 +14,6 @@ async function displayAvatar() {
         var pathAvatar = await getAvatarPath();
         var div = document.getElementById("avatar");
         var img = document.createElement('img');
-        console.log(pathAvatar);
         if (!pathAvatar)
             pathAvatar = "/img/default.png"; // Must change it, it has to be setup at account creation
         img.src = pathAvatar;
@@ -47,8 +53,8 @@ function handleSubmit(event) {
 
 async function avatarUpload() {
     var form = document.getElementById('fileToUpload');
-    console.log(form.files[0]);
-
+    document.getElementById('filenameId').innerHTML = "";
+    console.log()
     try {
         const reponse = await fetch("/api/account/avatar_upload", {
             method: "PUT",

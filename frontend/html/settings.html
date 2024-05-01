@@ -9,13 +9,40 @@
 	<body>
 		<div class="container padd">
 			<h1 class="title">Settings</h1>
-			<form id="formAvatar" onsubmit="handleSubmit(event)">
-				<input type="file" name="fileToUpload" id="fileToUpload">
-				<input type="submit" value="Uploader le fichier" name="submit">
-			</form>
-			<div id="avatar">
-				<!-- <img id="avatarImg" alt="Avatar"/> -->
-				<!-- <img id="avatarImg" src="/img/default.png" alt="Avatar"/> -->
+			<div class="d-flex flex-wrap justify-content-between align-items-center">
+				<div class="custom-div col">
+					<div class="container">
+						<div class="custom-avatar col">
+							<div class="row">
+								<h2 class="sub-title">Louis</h2>
+							</div>
+							<div class="row">
+								<div id="avatar"></div>
+							</div>
+							<form id="formAvatar" onsubmit="handleSubmit(event)">
+								<div class="row">
+									<p id="filenameId"></p>
+								</div>
+								<div class="row">
+									<label for="fileToUpload" class="btn btn-warning customUpload">
+										CHOOSE..
+									</label>
+									<input type="file" name="fileToUpload" id="fileToUpload" onchange="getFileName(this)">
+								</div>
+								<div class="row">
+									<label for="uploadSubmit" class="btn btn-success customUpload">
+										UPLOAD
+									</label>
+									<input type="submit" name="submit" id="uploadSubmit">
+								</div>
+							</form>
+						</div>
+						<div class="vertical"></div>
+						<div class="custom-form col">
+							<h2></h2>
+						</div>
+					</div>
+				</div>
 			</div>
 		</div>
 	</body>

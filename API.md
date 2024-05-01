@@ -64,7 +64,7 @@ The header Content-Disposition as such : `Content-Disposition : attachement; fil
 `GET /api/friends`
 
 ## Delete from friendlist
-`DELETE /api/freinds`
+`DELETE /api/friends`
 Body example :
 ```json
 {
