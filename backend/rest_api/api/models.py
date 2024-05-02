@@ -7,11 +7,13 @@ class   Player(models.Model):
     ONLINE = 'ONLINE'
     OFFLINE = 'OFFLINE'
     INGAME = 'INGAME'
+    INACTIVE = 'INACTIVE'
 
     STATUS_CHOICES = (
         (OFFLINE , 'Offline'),
         (ONLINE  , 'Online'),
-        (INGAME  , 'In-game')
+        (INGAME  , 'In-game'),
+        (INACTIVE, 'Inactive')
     )
 
     user        = models.OneToOneField(User, on_delete=models.CASCADE)
@@ -108,3 +110,4 @@ class   TournamentGame(models.Model):
                                         null=False,
                                         on_delete=models.CASCADE)
     round_no        = models.PositiveIntegerField()
+
