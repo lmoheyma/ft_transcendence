@@ -46,7 +46,6 @@ async function logout(event)
 {
 	if (getCookie("Session") == "")
 		return ;
-	console.log("session: " + session);
 	const reponse = await fetch("/api/logout", {
 		method: "GET",
 		headers: {

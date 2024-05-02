@@ -7,18 +7,18 @@
 		<link href="/css/dashboard.css" rel="stylesheet">
 	</head>
 	<body>
-		<div class="container padd">
+		<div class="container">
 			<h1 class="title">Dashboard</h1>
 			<div class="d-flex flex-wrap justify-content-between align-items-center">
 				<div class="custom-div col">
 					<h2 class="sub-title">Stats</h2>
 					<div class="info">
 						<p class="info-title">Games Played</p>
-						<p class="info-text">4</p>
+						<p class="info-text" id="gamesPlayed"></p>
 						<p class="info-title">Wins</p>
-						<p class="info-text">3</p>
+						<p class="info-text" id="gamesWons"></p>
 						<p class="info-title">Loses</p>
-						<p class="info-text">1</p>
+						<p class="info-text" id="gamesLoses"></p>
 					</div>
 				</div>
 				<div class="custom-div col">
@@ -43,11 +43,65 @@
 					  </table>
 					<button type="submit" id="submit-btn" class="btn" onclick="">Show all</button>
 				</div>
-				<div class="custom-div col">
+				<div class="custom-div col" id="friendsDiv">
 					<h2 class="sub-title">Friends</h2>
-					<button type="submit" id="submit-btn" class="btn" onclick="">Show friends requests</button>
+					<div class="position-absolute top-0 end-0 p-3">
+						<button type="button" class="btn btn-success" data-bs-toggle="modal" data-bs-target="#addFriendsModal">
+							ADD
+						</button>
+					</div>
+					<table class="table table-borderless w-100">
+						<thead id="friendsHead">
+							<tr>
+							  <th scope="col" class="tab-header">Name</th>
+							  <th scope="col" class="tab-header">Status</th>
+							</tr>
+						</thead>
+						<tbody id="friendsBody">
+							
+						</tbody>
+					  </table>
+					  <div id="noFriends"></div>
+					<button id="submit-btn" class="btn" onclick="displayFriendsRequests(); displayFriendsRequestsList();">Show friends requests</button>
+				</div>
+				<div class="custom-div col" id="friendsRequestDiv">
+					<h2 class="sub-title">Friends Requests</h2>
+					<table class="table table-borderless w-100">
+						<thead id="friendsRequestsHead">
+							<tr>
+							  <th scope="col" class="tab-header">Name</th>
+							</tr>
+						</thead>
+						<tbody id="friendsRequestsBody">
+							
+						</tbody>
+					  </table>
+					  <div id="noFriendsRequests"></div>
+					<button id="submit-btn" class="btn" onclick="hideFriendsRequests(); displayFriendsList()">Hide friends requests</button>
 				</div>
 			</div>
 		</div>
+		<!-- Modal -->
+		<div class="modal fade" id="addFriendsModal" tabindex="-1" aria-labelledby="addFriendsModalLabel" aria-hidden="true">
+			<div class="modal-dialog">
+			  <div class="modal-content">
+				<div class="modal-header border-secondary">
+				  <h1 class="modal-title fs-5 text-light" id="addFriendsModalLabel">Add friend</h1>
+				  <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close" id="customCloseButton"></button>
+				</div>
+				<div class="modal-body">
+					<div class="mb-3">
+						<label for="friendUsername" class="col-form-label text-light">Username</label>
+						<input type="text" class="form-control border-secondary text-dark" id="friendUsername">
+					</div>
+				</div>
+				<div class="modal-footer border-secondary">
+					<div id="status"></div>
+					<button type="button" class="btn btn-secondary" data-bs-dismiss="modal">CLOSE</button>
+					<button type="button" onclick="sendFriendRequest()" class="btn btn-success">ADD!</button>
+				</div>
+			  </div>
+			</div>
+		  </div>
 	</body>
 </html>

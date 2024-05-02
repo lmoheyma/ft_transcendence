@@ -156,7 +156,7 @@ class   FriendInviteSerializer(serializers.ModelSerializer):
                 ]
 
 class   FriendReqSerializer(serializers.Serializer):
-    id          = serializers.IntegerField(required=True)
+    id          = serializers.CharField(required=True)
 
     class Meta:
         fields = ['id', ]

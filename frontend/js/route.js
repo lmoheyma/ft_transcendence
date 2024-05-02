@@ -29,10 +29,16 @@ const loadAndMarkScript = async (scriptPath) => {
         case "/js/pong_multi.js":
             break;
         case "/js/pong_remote.js":
-            // if (window.location.pathname === '/pong') {
-            //     const { initRemote } = await import('./pong_remote.js');
-            //     initRemote()
-            // }
+            break;
+        case "/js/settings.js":
+            setupPlaceholder();
+            setupUsername();
+            displayAvatar();
+            break;
+        case "/js/friends.js":
+            displayStats();
+            hideFriendsRequests();
+            displayFriendsList();
             break;
         case "/js/tictactoe.js":
             if (window.location.pathname === '/tictactoe') {
@@ -54,8 +60,8 @@ const loadScriptsSequentially = async (scriptPaths) => {
 };
 
 const routes = {
-    "/": "html/home.html",
-    "/home": "html/home.html",
+    "/": "html/dashboard.html",
+    // "/home": "html/home.html",
     "/dashboard": "html/dashboard.html",
     "/login": "html/login.html",
     "/pong": "html/pong.html",
@@ -82,6 +88,19 @@ const handleLocation = async () => {
             "/js/pong_remote.js"
         ]);
     }
+    else if (path === "/settings") {
+        await loadScriptsSequentially([
+            "/js/settings.js"
+        ]);
+    }
+    else if (path === "/dashboard") {
+        await loadScriptsSequentially([
+            "/js/friends.js"
+        ]);
+    }
+    else if (path === "/") {
+        await loadScriptsSequentially([
+            "/js/friends.js"
     if (path === "/tictactoe") {
         await loadScriptsSequentially([
             "/js/tictactoe.js",

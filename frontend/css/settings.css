@@ -1,8 +1,142 @@
-.padd {
-	padding-top: 20vh !important;
-}
-
 .title {
 	color: #272727;
+	font-weight: bold;
+}
+
+.sub-title {
+	font-weight: bold;
+    font-size: 3.5em;
+	color: #272727;
+}
+
+.edit-profile {
+	position: relative;
+	display: flex;
+	flex-direction: column;
+	align-items: center;
+	justify-content: center;
+	color: #272727;
+	margin: 35px auto 0 auto;
+	padding: 5px;
+	font-weight: bold;
+	text-align: center;
+	width: 210px;
+	background-color: #6cb4e7;
+	box-shadow: 3px 5px 0px black;
+    border: 4px solid black;
+	border-radius: 15px;
+}
+
+.custom-avatar {
+	position: relative;
+	display: flex;
+	flex-direction: column;
+	align-items: center;
+	padding: 50px 50px 0 50px;
+	padding-top: 75px;
+	margin-left: 60px;
+	width: 250px;
+	margin: 0 auto;
+}
+
+.form-label {
+	font-size: 20px;
+	font-weight: 500;
+}
+
+.form-control {
+	outline: none;
+    border: 2px solid #000;
+    box-shadow: 2px 2px 0px 1px #000;
+	border-radius: 4px;
+}
+
+.form-sub-div {
+	width: 290px; 
+	margin-top: 75px;
+	margin-left: 95px;
+}
+
+.status-div {
+	position: relative;
+	display: flex;
+	flex-direction: row;
+	align-items: center;
+	justify-content: center;
+	color: red;
+}
+
+.custom-avatar .row:not(:last-child) {
+	padding-bottom: 18px;
+}
+
+#custom-div {
+	margin-top: 100px;
+    border-radius: 20px;
+	background-color: #FFFAF0;
+	box-shadow: 10px 10px #000000;
+}
+
+#avatarImg {
+	border: 5px solid black;
+	border-radius: 50%;
+	width: 200px;
+}
+
+.btn-warning {
+	background-color: #FFA776;
+}
+
+.btn-warning:hover {
+	background-color: #f77b22;
+}
+
+.btn-success {
+	background-color: rgb(41, 207, 22);
+}
+
+.btn-success:hover {
+	background-color: rgb(26, 255, 0);
+}
+
+input[type="file"], input[type="submit"] {
+	display: none;
+}
+
+.customUpload:not(:last-child) {
+	box-shadow: 3px 3px 0px black;
+    border: 4px solid black;
+	cursor: pointer;
+	width: 150px;
+	margin-bottom: 25px;
+	color: #000000;
+	font-weight: bold;
+}
+
+p {
+	padding-top: 10px;
+	text-align: center;
+	font-weight: bold;
+}
+
+.custom-vertical {
+	border-left: 6px solid black;
+	height: 450px;
+	width: 6px;
+}
+
+.custom-margin {
+	margin-left: -50px;
+	margin-top: 73px;
+}
+
+#submit-btn {
+	box-shadow: 3px 3px 0px black;
+    border: 4px solid black ;
+	cursor: pointer;
+	width: 75px;
+	margin-top: 10px;
+	margin-left: 215px;
+	color: #000000;
 	font-weight: bold;
 }
