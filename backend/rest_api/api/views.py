@@ -292,7 +292,7 @@ class   StartTournamentView(views.APIView):
             N -= bracket_no
             bracket_no = N // 2
             round_no += 1
-    
+
     def assign_first_matches(self):
         participants    = list(self.tournament.participants.all())
         matches         = list(TournamentGame.objects.filter(round_no=0, tournament=self.tournament))
@@ -321,3 +321,17 @@ class   StartTournamentView(views.APIView):
         self.assign_first_matches()
         return Response({'success' : 'Tournament has been started'},
                             status=status.HTTP_200_OK)
+    
+class   MatchmakingView(views.APIView):
+    permission_classes  = [IsAuthenticated]
+    authentication_classes = [TokenAuthentication]
+    http_method_names   = ['get',]
+
+    def get(self, request,*args, **kwargs):
+        games = list(Game.objects.filter(player2=None, player1=None))
+        if (len(games) > 0) :
+            ret = games[rd.randint(0, len(games)-1)]
+        else :
+            ret = Game()
+            ret.save()
+        return Response({'name' : ret.name}, status=status.HTTP_200_OK)
