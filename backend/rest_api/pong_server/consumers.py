@@ -100,16 +100,9 @@ class   StatusConsumer(AsyncWebsocketConsumer):
             self.token = self.scope["url_route"]["kwargs"]["token"]
             self.token_obj = Token.objects.get(key=self.token)
             self.player = self.token_obj.user.player
-            self.player.status = Player.ONLINE
-            self.player.save()
             return True
         except :
             return False
-
-    @database_sync_to_async
-    def token_disconnect(self):
-        self.player.status = Player.OFFLINE
-        self.player.save()
 
     @database_sync_to_async
     def status_update(self, status):
@@ -122,6 +115,7 @@ class   StatusConsumer(AsyncWebsocketConsumer):
     async def connect(self):
         if await self.token_connect() == True:
             await self.accept()
+            await self.status_update(Player.ONLINE)
         else :
             await self.close()
     
@@ -129,4 +123,4 @@ class   StatusConsumer(AsyncWebsocketConsumer):
         await self.status_update(text_data)
 
     async def disconnect(self, code):
-        await self.token_disconnect()
+        await self.status_update(Player.OFFLINE)
