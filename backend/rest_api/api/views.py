@@ -19,6 +19,7 @@ from .serializers import ScoreboardSerializer, \
 from rest_framework.permissions import IsAuthenticated
 from rest_framework.parsers import FileUploadParser
 from django.core.files.uploadedfile import InMemoryUploadedFile
+from django.db.models import Q
 
 import io, os
 from PIL import Image
@@ -328,9 +329,9 @@ class   MatchmakingView(views.APIView):
     http_method_names   = ['get',]
 
     def get(self, request,*args, **kwargs):
-        games = list(Game.objects.filter(player2=None, player1=None))
+        games = list(Game.objects.filter((Q(player2=None) | Q(player1=None)) & Q(is_finished=False)))
         if (len(games) > 0) :
-            ret = games[rd.randint(0, len(games)-1)]
+            ret = games[0]
         else :
             ret = Game()
             ret.save()

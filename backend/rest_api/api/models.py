@@ -58,18 +58,19 @@ class   Game(models.Model):
                                         primary_key=True,
                                         default=gen_safe_randomcode)
     player1         = models.ForeignKey(Player,
-                                        blank=False,
+                                        blank=True,
                                         null=True,
                                         on_delete=models.SET_NULL,
                                         related_name='history1_set')
     player2         = models.ForeignKey(Player,
-                                        blank=False,
+                                        blank=True,
                                         null=True,
                                         on_delete=models.SET_NULL,
                                         related_name='history2_set')
     score_player1   = models.PositiveIntegerField(default=0)
     score_player2   = models.PositiveIntegerField(default=0)
     created_on      = models.DateTimeField(auto_now_add=True)
+    is_finished     = models.BooleanField(default=False, null=False)
 
 class   Tournament(models.Model):
     code        = models.CharField(max_length=14,
