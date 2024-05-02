@@ -70,6 +70,7 @@ class   Game(models.Model):
     score_player1   = models.PositiveIntegerField(default=0)
     score_player2   = models.PositiveIntegerField(default=0)
     created_on      = models.DateTimeField(auto_now_add=True)
+    is_finished     = models.BooleanField(default=False, null=False)
 
 class   Tournament(models.Model):
     code        = models.CharField(max_length=14,
