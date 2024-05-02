@@ -31,6 +31,7 @@ const loadAndMarkScript = async (scriptPath) => {
         case "/js/pong_remote.js":
             break;
         case "/js/uploadAvatar.js":
+            setupUsername();
             displayAvatar();
             break;
         case "/js/friends.js":

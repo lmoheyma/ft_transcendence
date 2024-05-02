@@ -1,4 +1,24 @@
 
+async function setupUsername() {
+    try {
+        const reponse = await fetch("/api/account", {
+            method: "GET",
+            headers: {
+                "Authorization" : "Token " + getCookie("Session")
+            },
+        });
+        const resultat = await reponse.json();
+        if (reponse.status === 200) {
+            var div = document.getElementById('usernameId');
+            div.textContent = resultat.username;
+        } else {
+            console.log("Error!", resultat);
+        }
+    } catch (erreur) {
+        console.error("Fail!", erreur);
+    }
+}
+
 function getFileName(myfile) {
     var file = myfile.files[0];  
     var filename = file.name;

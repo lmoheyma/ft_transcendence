@@ -1,21 +1,26 @@
-.padd {
-	padding-top: 15vh !important;
-}
 
 .title {
 	color: #272727;
 	font-weight: bold;
+	padding-top: 15vh !important;
+	margin: 0 108px;
 }
 
 .sub-title {
-	/* position: absolute; */
-	/* top: 80px; */
-	/* left: 120px; */
 	font-weight: bold;
     font-size: 3.5em;
-    /* margin-top: 20px; */
 	color: #272727;
-	/* margin-bottom: 25px; */
+}
+
+.edit-profile {
+	color: #6cb4e7;
+	text-decoration: underline;
+	border-width: 50px;
+	font-size: 30px;
+	margin: 35px 35px 0 0;
+	padding: 0 50px;
+	font-weight: bold;
+	text-align: center;
 }
 
 .custom-avatar {
@@ -23,28 +28,38 @@
 	display: flex;
 	flex-direction: column;
 	align-items: center;
-	padding: 50px;
+	padding: 50px 50px 0 50px;
 	padding-top: 75px;
-	padding-left: 65px;
+	margin-left: 60px;
 	width: 250px;
+}
+
+.form-label {
+	font-size: 20px;
+	font-weight: 500;
+}
+
+.form-control {
+	outline: none;
+    border: 2px solid #000;
+    box-shadow: 2px 2px 0px 1px #000;
+	border-radius: 4px;
+}
+
+.form-sub-div {
+	width: 290px; 
+	margin-top: 75px;
+	margin-left: 95px;
 }
 
 .custom-avatar .row:not(:last-child) {
 	padding-bottom: 18px;
 }
 
-.custom-div {
-	position: relative;
-	display: flex;
-    /* align-items: center; */
-    flex-direction: column;
-    /* height: 50vh; */
-	height: 600px;
-    width: auto;
-	padding: 0 50px;
+#custom-div {
+	margin-top: 100px;
     border-radius: 20px;
 	background-color: #FFFAF0;
-	margin-top: 5vh;
 	box-shadow: 10px 10px #000000;
 }
 
@@ -58,8 +73,16 @@
 	background-color: #FFA776;
 }
 
+.btn-warning:hover {
+	background-color: #f77b22;
+}
+
 .btn-success {
 	background-color: rgb(41, 207, 22);
+}
+
+.btn-success:hover {
+	background-color: rgb(26, 255, 0);
 }
 
 input[type="file"], input[type="submit"] {
@@ -71,7 +94,7 @@ input[type="file"], input[type="submit"] {
     border: 4px solid black ;
 	cursor: pointer;
 	width: 150px;
-	margin-bottom: 10px;
+	margin-bottom: 25px;
 	color: #000000;
 	font-weight: bold;
 }
@@ -82,11 +105,24 @@ p {
 	font-weight: bold;
 }
 
-.vertical {
+.custom-vertical {
 	border-left: 6px solid black;
 	height: 450px;
-	position: absolute;
-	left: 32%;
-	top: 13%;
 	width: 6px;
+}
+
+.custom-margin {
+	margin-left: -50px;
+	margin-top: 73px;
+}
+
+#submit-btn {
+	box-shadow: 3px 3px 0px black;
+    border: 4px solid black ;
+	cursor: pointer;
+	width: 75px;
+	margin-top: 10px;
+	margin-left: 215px;
+	color: #000000;
+	font-weight: bold;
 }
