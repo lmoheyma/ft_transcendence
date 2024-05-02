@@ -93,8 +93,8 @@ export function handleEventsPongRemote() {
 		var data = JSON.parse(msg.message);
 		if (!type && data.type === "player")
 		{
-			type = data.type == 1 ? "host" : "guest";
-			adversaryType = data.type == 1 ? "guest" : "host";
+			type = data.you == 1 ? "host" : "guest";
+			adversaryType = data.you == 1 ? "guest" : "host";
 		}
 		else if (type == "host" && data.type === adversaryType)
 		{
@@ -103,6 +103,7 @@ export function handleEventsPongRemote() {
 				{
 					Player2.dir = data.player2_dir;
 					connectedPlayers = data.connected_clients;
+					console.log(connectedPlayers == 2, Game.is_playing)
 					if (connectedPlayers == 2 && !Game.is_playing)
 					{
 						Game.is_playing = true;
@@ -165,6 +166,7 @@ export function handleEventsPongRemote() {
 					Ball.angle = data.ball_angle;
 					Ball.speed = data.ball_speed;
 					connectedPlayers = data.connected_clients;
+					console.log(connectedPlayers == 2, Game.is_playing)
 					if (connectedPlayers == 2 && !Game.is_playing)
 					{
 						Game.is_playing = true;

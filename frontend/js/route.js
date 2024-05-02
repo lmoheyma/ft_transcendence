@@ -34,6 +34,14 @@ const loadAndMarkScript = async (scriptPath) => {
             //     initRemote()
             // }
             break;
+        case "/js/tictactoe.js":
+            if (window.location.pathname === '/tictactoe') {
+                const { initHandleTTT } = await import('./tictactoe.js');
+                initHandleTTT();
+            }
+            break;
+        case "/js/tictactoe_remote.js":
+            break;
         default:
             break;
     }
@@ -72,6 +80,12 @@ const handleLocation = async () => {
             "/js/handle_pong.js",
             "/js/pong_multi.js",
             "/js/pong_remote.js"
+        ]);
+    }
+    if (path === "/tictactoe") {
+        await loadScriptsSequentially([
+            "/js/tictactoe.js",
+            "/js/tictactoe_remote.js"
         ]);
     }
 };

@@ -458,7 +458,7 @@ function handleEventsPong() {
 				{
 					Game.gameOver = false;
 					Game.gamemod = GameMod.REMOTE;
-					socket = new WebSocket(`wss://localhost:8000/ws/room/pong/${getCookie("Session")}`);
+					socket = new WebSocket(`wss://localhost:8000/ws/room/hjhj/${getCookie("Session")}`);
 					handleEventsPongRemote();
 					initializeGameData();
 					break;
@@ -508,8 +508,8 @@ function handleEventsPong() {
 
 }
 
-export function startGame(calcul) {
-	if (calcul)
+export function startGame(calculate) {
+	if (calculate)
 		calculatePoses();
 	if (!Game.gameOver)
 	{
