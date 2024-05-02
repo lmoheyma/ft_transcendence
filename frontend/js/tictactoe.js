@@ -1,4 +1,4 @@
-import { handleEventsTTTRemoteP1, handleEventsTTTRemoteP2 } from "./tictactoe_remote.js";
+import { handleEventsTTTRemote, handleEventsTTTRemoteP2, waitOtherPlayer } from "./tictactoe_remote.js";
 
 export var TicTacToe = {
 	canva: null,
@@ -25,13 +25,12 @@ export var GameMod = {
     AI: 2,
 }
 
-export var waitOtherPlayer = false;
+export var socket;
 
 // remote
 
 function initializeTicTacToe() {
 	TicTacToe.canvas = document.querySelector('canvas');
-	console.log(TicTacToe.canvas);
 	TicTacToe.ctx = TicTacToe.canvas.getContext('2d');
 
 	var totalSize;
@@ -88,9 +87,9 @@ function handleEventsTicTacToe() {
 				{
 					TicTacToe.gameOver = false;
 					TicTacToe.gamemod = GameMod.REMOTE;
-					socket = new WebSocket(`ws://localhost:8000/ws/room/pong/1`);
+					socket = new WebSocket(`wss://localhost:8000/ws/room/yyuyutyjtyjt/${getCookie("Session")}`);
 					initializeTTTData();
-					handleEventsTTTRemoteP1();
+					handleEventsTTTRemote();
 					break;
 				}
 				case "remote-btn2":
@@ -144,14 +143,14 @@ function updateDisplayTTT() {
 	TicTacToe.Display.cellSize = TicTacToe.cellSize * TicTacToe.canvas.height / TicTacToe.totalSize;
 }
 
-function drawTicTacToe() {
+export function drawTicTacToe() {
 	updateDisplayTTT();
 	TicTacToe.ctx.clearRect(0, 0, TicTacToe.canvas.width, TicTacToe.canvas.height);
 
-	TicTacToe.ctx.fillStyle = "#C0FFFC";
+	TicTacToe.ctx.fillStyle = "#7b4397";
 	TicTacToe.ctx.fillRect(0, 0, TicTacToe.canvas.width, TicTacToe.canvas.height);
 	
-	TicTacToe.ctx.fillStyle = "#FFFFFF";
+	TicTacToe.ctx.fillStyle = "#601496";
 
 	TicTacToe.ctx.fillRect(TicTacToe.Display.cellSize, 0, TicTacToe.Display.borderSize, TicTacToe.canvas.height);
 	TicTacToe.ctx.fillRect(TicTacToe.Display.cellSize * 2 + TicTacToe.Display.borderSize, 0, TicTacToe.Display.borderSize, TicTacToe.canvas.height);
@@ -160,7 +159,7 @@ function drawTicTacToe() {
 
 	var x;
 	var y;
-	TicTacToe.ctx.strokeStyle = "#FFFFFF";
+	TicTacToe.ctx.strokeStyle = "#601496";
 	TicTacToe.ctx.lineWidth = TicTacToe.Display.cellSize / 10;
 	
 	for (let i = 0; i < 3; i++)
@@ -179,7 +178,6 @@ function drawTicTacToe() {
 	TicTacToe.ctx.fillStyle = "#000000";
 	TicTacToe.ctx.textAlign = 'center';
 	TicTacToe.ctx.font = `${TicTacToe.canvas.height / 15}px Verdana`;
-	console.log(TicTacToe.is_playing, waitOtherPlayer, TicTacToe.wonPlayer, TicTacToe.gameOver)
 	if (!TicTacToe.is_playing && !waitOtherPlayer && !TicTacToe.gameOver)
 	{
 		TicTacToe.ctx.fillText(
@@ -247,7 +245,7 @@ function handleEventsTTTMultiplayer() {
 	});
 }
 
-function playGame(x, y) {
+export function playGame(x, y) {
 	if (y == -1 || x == -1 || TicTacToe.cells[y][x] != 0 || TicTacToe.gameOver)
 		return;
 	TicTacToe.cells[y][x] = TicTacToe.playerTurn;
@@ -260,7 +258,7 @@ function playGame(x, y) {
 		noWonTTT();
 }
 
-function getCaseFromAxe(pos) {
+export function getCaseFromAxe(pos) {
 	if (pos > 0 && pos < TicTacToe.Display.cellSize)
 		return 0;
 	if (pos > TicTacToe.Display.cellSize + TicTacToe.Display.borderSize && pos < (TicTacToe.Display.cellSize * 2) + TicTacToe.Display.borderSize)
