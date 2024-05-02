@@ -1,20 +1,27 @@
+<!DOCTYPE html>
+<html lang="en">
 <head>
-    <title>Pong !</title>
-	  <link href="/css/pong.css" rel="stylesheet">
-    <!-- <script type="module" src="/js/display_pong.js"></script>
-    <script type="module" src="/js/handle_pong.js"></script>
-    <script type="module" src="/js/pong_multi.js"></script>
-    <script type="module" src="/js/pong_remote.js"></script> -->
-     <!-- <script src="/js/handle_pong.js"></script> -->
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<title>Pong !</title>
+	<link href="/css/pong.css" rel="stylesheet">
 </head>
 <body>
-	<!-- <div class="container-fluid">
-    	<h1 class="title">Welcome To Transcendence !</h1>
-	</div> -->
-	<div class="d-flex justify-content-center align-items-center mt-5">
-		<canvas></canvas>
-	</div>
-	<div class="d-flex flex-wrap justify-content-center align-items-center">
+	<div class="container">
+		<h1 class="title">Pong Game</h1>
+		<div class="d-flex flex-wrap justify-content-between align-items-center">
+			<div class="custom-div col">
+				<h1>Left</h1>
+			</div>
+			<div class="custom-div col">
+				<canvas class="pong-canvas"></canvas>
+			</div>
+			<div class="custom-div col">
+				<h1>Right</h1>
+			</div>
+		</div>
+
+			<!-- <div class="d-flex flex-wrap justify-content-center align-items-center">
 		<div class="custom-div col">
 			<button id="multi-btn" class="btn" onclick="hideNavbar()">Start Multi</button>
 		</div>
@@ -27,5 +34,7 @@
 		<div class="custom-div col">
 			<button id="leave-match" class="btn" onclick="displayNavbar()">Leave Match</button>
 		</div>
+	</div> -->
 	</div>
 </body>
+</html>

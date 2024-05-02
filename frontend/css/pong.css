@@ -1,20 +1,9 @@
-html {
+/* html {
 	overflow: hidden;
-}
-
-.white-logo {
-	color: white;
-}
-
-.coin {
-	background-color: white;
-}
+} */
 
 .title {
-	margin-top: 1em;
-	margin-bottom: 1em;
-	text-align: center;
-	font-family: sans-serif;
+	color: #272727;
 	font-weight: bold;
 }
 
@@ -25,21 +14,13 @@ html {
 	justify-content: center;
 }
 
-.mt-5 {
-	margin-top: 15vh !important;
-}
-
 .custom-div {
 	position: relative;
 	display: flex;
     align-items: center;
     flex-direction: column;
 	padding: 0 50px;
-	margin-top: 40px;
-}
-
-.col {
-	flex: unset;
+	margin-top: 5vh;
 }
 
 .btn {
@@ -54,4 +35,8 @@ html {
 
 .btn:hover {
 	background-color: #f57e3f;
+}
+
+.pong-canvas {
+	border: 5px solid black;
 }
