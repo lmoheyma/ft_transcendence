@@ -58,12 +58,12 @@ class   Game(models.Model):
                                         primary_key=True,
                                         default=gen_safe_randomcode)
     player1         = models.ForeignKey(Player,
-                                        blank=False,
+                                        blank=True,
                                         null=True,
                                         on_delete=models.SET_NULL,
                                         related_name='history1_set')
     player2         = models.ForeignKey(Player,
-                                        blank=False,
+                                        blank=True,
                                         null=True,
                                         on_delete=models.SET_NULL,
                                         related_name='history2_set')
