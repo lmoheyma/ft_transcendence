@@ -31,6 +31,7 @@ export var waitOtherPlayer = false;
 
 function initializeTicTacToe() {
 	TicTacToe.canvas = document.querySelector('canvas');
+	console.log(TicTacToe.canvas);
 	TicTacToe.ctx = TicTacToe.canvas.getContext('2d');
 
 	var totalSize;
@@ -178,7 +179,8 @@ function drawTicTacToe() {
 	TicTacToe.ctx.fillStyle = "#000000";
 	TicTacToe.ctx.textAlign = 'center';
 	TicTacToe.ctx.font = `${TicTacToe.canvas.height / 15}px Verdana`;
-	if (!TicTacToe.is_playing && !waitOtherPlayer)
+	console.log(TicTacToe.is_playing, waitOtherPlayer, TicTacToe.wonPlayer, TicTacToe.gameOver)
+	if (!TicTacToe.is_playing && !waitOtherPlayer && !TicTacToe.gameOver)
 	{
 		TicTacToe.ctx.fillText(
 			"Press the button to start",
@@ -186,7 +188,7 @@ function drawTicTacToe() {
 			TicTacToe.canvas.height / 2
 		);
 	}
-	else if (!TicTacToe.is_playing && waitOtherPlayer)
+	else if (!TicTacToe.is_playing && waitOtherPlayer && !TicTacToe.gameOver)
 	{
 		TicTacToe.ctx.fillText(
 			"Waiting creation of matchmaking",

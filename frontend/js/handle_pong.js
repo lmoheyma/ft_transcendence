@@ -451,14 +451,14 @@ function handleEventsPong() {
 					handleEventsPongMultiplayer();
 					initializeGameData();
 					Game.is_playing = true;
-					startGame();
+					startGame(true);
 					break;
 				}
 				case "remote-btn":
 				{
 					Game.gameOver = false;
 					Game.gamemod = GameMod.REMOTE;
-					socket = new WebSocket(`wss://localhost:8000/ws/room/pong/${getCookie("Session")}`);
+					socket = new WebSocket(`wss://localhost:8000/ws/room/hjhj/${getCookie("Session")}`);
 					handleEventsPongRemote();
 					initializeGameData();
 					break;
@@ -508,13 +508,13 @@ function handleEventsPong() {
 
 }
 
-export function startGame() {
-	if (type === "Host")
+export function startGame(calculate) {
+	if (calculate)
 		calculatePoses();
 	if (!Game.gameOver)
 	{
 		drawAll();
-		requestAnimationFrame(startGame.bind(this)); 
+		requestAnimationFrame(startGame.bind(this, true)); 
 	}
 }
 

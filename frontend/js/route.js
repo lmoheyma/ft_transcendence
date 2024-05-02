@@ -82,7 +82,7 @@ const handleLocation = async () => {
             "/js/pong_remote.js"
         ]);
     }
-    if (path === "/pong") {
+    if (path === "/tictactoe") {
         await loadScriptsSequentially([
             "/js/tictactoe.js",
             "/js/tictactoe_remote.js"
