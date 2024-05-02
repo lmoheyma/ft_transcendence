@@ -69,7 +69,7 @@ function initializeTTTData() {
 
 
 function handleEventsTicTacToe() {
-	document.addEventListener('click', (event) => {
+	document.addEventListener('click', async (event) => {
 		if (!TicTacToe.is_playing)
 		{
 			switch (event.target.id) {
@@ -87,7 +87,14 @@ function handleEventsTicTacToe() {
 				{
 					TicTacToe.gameOver = false;
 					TicTacToe.gamemod = GameMod.REMOTE;
-					socket = new WebSocket(`wss://localhost:8000/ws/room/yyuyutyjtyjt/${getCookie("Session")}`);
+					const res = await fetch("/api/logout", {
+						method: "GET",
+						headers: {
+						"Authorization" : "Token " + getCookie("Session"),
+						}
+					});
+					const room = await res.json();
+					socket = new WebSocket(`wss://localhost:8000/ws/room/${room.name}/${getCookie("Session")}`);
 					initializeTTTData();
 					handleEventsTTTRemote();
 					break;

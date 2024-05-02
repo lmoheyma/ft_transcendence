@@ -103,10 +103,10 @@ export function handleEventsPongRemote() {
 				{
 					Player2.dir = data.player2_dir;
 					connectedPlayers = data.connected_clients;
-					console.log(connectedPlayers == 2, Game.is_playing)
 					if (connectedPlayers == 2 && !Game.is_playing)
 					{
 						Game.is_playing = true;
+						changeDisplayButtons();
 						waitOtherPlayer = false;
 						startGame(true);
 					}
@@ -118,6 +118,7 @@ export function handleEventsPongRemote() {
 					socket.close();
 					waitOtherPlayer = false;
 					Game.is_playing = false;
+					changeDisplayButtons();
 					Game.gameOver = true;
 					type = "";
 					adversaryType = "";
@@ -134,6 +135,7 @@ export function handleEventsPongRemote() {
 					Ball.pos_X = 150;
 					Ball.pos_Y = 50;
 					Game.is_playing = false;
+					changeDisplayButtons();
 					Game.gameOver = true;
 					drawAll();
 					clearInterval(interval);
@@ -166,10 +168,10 @@ export function handleEventsPongRemote() {
 					Ball.angle = data.ball_angle;
 					Ball.speed = data.ball_speed;
 					connectedPlayers = data.connected_clients;
-					console.log(connectedPlayers == 2, Game.is_playing)
 					if (connectedPlayers == 2 && !Game.is_playing)
 					{
 						Game.is_playing = true;
+						changeDisplayButtons();
 						waitOtherPlayer = false;
 						startGame(false);
 					}
@@ -189,6 +191,7 @@ export function handleEventsPongRemote() {
 					gameWon(data.wonPlayer);
 					waitOtherPlayer = false;
 					Game.is_playing = false;
+					changeDisplayButtons();
 					Game.gameOver = true;
 					type = "";
 					adversaryType = "";
@@ -208,6 +211,7 @@ export function handleEventsPongRemote() {
 					Ball.pos_X = 150;
 					Ball.pos_Y = 50;
 					Game.is_playing = false;
+					changeDisplayButtons();
 					Game.gameOver = true;
 					drawAll();
 					clearInterval(interval);
@@ -287,6 +291,7 @@ export function handleEventsPongRemote() {
 				Ball.pos_X = 150;
 				Ball.pos_Y = 50;
 				Game.is_playing = false;
+				changeDisplayButtons();
 				Game.gameOver = true;
 				drawAll();
 			}
@@ -330,6 +335,7 @@ export function handleEventsPongRemote() {
 					clearInterval(interval);
 					socket.close();
 					Game.is_playing = false;
+					changeDisplayButtons();
 					waitOtherPlayer = false;
 					type = "";
 					adversaryType = "";

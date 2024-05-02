@@ -34,6 +34,7 @@ export function handleEventsPongMultiplayer() {
 				Ball.pos_X = 150;
 				Ball.pos_Y = 50;
 				Game.is_playing = false;
+				changeDisplayButtons();
 				Game.gameOver = true;
 				drawAll();
 			}

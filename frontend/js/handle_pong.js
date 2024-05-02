@@ -426,6 +426,14 @@ export var socket;
 // 	handleEvents();
 // }
 
+export function changeDisplayButtons()
+{
+	const buttons = document.querySelectorAll('.game-display');
+	buttons.forEach(button => {
+		button.hidden = !button.hidden;
+	});
+}
+
 function getCookie(name) {
     let cookies = document.cookie;
     let parts = cookies.split('; ');
@@ -440,40 +448,55 @@ function getCookie(name) {
 }
 
 function handleEventsPong() {
-	document.addEventListener('click', (event) => {
+	document.addEventListener('click', async (event) => {
 		if (!Game.is_playing)
 		{
-			switch (event.target.id) {
-				case "multi-btn":
-				{
-					Game.gameOver = false;
-					Game.gamemod = GameMod.MULTI;
-					handleEventsPongMultiplayer();
-					initializeGameData();
-					Game.is_playing = true;
-					startGame(true);
-					break;
+			if (event.target.id == "multi-btn")
+			{
+				var gamemodsButtons = document.querySelectorAll('input[name="gamemod"]');
+				var thisGamemod;
+				for (let i = 0; i < gamemodsButtons.length; i++) {
+					if (gamemodsButtons[i].checked) {
+						thisGamemod = gamemodsButtons[i].value;
+						break;
+					}
 				}
-				case "remote-btn":
-				{
-					Game.gameOver = false;
-					Game.gamemod = GameMod.REMOTE;
-					socket = new WebSocket(`wss://localhost:8000/ws/room/hjhj/${getCookie("Session")}`);
-					handleEventsPongRemote();
-					initializeGameData();
-					break;
+				switch (thisGamemod) {
+					case "multi":
+					{
+						Game.gameOver = false;
+						Game.gamemod = GameMod.MULTI;
+						handleEventsPongMultiplayer();
+						initializeGameData();
+						Game.is_playing = true;
+						changeDisplayButtons();
+						startGame(true);
+						break;
+					}
+					case "remote":
+					{
+						Game.gameOver = false;
+						Game.gamemod = GameMod.REMOTE;
+						const res = await fetch("/api/logout", {
+							method: "GET",
+							headers: {
+							"Authorization" : "Token " + getCookie("Session"),
+							}
+						});
+						const room = await res.json();
+						socket = new WebSocket(`wss://localhost:8000/ws/room/${room.name}/${getCookie("Session")}`);
+						handleEventsPongRemote();
+						initializeGameData();
+						break;
+					}
+					case "ai":
+					{
+						
+						break;
+					}
+					default:
+						break;
 				}
-				case "remote-btn2":
-				{
-					Game.gameOver = false;
-					Game.gamemod = GameMod.REMOTE;
-					socket = new WebSocket(`wss://localhost:8000/ws/room/pong/${getCookie("Session")}`);
-					handleEventsPongRemote();
-					initializeGameData();
-					break;
-				}
-				default:
-					break;
 			}
 		}
 	});
@@ -806,6 +829,7 @@ export function gameWon(player) {
 		Game.canvas.height / 1.25
 	);
 	Game.is_playing = false;
+	changeDisplayButtons();
 	Game.gameOver = true;
 }
 
