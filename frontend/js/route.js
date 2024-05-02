@@ -40,6 +40,14 @@ const loadAndMarkScript = async (scriptPath) => {
             hideFriendsRequests();
             displayFriendsList();
             break;
+        case "/js/tictactoe.js":
+            if (window.location.pathname === '/tictactoe') {
+                const { initHandleTTT } = await import('./tictactoe.js');
+                initHandleTTT();
+            }
+            break;
+        case "/js/tictactoe_remote.js":
+            break;
         default:
             break;
     }
@@ -93,6 +101,10 @@ const handleLocation = async () => {
     else if (path === "/") {
         await loadScriptsSequentially([
             "/js/friends.js"
+    if (path === "/tictactoe") {
+        await loadScriptsSequentially([
+            "/js/tictactoe.js",
+            "/js/tictactoe_remote.js"
         ]);
     }
 };

@@ -12,8 +12,9 @@ stop :
 	docker-compose $(CMPS_PATH) stop
 
 fclean :
-	docker-compose $(CMPS_PATH) down
-	docker system prune
+	docker-compose $(CMPS_PATH) down -v
 
-.PHONY : all build run stop fclean
+re: fclean build run
+
+.PHONY : all build run stop fclean re
 
