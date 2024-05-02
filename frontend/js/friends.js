@@ -9,7 +9,41 @@ function displayFriendsRequests() {
 	document.getElementById('friendsDiv').style.display = "none";
 }
 
-async function deleteFriends(username) {
+async function findFriendNameById(id) {
+	try {
+        const reponse = await fetch("/api/friends", {
+            method: "GET",
+            headers: {
+                "Authorization" : "Token " + getCookie("Session"),
+				"Content-Type": "application/json"
+            },
+        });
+		const resultat	= await reponse.json();
+		console.log(resultat);
+        if (reponse.status == 200) {
+			for (const key in resultat) {
+				var itemsArray = Array.isArray(resultat[key]) ? resultat[key] : [resultat[key]];
+				for (const item of itemsArray) {
+					console.log(item.id + "   " + id);
+					if (item.id == id)
+					{
+						console.log(item.username);
+						return (item.username);
+					}
+				}
+			}
+        }
+        else {
+			console.log("Error!", resultat.error, username);
+        }
+    } catch (erreur) {
+        console.error("Fail!", erreur);
+    }
+}
+
+async function deleteFriends(id) {
+	const username = await findFriendNameById(id);
+	console.log(username);
 	const donnees = {id: username};
 	try {
         const reponse = await fetch("/api/friends", {
@@ -197,7 +231,7 @@ async function displayFriendsList() {
 					tr.appendChild(tdStatus);
 					tr.appendChild(removeButton);
 					removeButton.onclick = function() {
-						deleteFriends(item.username)
+						deleteFriends(item.id)
 					};
 				});
 			}

@@ -1,9 +1,6 @@
-
 .title {
 	color: #272727;
 	font-weight: bold;
-	padding-top: 15vh !important;
-	margin: 0 108px;
 }
 
 .sub-title {
@@ -13,14 +10,21 @@
 }
 
 .edit-profile {
-	color: #6cb4e7;
-	text-decoration: underline;
-	border-width: 50px;
-	font-size: 30px;
-	margin: 35px 35px 0 0;
-	padding: 0 50px;
+	position: relative;
+	display: flex;
+	flex-direction: column;
+	align-items: center;
+	justify-content: center;
+	color: #272727;
+	margin: 35px auto 0 auto;
+	padding: 5px;
 	font-weight: bold;
 	text-align: center;
+	width: 210px;
+	background-color: #6cb4e7;
+	box-shadow: 3px 5px 0px black;
+    border: 4px solid black;
+	border-radius: 15px;
 }
 
 .custom-avatar {
@@ -32,6 +36,7 @@
 	padding-top: 75px;
 	margin-left: 60px;
 	width: 250px;
+	margin: 0 auto;
 }
 
 .form-label {
@@ -50,6 +55,15 @@
 	width: 290px; 
 	margin-top: 75px;
 	margin-left: 95px;
+}
+
+.status-div {
+	position: relative;
+	display: flex;
+	flex-direction: row;
+	align-items: center;
+	justify-content: center;
+	color: red;
 }
 
 .custom-avatar .row:not(:last-child) {
@@ -91,7 +105,7 @@ input[type="file"], input[type="submit"] {
 
 .customUpload:not(:last-child) {
 	box-shadow: 3px 3px 0px black;
-    border: 4px solid black ;
+    border: 4px solid black;
 	cursor: pointer;
 	width: 150px;
 	margin-bottom: 25px;

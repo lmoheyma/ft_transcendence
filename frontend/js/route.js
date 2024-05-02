@@ -30,7 +30,8 @@ const loadAndMarkScript = async (scriptPath) => {
             break;
         case "/js/pong_remote.js":
             break;
-        case "/js/uploadAvatar.js":
+        case "/js/settings.js":
+            setupPlaceholder();
             setupUsername();
             displayAvatar();
             break;
@@ -81,7 +82,7 @@ const handleLocation = async () => {
     }
     else if (path === "/settings") {
         await loadScriptsSequentially([
-            "/js/uploadAvatar.js"
+            "/js/settings.js"
         ]);
     }
     else if (path === "/dashboard") {

@@ -7,55 +7,61 @@
 		<link href="/css/settings.css" rel="stylesheet">
 	</head>
 	<body>
-		<h1 class="title">Settings</h1>
-		<div class="container padd mt-3 mt-md-5 d-flex flex-column" id="custom-div">
-			<div class="row">
-				<div class="col-md-4 mb-3">
-					<div class="custom-avatar">
-						<div class="row mb-2">
-							<h2 id="usernameId" class="sub-title"></h2>
-						</div>
-						<div class="row mb-2">
-							<div id="avatar"></div>
-						</div>
-						<div class="row mb-2">
-							<form id="formAvatar" onsubmit="handleSubmit(event)">
-								<p id="filenameId"></p>
-								<label for="fileToUpload" class="btn btn-warning customUpload">CHOOSE..</label>
-								<input type="file" name="fileToUpload" id="fileToUpload" onchange="getFileName(this)">
-								<label for="uploadSubmit" class="btn btn-success customUpload">UPLOAD</label>
-								<input type="submit" name="submit" id="uploadSubmit">
-							</form>
+		<div class="container">
+			<h1 class="title">Settings</h1>
+			<div class="container mt-3 mt-md-5 d-flex flex-column" id="custom-div">
+				<div class="row">
+					<div class="col-md-4 mb-3">
+						<div class="custom-avatar">
+							<div class="row mb-2">
+								<h2 id="usernameId" class="sub-title"></h2>
+							</div>
+							<div class="row mb-2">
+								<div id="avatar"></div>
+							</div>
+							<div class="row mb-2">
+								<form id="formAvatar" onsubmit="handleSubmit(event)">
+									<p id="filenameId"></p>
+									<label for="fileToUpload" class="btn btn-warning customUpload">CHOOSE..</label>
+									<input type="file" name="fileToUpload" id="fileToUpload" onchange="getFileName(this)">
+									<label for="uploadSubmit" class="btn btn-success customUpload">UPLOAD</label>
+									<input type="submit" name="submit" id="uploadSubmit">
+								</form>
+							</div>
 						</div>
 					</div>
-				</div>
-				<div class="col-md-1 mb-3 d-none d-md-block custom-margin">
-					<div class="custom-vertical"></div>
-				</div>
-				<div class="col-md-7 mb-3 d-none d-md-block">
-					<div class="custom-form">
-						<h2 class="edit-profile">Edit profile</h2>
-						<div class="form-sub-div">
-							<div class="mb-3">
-								<label for="cur-password" class="form-label">Current password</label>
-								<input type="password" class="form-control" id="cur-password" placeholder="********">
+					<div class="col-md-1 mb-3 d-none d-md-none d-lg-block custom-margin">
+						<div class="custom-vertical"></div>
+					</div>
+					<div class="col-md-7 mb-3">
+						<div class="custom-form">
+							<h2 class="edit-profile">Edit profile</h2>
+							<div class="row">
+								<div class="col form-sub-div">
+									<div class="mb-3">
+										<label for="password" class="form-label">Current password</label>
+										<input type="password" class="form-control" id="password">
+									</div>
+									<div class="mb-3">
+										<label for="username" class="form-label">Username</label>
+										<input type="text" class="form-control" id="username">
+									</div>
+									<div class="mb-3">
+										<label for="email" class="form-label">Email</label>
+										<input type="email" class="form-control" id="email">
+									</div>
+									<div class="mb-3">
+										<label for="new_password" class="form-label">New password</label>
+										<input type="password" class="form-control" id="new_password">
+									</div>
+									<div class="mb-3 text-right">
+										<button type="submit" id="submit-btn" class="btn btn-success" onclick="editProfile()">EDIT!</button>
+									</div>
+								</div>
+								<div class="col status-div" id="status">
+									<!-- <p>Error edit profile</p> -->
+								</div>
 							</div>
-							<div class="mb-3">
-								<label for="username" class="form-label">Username</label>
-								<input type="text" class="form-control" id="username" placeholder="foo">
-							</div>
-							<div class="mb-3">
-								<label for="email" class="form-label">Username</label>
-								<input type="email" class="form-control" id="email" placeholder="foo@gmail.com">
-							</div>
-							<div class="mb-3">
-								<label for="password" class="form-label">New password</label>
-								<input type="password" class="form-control" id="password" placeholder="********">
-							</div>
-							<div class="mb-3 text-right">
-								<button type="submit" id="submit-btn" class="btn btn-success" onclick="">EDIT!</button>
-							</div>
-							<div class="pt-2" id="status"></div>
 						</div>
 					</div>
 				</div>

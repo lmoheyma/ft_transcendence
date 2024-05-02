@@ -158,7 +158,7 @@ class   FriendListView(views.APIView):
             id = serializer.validated_data.get('id')
             try :
                 friendship_to_del = [i for i in getAllFriendships(request.user.player)
-                                        if i.friend1.id == id or i.friend2.id == id][0]
+                                        if i.friend1.user.username == id or i.friend2.user.username == id][0]
                 friendship_to_del.delete()
                 return Response({'success' : 'Deleted friend'},
                         status=status.HTTP_200_OK)
