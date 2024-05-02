@@ -2,7 +2,7 @@ import json
 from asgiref.sync import async_to_sync
 from channels.generic.websocket import AsyncWebsocketConsumer
 from rest_framework.authtoken.models import Token
-from api.models import Game
+from api.models import Game, Player
 from channels.db import database_sync_to_async
 
 connected_clients = set()
@@ -91,3 +91,36 @@ class   PongConsumer(AsyncWebsocketConsumer):
     async def send_packet(self, event):
         message = event["message"]
         await self.send(text_data=json.dumps({"message": message}))
+
+class   StatusConsumer(AsyncWebsocketConsumer):
+
+    @database_sync_to_async
+    def token_connect(self):
+        try :
+            self.token = self.scope["url_route"]["kwargs"]["token"]
+            self.token_obj = Token.objects.get(key=self.token)
+            self.player = self.token_obj.user.player
+            return True
+        except :
+            return False
+
+    @database_sync_to_async
+    def status_update(self, status):
+        try :
+            self.player.status = status
+            self.player.save()
+        except :
+            pass
+
+    async def connect(self):
+        if await self.token_connect() == True:
+            await self.accept()
+            await self.status_update(Player.ONLINE)
+        else :
+            await self.close()
+    
+    async def receive(self, text_data=None, bytes_data=None):
+        await self.status_update(text_data)
+
+    async def disconnect(self, code):
+        await self.status_update(Player.OFFLINE)
