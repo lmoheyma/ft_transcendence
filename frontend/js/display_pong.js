@@ -21,21 +21,6 @@ export function drawAll() {
 	document.getElementById('score-left').style.color = '#FFFAF0';
 	document.getElementById('score-right').style.color = '#FFFAF0';
 
-	// Game.ctx.fillStyle = "#000000";
-	// Game.ctx.fillRect(0, 0, Game.canvas.width, Game.canvas.height);
-
-	// Game.ctx.fillStyle = "rgba(0, 0, 0, 1)";
-
-	// Game.ctx.fillRect(Display.border_space + 10, Game.canvas.height - (2 * Display.border_space - Display.border_size) + 10, Game.canvas.width - (2 * Display.border_space), Display.border_size);
-	// Game.ctx.fillRect(Game.canvas.width - (2 * Display.border_space - Display.border_size) + 10, Display.border_space + 10, Display.border_size, Game.canvas.height - (2 * Display.border_space));
-
-	// Game.ctx.fillStyle = "rgba(255, 255, 255, 1)";
-
-	// Game.ctx.fillRect(Display.border_space, Display.border_space, Game.canvas.width - (2 * Display.border_space), Display.border_size);
-	// Game.ctx.fillRect(Display.border_space, Game.canvas.height - (2 * Display.border_space - Display.border_size), Game.canvas.width - (2 * Display.border_space), Display.border_size);
-	// Game.ctx.fillRect(Display.border_space, Display.border_space, Display.border_size, Game.canvas.height - (2 * Display.border_space));
-	// Game.ctx.fillRect(Game.canvas.width - (2 * Display.border_space - Display.border_size), Display.border_space, Display.border_size, Game.canvas.height - (2 * Display.border_space));
-
 	var canvasWidth = Game.canvas.width;
 	var canvasHeight = Game.canvas.height;
 	var radius = 20;
@@ -88,26 +73,7 @@ export function drawAll() {
 	document.getElementById('score-left').textContent = Player1.score.toString();
 	document.getElementById('score-right').textContent = Player2.score.toString();
 
-	if (!Game.is_playing && !waitOtherPlayer)
-	{
-		Game.ctx.font = `${Game.canvas.height / 10}px Poppins, sans-serif`;
-		Game.ctx.setLineDash([]);
-	
-	
-		// Game.ctx.fillStyle = "#FFFFFF";
-		// Game.ctx.strokeStyle = "#000000";
-		// Game.ctx.strokeText(
-		// 	"Press the button to start",
-		// 	(Game.canvas.width / 2),
-		// 	Game.canvas.height / 1.25
-		// );
-		// Game.ctx.fillText(
-		// 	"Press the button to start",
-		// 	(Game.canvas.width / 2),
-		// 	Game.canvas.height / 1.25
-		// );
-	}
-	else if (!Game.is_playing && waitOtherPlayer)
+	if (!Game.is_playing && waitOtherPlayer)
 	{
 		Game.ctx.font = `${Game.canvas.height / 12}px Poppins, sans-serif`;
 		Game.ctx.setLineDash([]);
