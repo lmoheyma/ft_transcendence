@@ -23,20 +23,16 @@
 		</div>
 		<div class="container">
 			<div class="row justify-content-center">
-				<div class="col custom-button">
+				<div class="col custom-button game-display">
 					<button id="multi-btn" class="btn" onclick="hideNavbar()">OFFLINE</button>
 				</div>
-				<div class="col custom-button">
-					<button id="remote-btn" class="btn" onclick="hideNavbar()">ONLINE</button>
-				</div>
-				<div class="col custom-button">
-					<button id="remote-btn2" class="btn" onclick="hideNavbar()">ONLINE 2</button>
-				</div>
-				<div class="col custom-button">
+				<div class="col custom-button game-display" hidden>
 					<button id="leave-match" class="btn" onclick="displayNavbar()">LEAVE</button>
 				</div>
 			</div>
-		</div>
+		<input class="game-display" type="radio" name="gamemod" value="multi" id="multi" checked> <label for="multi" class="game-display">Multiplayer</label><br>
+        <input class="game-display" type="radio" name="gamemod" value="remote" id="remote"> <label for="remote" class="game-display">Remote</label><br>
+        <input class="game-display" type="radio" name="gamemod" value="ai" id="ai"> <label for="ai" class="game-display">AI</label><br>
 	</div>
 </body>
 </html>

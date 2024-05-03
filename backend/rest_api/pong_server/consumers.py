@@ -31,9 +31,11 @@ class   PongConsumer(AsyncWebsocketConsumer):
                 game = Game(name=self.room_name, player1=self.user.player)
                 self.player_no = 1
                 game.save()
-            elif game.player2 == None:
-                if game.player1 == game.player2 :
-                    return connect_status.ALREADY_CONNECTED
+            elif game.player1 == None and game.player1 != self.user.player :
+                game.player1 = self.user.player
+                game.save()
+                self.player_no = 1
+            elif game.player2 == None and game.player2 != self.user.player :
                 game.player2 = self.user.player
                 game.save()
                 self.player_no = 2
