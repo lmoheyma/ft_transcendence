@@ -9,13 +9,17 @@
 	<h1>Tic Tac Toe</h1>
 	<div class="game-content">
 		<div class="tictactoe">
-			<canvas></canvas>
+			<canvas class="game-display" hidden></canvas>
 		</div>
 	</div>
 	<div class="game-content">
-		<button id="multi-btn" class="btn btn-secondary">Start Multi</button>
-		<button id="remote-btn" class="btn btn-secondary">Start Remote</button>
-		<button id="remote-btn2" class="btn btn-secondary">Start Remote 2</button>
+		<button id="multi-btn" class="btn btn-secondary game-display">Start</button>
+		<div class="custom-div col game-display" hidden>
+			<button id="leave-match" class="btn" onclick="displayNavbar()">Leave Match</button>
+		</div>
+		<input class="game-display" type="radio" name="gamemod" value="multi" id="multi" checked> <label for="multi" class="game-display">Multiplayer</label><br>
+        <input class="game-display" type="radio" name="gamemod" value="remote" id="remote"> <label for="remote" class="game-display">Remote</label><br>
+        <input class="game-display" type="radio" name="gamemod" value="ai" id="ai"> <label for="ai" class="game-display">AI</label><br>
 	</div>
 </body>
 </html>

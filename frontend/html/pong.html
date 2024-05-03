@@ -12,20 +12,17 @@
     	<h1 class="title">Welcome To Transcendence !</h1>
 	</div> -->
 	<div class="d-flex justify-content-center align-items-center mt-5">
-		<canvas></canvas>
+		<canvas class="game-display" hidden></canvas>
 	</div>
 	<div class="d-flex flex-wrap justify-content-center align-items-center">
-		<div class="custom-div col">
-			<button id="multi-btn" class="btn" onclick="hideNavbar()">Start Multi</button>
+		<div class="custom-div col game-display">
+			<button id="multi-btn" class="btn" onclick="hideNavbar()">Start</button>
 		</div>
-		<div class="custom-div col">
-			<button id="remote-btn" class="btn" onclick="hideNavbar()">Start Remote</button>
-		</div>
-		<div class="custom-div col">
-			<button id="remote-btn2" class="btn" onclick="hideNavbar()">Start Remote 2</button>
-		</div>
-		<div class="custom-div col">
+		<div class="custom-div col game-display" hidden>
 			<button id="leave-match" class="btn" onclick="displayNavbar()">Leave Match</button>
 		</div>
+		<input class="game-display" type="radio" name="gamemod" value="multi" id="multi" checked> <label for="multi" class="game-display">Multiplayer</label><br>
+        <input class="game-display" type="radio" name="gamemod" value="remote" id="remote"> <label for="remote" class="game-display">Remote</label><br>
+        <input class="game-display" type="radio" name="gamemod" value="ai" id="ai"> <label for="ai" class="game-display">AI</label><br>
 	</div>
 </body>
