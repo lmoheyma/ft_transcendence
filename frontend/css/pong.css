@@ -1,4 +1,8 @@
 
+.container {
+	margin: 0 auto;
+}
+
 .title {
 	color: #272727;
 	font-weight: bold;
@@ -16,7 +20,7 @@
 	display: flex;
     align-items: center;
     flex-direction: column;
-	padding: 0 47px;
+	/* padding: 0 3vw; */
 	margin-top: 5vh;
 }
 
@@ -42,6 +46,7 @@
 	text-shadow: 4px 4px black;
 	font-size: 100px;
 	font-weight: 600;
+	/* margin: 0 3vw; */
 }
 
 .custom-button {
