@@ -9,6 +9,7 @@ body {
 
 #main-page {
 	padding-top: 10vh !important;
+	width: 100vw;
 }
 
 .navbar-toggler-icon {

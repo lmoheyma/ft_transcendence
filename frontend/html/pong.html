@@ -11,30 +11,31 @@
 		<h1 class="title">Pong Game</h1>
 		<div class="d-flex flex-wrap justify-content-between align-items-center">
 			<div class="custom-div col">
-				<h1>Left</h1>
+				<p id="score-left"></p>
 			</div>
 			<div class="custom-div col">
 				<canvas class="pong-canvas"></canvas>
 			</div>
 			<div class="custom-div col">
-				<h1>Right</h1>
+				<p id="score-right"></p>
 			</div>
 		</div>
-
-			<!-- <div class="d-flex flex-wrap justify-content-center align-items-center">
-		<div class="custom-div col">
-			<button id="multi-btn" class="btn" onclick="hideNavbar()">Start Multi</button>
+		<div class="container">
+			<div class="row justify-content-center">
+				<div class="col custom-button">
+					<button id="multi-btn" class="btn" onclick="hideNavbar()">OFFLINE</button>
+				</div>
+				<div class="col custom-button">
+					<button id="remote-btn" class="btn" onclick="hideNavbar()">ONLINE</button>
+				</div>
+				<div class="col custom-button">
+					<button id="remote-btn2" class="btn" onclick="hideNavbar()">ONLINE 2</button>
+				</div>
+				<div class="col custom-button">
+					<button id="leave-match" class="btn" onclick="displayNavbar()">LEAVE</button>
+				</div>
+			</div>
 		</div>
-		<div class="custom-div col">
-			<button id="remote-btn" class="btn" onclick="hideNavbar()">Start Remote</button>
-		</div>
-		<div class="custom-div col">
-			<button id="remote-btn2" class="btn" onclick="hideNavbar()">Start Remote 2</button>
-		</div>
-		<div class="custom-div col">
-			<button id="leave-match" class="btn" onclick="displayNavbar()">Leave Match</button>
-		</div>
-	</div> -->
 	</div>
 </body>
 </html>

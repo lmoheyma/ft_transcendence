@@ -789,12 +789,12 @@ export function gameWon(player) {
 	Ball.pos_Y = 50;
 	drawAll();
 
-	Game.ctx.font = `${Game.canvas.height / 8}px Helvetica`;
+	Game.ctx.font = `600 ${Game.canvas.height / 8}px Poppins, sans-serif`;
 	Game.ctx.setLineDash([]);
 
 
-	Game.ctx.fillStyle = "#FFFFFF";
-	Game.ctx.strokeStyle = "#000000";
+	Game.ctx.fillStyle = "#272727";
+	Game.ctx.strokeStyle = "#FFFAF0";
 	Game.ctx.strokeText(
 		`Player ${player} has won!`,
 		(Game.canvas.width / 2),
@@ -805,6 +805,11 @@ export function gameWon(player) {
 		(Game.canvas.width / 2),
 		Game.canvas.height / 1.25
 	);
+
+	if (player == 2)
+		document.getElementById('score-right').style.color = '#29cf16';
+	else
+		document.getElementById('score-left').style.color = '#29cf16';
 	Game.is_playing = false;
 	Game.gameOver = true;
 }
