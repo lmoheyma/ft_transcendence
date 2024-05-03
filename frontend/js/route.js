@@ -48,6 +48,8 @@ const loadAndMarkScript = async (scriptPath) => {
             break;
         case "/js/tictactoe_remote.js":
             break;
+        case "/js/tournament.js":
+            break;
         default:
             break;
     }
@@ -107,6 +109,12 @@ const handleLocation = async () => {
         await loadScriptsSequentially([
             "/js/tictactoe.js",
             "/js/tictactoe_remote.js"
+        ]);
+    }
+    else if (path === "/tournament")
+    {
+        await loadScriptsSequentially([
+            "/js/tournament.js"
         ]);
     }
 };
