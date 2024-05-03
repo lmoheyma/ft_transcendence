@@ -1,6 +1,6 @@
 import { drawAll } from "./display_pong.js";
 import { handleEventsPongRemote, type } from "./pong_remote.js";
-import { handleEventsPongMultiplayer } from "./pong_multi.js";
+import { handleEventsPongMultiplayer, moveMultiListener, stopMoveMultiListener, leavePongMulti } from "./pong_multi.js";
 
 const cgameY = 100;
 const cgameX = 300;
@@ -477,14 +477,15 @@ function handleEventsPong() {
 					{
 						Game.gameOver = false;
 						Game.gamemod = GameMod.REMOTE;
-						const res = await fetch("/api/logout", {
-							method: "GET",
-							headers: {
-							"Authorization" : "Token " + getCookie("Session"),
-							}
-						});
-						const room = await res.json();
-						socket = new WebSocket(`wss://localhost:8000/ws/room/${room.name}/${getCookie("Session")}`);
+						// const res = await fetch("https://localhost:8000/api/find_match/", {
+						// 	method: "GET",
+						// 	headers: {
+						// 	"Authorization" : "Token " + getCookie("Session"),
+						// 	}
+						// });
+						// const room = await res.json();
+						// socket = new WebSocket(`wss://localhost:8000/ws/room/${room.name}/${getCookie("Session")}`);
+						socket = new WebSocket(`wss://localhost:8000/ws/room/sddfsfd/${getCookie("Session")}`);
 						handleEventsPongRemote();
 						initializeGameData();
 						break;
@@ -831,6 +832,12 @@ export function gameWon(player) {
 	Game.is_playing = false;
 	changeDisplayButtons();
 	Game.gameOver = true;
+	if (Game.gamemod == GameMod.MULTI)
+	{
+		document.removeEventListener('keydown', moveMultiListener);
+		document.removeEventListener('keyup', stopMoveMultiListener);
+		document.removeEventListener('click', leavePongMulti);
+	}
 }
 
 export function initHandlePong() {

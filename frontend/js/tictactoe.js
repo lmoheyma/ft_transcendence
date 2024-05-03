@@ -1,4 +1,4 @@
-import { handleEventsTTTRemote, handleEventsTTTRemoteP2, waitOtherPlayer } from "./tictactoe_remote.js";
+import { handleEventsTTTRemote, waitOtherPlayer } from "./tictactoe_remote.js";
 
 export var TicTacToe = {
 	canva: null,
@@ -26,6 +26,7 @@ export var GameMod = {
 }
 
 export var socket;
+export var eventListenersToDestroy = [];
 
 // remote
 
@@ -67,49 +68,67 @@ function initializeTTTData() {
 		TicTacToe.playerTurn = 2;
 }
 
+export function changeDisplayButtons()
+{
+	const buttons = document.querySelectorAll('.game-display');
+	buttons.forEach(button => {
+		button.hidden = !button.hidden;
+	});
+}
+
 
 function handleEventsTicTacToe() {
 	document.addEventListener('click', async (event) => {
 		if (!TicTacToe.is_playing)
 		{
-			switch (event.target.id) {
-				case "multi-btn":
-				{
-					TicTacToe.gameOver = false;
-					TicTacToe.gamemod = GameMod.MULTI;
-					TicTacToe.is_playing = true;
-					initializeTTTData();
-					drawTicTacToe();
-					handleEventsTTTMultiplayer();
-					break;
+
+			if (event.target.id == "multi-btn")
+			{
+				var gamemodsButtons = document.querySelectorAll('input[name="gamemod"]');
+				var thisGamemod;
+				for (let i = 0; i < gamemodsButtons.length; i++) {
+					if (gamemodsButtons[i].checked) {
+						thisGamemod = gamemodsButtons[i].value;
+						break;
+					}
 				}
-				case "remote-btn":
-				{
-					TicTacToe.gameOver = false;
-					TicTacToe.gamemod = GameMod.REMOTE;
-					const res = await fetch("/api/logout", {
+				switch (thisGamemod) {
+					case "multi":
+					{
+						TicTacToe.gameOver = false;
+						TicTacToe.gamemod = GameMod.MULTI;
+						TicTacToe.is_playing = true;
+						changeDisplayButtons();
+						initializeTTTData();
+						drawTicTacToe();
+						handleEventsTTTMultiplayer();
+						break;
+					}
+					case "remote":
+					{
+						TicTacToe.gameOver = false;
+						TicTacToe.gamemod = GameMod.REMOTE;
+						var req = await fetch('https://localhost:8000/api/find_match/', {
 						method: "GET",
 						headers: {
-						"Authorization" : "Token " + getCookie("Session"),
+						"Authorization" : "Token " + getCookie("Session")
 						}
-					});
-					const room = await res.json();
-					socket = new WebSocket(`wss://localhost:8000/ws/room/${room.name}/${getCookie("Session")}`);
-					initializeTTTData();
-					handleEventsTTTRemote();
-					break;
+						});
+						var room = await req.json();
+						console.log(room)
+						socket = new WebSocket(`wss://localhost:8000/ws/room/${room.name}/${getCookie("Session")}`);
+						initializeTTTData();
+						handleEventsTTTRemote();
+						break;
+					}
+					case "ai":
+					{
+						
+						break;
+					}
+					default:
+						break;
 				}
-				case "remote-btn2":
-				{
-					TicTacToe.gameOver = false;
-					TicTacToe.gamemod = GameMod.REMOTE;
-					socket = new WebSocket(`ws://localhost:8000/ws/room/pong/2`);
-					initializeTTTData();
-					handleEventsTTTRemoteP2();
-					break;
-				}
-				default:
-					break;
 			}
 		}
 	});
@@ -243,13 +262,32 @@ function drawX(x, y) {
     TicTacToe.ctx.stroke();
 }
 
+function getClickToPlay(event) {
+	const rect = TicTacToe.canvas.getBoundingClientRect();
+	const x = event.clientX - rect.left;
+	const y = event.clientY - rect.top;
+	playGame(getCaseFromAxe(x), getCaseFromAxe(y));
+}
+
+function leaveTTT(event) {
+	if (TicTacToe.is_playing)
+	{
+		if (event.target.id == "leave-match")
+		{
+			TicTacToe.is_playing = false;
+			TicTacToe.gameOver = true;
+			TicTacToe.wonPlayer = TicTacToe.playerTurn == 1 ? 2 : 1;
+			document.removeEventListener('click', getClickToPlay);
+			document.removeEventListener('click', leaveTTT);
+			changeDisplayButtons();
+			drawTicTacToe();
+		}
+	}
+}
+
 function handleEventsTTTMultiplayer() {
-	document.addEventListener('click', (event) => {
-		const rect = TicTacToe.canvas.getBoundingClientRect();
-		const x = event.clientX - rect.left;
-		const y = event.clientY - rect.top;
-		playGame(getCaseFromAxe(x), getCaseFromAxe(y));
-	});
+	document.addEventListener('click', getClickToPlay);
+	document.addEventListener('click', leaveTTT);
 }
 
 export function playGame(x, y) {
@@ -310,7 +348,13 @@ function wonTTT(wonPlayer) {
 	TicTacToe.is_playing = false;
 	TicTacToe.gameOver = true;
 	TicTacToe.wonPlayer = wonPlayer;
+	changeDisplayButtons();
 	drawTicTacToe();
+	if (TicTacToe.gamemod == GameMod.MULTI)
+	{
+		document.removeEventListener('click', getClickToPlay);
+		document.removeEventListener('click', leaveTTT);
+	}
 	if (TicTacToe.gamemod == GameMod.REMOTE)
 	{
 		var send_data = {
@@ -327,7 +371,13 @@ function noWonTTT() {
 	TicTacToe.is_playing = false;
 	TicTacToe.gameOver = true;
 	TicTacToe.wonPlayer = 0;
+	changeDisplayButtons();
 	drawTicTacToe();
+	if (TicTacToe.gamemod == GameMod.MULTI)
+	{
+		document.removeEventListener('click', getClickToPlay);
+		document.removeEventListener('click', leaveTTT);
+	}
 	if (TicTacToe.gamemod == GameMod.REMOTE)
 	{
 		var send_data = {

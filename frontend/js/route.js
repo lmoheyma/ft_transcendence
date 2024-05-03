@@ -101,6 +101,8 @@ const handleLocation = async () => {
     else if (path === "/") {
         await loadScriptsSequentially([
             "/js/friends.js"
+        ]);
+    }
     if (path === "/tictactoe") {
         await loadScriptsSequentially([
             "/js/tictactoe.js",
