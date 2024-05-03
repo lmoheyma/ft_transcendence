@@ -1,6 +1,6 @@
 from rest_framework import serializers
 import rest_framework.validators as validators
-from .models import Player, User, Game, FriendInvite
+from .models import Player, User, Game, FriendInvite, Tournament
 from django.contrib.auth.password_validation import validate_password
 
 class   GameSerializer(serializers.ModelSerializer):
@@ -160,3 +160,22 @@ class   FriendReqSerializer(serializers.Serializer):
 
     class Meta:
         fields = ['id', ]
+
+class TournamentSerializer(serializers.ModelSerializer):
+    participants    = serializers.SerializerMethodField()
+    games           = serializers.SerializerMethodField()
+
+    class Meta:
+        model   = Tournament
+        fields = [
+                'participants',
+                'games'
+                ]
+
+    def get_participants(self, obj):
+        participants    = obj.participants.all()
+        return ScoreboardSerializer([i.player for i in participants], many=True).data
+
+    def get_games(self, obj):
+        games           = obj.games.all()
+        return GameSerializer([i.game for i in games], many=True).data

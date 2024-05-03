@@ -55,7 +55,6 @@ for i in tokens :
                 'authorization' : 'Token ' + tokens[i],
             },
             verify=False)
-    data = json.loads(resp.text)
     print(f'[{resp.status_code}] {resp.text}')
 
 print('Starting tournament')
