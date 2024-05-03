@@ -29,15 +29,8 @@
     border: 4px solid black;
     padding: 12px;
     font-size: 15px;
-    background-color: #FFA776;
     border-radius: 15px;
     font-weight: 700;
-}
-
-.btn:hover {
-	box-shadow: 3px 3px 0px black;
-    border: 4px solid black;
-	background-color: #f57e3f;
 }
 
 #score-left, #score-right {
@@ -60,4 +53,48 @@
 
 #against-title {
 	margin-bottom: 15px;
+}
+
+/* .btn-check:hover {
+	background-color: #f57e3f !important;
+} */
+
+#leave-match {
+	box-shadow: 3px 3px 0px black;
+    border: 4px solid black;
+	background-color: rgb(192, 36, 36);
+}
+
+#leave-match:hover {
+	box-shadow: 3px 3px 0px black;
+    border: 4px solid black;
+	background-color: rgb(255, 0, 0);
+}
+
+#multi-btn {
+	background-color: #3fc21e;
+}
+
+#multi-btn:hover {
+	box-shadow: 3px 3px 0px black;
+    border: 4px solid black;
+	background-color: #1eff00;
+}
+
+.input-game:checked + label {
+	background-color: #eb5a0d !important;
+}
+
+.input-game:checked:hover + label {
+	background-color: #eb5a0d !important;
+}
+
+#input-label {
+	background-color: #FFA776;
+}
+
+#input-label:hover {
+	box-shadow: 3px 3px 0px black;
+    border: 4px solid black;
+	background-color: #eb5a0d;
 }

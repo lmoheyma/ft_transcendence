@@ -95,14 +95,18 @@ function handleEventsPong() {
 		{
 			if (event.target.id == "multi-btn")
 			{
+				console.log("here");
 				var gamemodsButtons = document.querySelectorAll('input[name="gamemod"]');
+				console.log(gamemodsButtons);
 				var thisGamemod;
 				for (let i = 0; i < gamemodsButtons.length; i++) {
 					if (gamemodsButtons[i].checked) {
 						thisGamemod = gamemodsButtons[i].value;
+						console.log(thisGamemod);
 						break;
 					}
 				}
+
 				switch (thisGamemod) {
 					case "multi":
 					{
@@ -119,15 +123,15 @@ function handleEventsPong() {
 					{
 						Game.gameOver = false;
 						Game.gamemod = GameMod.REMOTE;
-						// const res = await fetch("https://localhost:8000/api/find_match/", {
-						// 	method: "GET",
-						// 	headers: {
-						// 	"Authorization" : "Token " + getCookie("Session"),
-						// 	}
-						// });
-						// const room = await res.json();
-						// socket = new WebSocket(`wss://localhost:8000/ws/room/${room.name}/${getCookie("Session")}`);
-						socket = new WebSocket(`wss://localhost:8000/ws/room/sddfsfd/${getCookie("Session")}`);
+						const res = await fetch("https://localhost:8000/api/find_match/", {
+							method: "GET",
+							headers: {
+							"Authorization" : "Token " + getCookie("Session"),
+							}
+						});
+						const room = await res.json();
+						socket = new WebSocket(`wss://localhost:8000/ws/room/${room.name}/${getCookie("Session")}`);
+						// socket = new WebSocket(`wss://localhost:8000/ws/room/sddfsfd/${getCookie("Session")}`);
 						handleEventsPongRemote();
 						initializeGameData();
 						break;
@@ -476,6 +480,7 @@ export function gameWon(player) {
 		document.getElementById('score-right').style.color = '#29cf16';
 	else
 		document.getElementById('score-left').style.color = '#29cf16';
+	displayNavbar();
 	Game.is_playing = false;
 	changeDisplayButtons();
 	Game.gameOver = true;
