@@ -1,28 +1,38 @@
+<!DOCTYPE html>
+<html lang="en">
 <head>
-    <title>Pong !</title>
-	  <link href="/css/pong.css" rel="stylesheet">
-    <!-- <script type="module" src="/js/display_pong.js"></script>
-    <script type="module" src="/js/handle_pong.js"></script>
-    <script type="module" src="/js/pong_multi.js"></script>
-    <script type="module" src="/js/pong_remote.js"></script> -->
-     <!-- <script src="/js/handle_pong.js"></script> -->
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<title>Pong !</title>
+	<link href="/css/pong.css" rel="stylesheet">
 </head>
 <body>
-	<!-- <div class="container-fluid">
-    	<h1 class="title">Welcome To Transcendence !</h1>
-	</div> -->
-	<div class="d-flex justify-content-center align-items-center mt-5">
-		<canvas class="game-display" hidden></canvas>
-	</div>
-	<div class="d-flex flex-wrap justify-content-center align-items-center">
-		<div class="custom-div col game-display">
-			<button id="multi-btn" class="btn" onclick="hideNavbar()">Start</button>
+	<div class="container">
+		<h1 class="title">Pong Game</h1>
+		<div class="d-flex flex-wrap justify-content-between align-items-center">
+			<div class="custom-div col">
+				<p id="score-left"></p>
+			</div>
+			<div class="custom-div col">
+				<h1 id="against-title">Game against  'user'</h1>
+				<canvas class="pong-canvas"></canvas>
+			</div>
+			<div class="custom-div col">
+				<p id="score-right"></p>
+			</div>
 		</div>
-		<div class="custom-div col game-display" hidden>
-			<button id="leave-match" class="btn" onclick="displayNavbar()">Leave Match</button>
-		</div>
+		<div class="container">
+			<div class="row justify-content-center">
+				<div class="col custom-button game-display">
+					<button id="multi-btn" class="btn" onclick="hideNavbar()">OFFLINE</button>
+				</div>
+				<div class="col custom-button game-display" hidden>
+					<button id="leave-match" class="btn" onclick="displayNavbar()">LEAVE</button>
+				</div>
+			</div>
 		<input class="game-display" type="radio" name="gamemod" value="multi" id="multi" checked> <label for="multi" class="game-display">Multiplayer</label><br>
         <input class="game-display" type="radio" name="gamemod" value="remote" id="remote"> <label for="remote" class="game-display">Remote</label><br>
         <input class="game-display" type="radio" name="gamemod" value="ai" id="ai"> <label for="ai" class="game-display">AI</label><br>
 	</div>
 </body>
+</html>
