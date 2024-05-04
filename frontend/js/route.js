@@ -66,7 +66,7 @@ const routes = {
     // "/home": "html/home.html",
     "/dashboard": "html/dashboard.html",
     "/login": "html/login.html",
-    "/pong": "html/pong.html",
+    "/pong": "html/pong-tab.html",
     "/register": "html/register.html",
     "/settings": "html/settings.html",
     "/tournament": "html/tournament.html",
@@ -84,10 +84,6 @@ const handleLocation = async () => {
     document.getElementById("main-page").innerHTML = html;
     if (path === "/pong") {
         await loadScriptsSequentially([
-            "/js/display_pong.js",
-            "/js/handle_pong.js",
-            "/js/pong_multi.js",
-            "/js/pong_remote.js"
         ]);
     }
     else if (path === "/settings") {

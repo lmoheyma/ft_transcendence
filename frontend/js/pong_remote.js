@@ -1,14 +1,14 @@
 
-import { socket, Game, Player1, Player2, Ball, startGame, Directions, gameWon, changeDisplayButtons } from './handle_pong.js';
-import { drawAll } from './display_pong.js';
+// import { socket, Game, Player1, Player2, Ball, startGame, Directions, gameWon, changeDisplayButtons } from './handle_pong.js';
+// import { drawAll } from './display_pong.js';
 
 var interval;
-export var waitOtherPlayer = false;
-export var type = "";
-export var adversaryType = "";
-export var connectedPlayers = 0;
+var waitOtherPlayer = false;
+var type = "";
+var adversaryType = "";
+var connectedPlayers = 0;
 
-export function moveRemoteListener(event) {
+function moveRemoteListener(event) {
 	if (type && type === "host")
 	{
 		if (event.key === "w" && Game.is_playing)
@@ -25,7 +25,7 @@ export function moveRemoteListener(event) {
 	}
 }
 
-export function stopMoveRemoteListener(event) {
+function stopMoveRemoteListener(event) {
 	if (type && type === "host")
 	{
 		if (event.key === "w" && Player1.dir === Directions.UP)
@@ -42,7 +42,7 @@ export function stopMoveRemoteListener(event) {
 	}
 }
 
-export function updatePongView() {
+function updatePongView() {
 	if (socket.readyState === WebSocket.OPEN) {
 		if (Game.is_playing)
 		{
@@ -78,7 +78,7 @@ export function updatePongView() {
 	}
 }
 
-export function leavePongRemote(event) {
+function leavePongRemote(event) {
 	if (Game.is_playing || waitOtherPlayer)
 	{
 		if (event.target.id == "leave-match")
@@ -118,7 +118,7 @@ export function leavePongRemote(event) {
 	}
 }
 
-export function handleEventsPongRemote() {
+function handleEventsPongRemote() {
 
 	socket.onopen = function(e) {
 		console.log("Connected");
