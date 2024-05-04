@@ -3,26 +3,22 @@
 <head>
 	<meta charset="UTF-8">
 	<meta name="viewport" content="width=device-width, initial-scale=1.0">
-	<link href="/css/login.css" rel="stylesheet">
+	<link href="/css/tournament.css" rel="stylesheet">
 	<title>Tournament</title>
 </head>
 <body>
-	<div id=join class="container py-5">
+	<div id=join class="container">
 		<div class="row d-flex justify-content-center align-items-center h-100">
-		<div id="form_area">
-			<h2 class="fw-bold mb-2 text-uppercase" id="title">Join / Create</h2>
-			<div class="mb-3">
-				<input type="code" class="form-control" id="code" placeholder="Enter tournament code">
-				<div ><p id="status"> &nbsp </p></div>
-				<button type="submit" id="submit-btn" class="btn" onclick="join_tournament()">Join!</button>
-				<button type="submit" id="submit-btn" class="btn" onclick="create_tournament()">Create!</button>
+			<div class="bubble">
+				<h2 class="fw-bold mb-2" id="title">Join or create a tournament</h2>
+				<div class="d-flex align-items-center">
+					<input type="code" class="form-control input-text me-2" id="code" placeholder="Enter tournament code">
+					<button type="submit" id="join-btn" class="button btn" onclick="join_tournament(event)">Join!</button>
+					<button type="submit" id="create-btn" class="button btn" onclick="create_tournament(event)">Create!</button>
+				</div>
+				<div ><p class="error" id="status"> </p></div>
 			</div>
 		</div>
-		</div>
 	</div>
-<!-- 
-	<div id="tournament">
-
-	</div> -->
 </body>
 </html>

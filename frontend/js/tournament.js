@@ -1,4 +1,4 @@
-async function join_tournament() {
+async function join_tournament(event) {
     const code = document.getElementById('code').value;
 
     try {
@@ -12,7 +12,9 @@ async function join_tournament() {
         const resultat	= await reponse.json();
         if (reponse.status == 200)
         {
-            console.log(resultat);
+            document.getElementById("join-btn").href="/tournament?code=" + resultat["code"];
+            route(event);
+            console.log(resultat)
         }
         else if (reponse.status == 400) 
         {
@@ -27,7 +29,7 @@ async function join_tournament() {
     }
 }
 
-async function create_tournament() {
+async function create_tournament(event) {
     const code = document.getElementById('code').value;
 
     try {
@@ -40,7 +42,9 @@ async function create_tournament() {
         });
         const resultat	= await reponse.json();
         if (reponse.status == 200) {
-            console.log(resultat);
+            document.getElementById("create-btn").href="/tournament?code=" + resultat["code"];
+            route(event);
+            console.log(resultat)
         }
         else if (reponse.status == 400) {
             console.log(resultat);
