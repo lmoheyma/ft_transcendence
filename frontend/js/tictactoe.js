@@ -37,7 +37,7 @@ function initializeTicTacToe() {
 	var totalSize;
 	if (window.innerHeight < window.innerWidth)
 	{
-		totalSize = window.innerHeight - 300;
+		totalSize = window.innerHeight - 400;
 		TicTacToe.canvas.height = totalSize;
 		TicTacToe.canvas.width = totalSize;
 	}
@@ -109,9 +109,9 @@ function handleEventsTicTacToe() {
 						TicTacToe.gameOver = false;
 						TicTacToe.gamemod = GameMod.REMOTE;
 						var req = await fetch('https://localhost:8000/api/find_match/', {
-						method: "GET",
-						headers: {
-						"Authorization" : "Token " + getCookie("Session")
+							method: "GET",
+							headers: {
+							"Authorization" : "Token " + getCookie("Session")
 						}
 						});
 						var room = await req.json();
@@ -136,24 +136,24 @@ function handleEventsTicTacToe() {
 		var totalSize;
 		if (window.innerHeight < window.innerWidth)
 		{
-			totalSize = window.innerHeight - 300;
+			totalSize = window.innerHeight - 400;
 			TicTacToe.canvas.height = totalSize;
 			TicTacToe.canvas.width = totalSize;
 		}
 		else
 		{
-			totalSize = window.innerWidth - 300;
+			totalSize = window.innerWidth - 400;
 			TicTacToe.canvas.height = totalSize;
 			TicTacToe.canvas.width = totalSize;
 		}
 
-		if (TicTacToe.canvas.width > 900)
+		if (TicTacToe.canvas.width > 600)
 		{
-			TicTacToe.canvas.height = 900;
-			TicTacToe.canvas.width = 900;
+			TicTacToe.canvas.height = 600;
+			TicTacToe.canvas.width = 600;
 		}
 
-		if (window.innerHeight < 450)
+		if (window.innerHeight < 300)
 		{
 			TicTacToe.canvas.height = 150;
 			TicTacToe.canvas.width = 150;
@@ -173,19 +173,20 @@ export function drawTicTacToe() {
 	updateDisplayTTT();
 	TicTacToe.ctx.clearRect(0, 0, TicTacToe.canvas.width, TicTacToe.canvas.height);
 
-	TicTacToe.ctx.fillStyle = "#7b4397";
+	// TicTacToe.ctx.fillStyle = "#7b4397";
+	TicTacToe.ctx.fillStyle = "#FFFAF0";
 	TicTacToe.ctx.fillRect(0, 0, TicTacToe.canvas.width, TicTacToe.canvas.height);
 	
-	TicTacToe.ctx.fillStyle = "#601496";
+	TicTacToe.ctx.fillStyle = "#272727";
 
-	TicTacToe.ctx.fillRect(TicTacToe.Display.cellSize, 0, TicTacToe.Display.borderSize, TicTacToe.canvas.height);
-	TicTacToe.ctx.fillRect(TicTacToe.Display.cellSize * 2 + TicTacToe.Display.borderSize, 0, TicTacToe.Display.borderSize, TicTacToe.canvas.height);
-	TicTacToe.ctx.fillRect(0, TicTacToe.Display.cellSize, TicTacToe.canvas.height, TicTacToe.Display.borderSize);
-	TicTacToe.ctx.fillRect(0, TicTacToe.Display.cellSize * 2 + TicTacToe.Display.borderSize, TicTacToe.canvas.height, TicTacToe.Display.borderSize);
+	TicTacToe.ctx.fillRect(TicTacToe.Display.cellSize, 40, TicTacToe.Display.borderSize, TicTacToe.canvas.height - 80);
+	TicTacToe.ctx.fillRect(TicTacToe.Display.cellSize * 2 + TicTacToe.Display.borderSize, 40, TicTacToe.Display.borderSize, TicTacToe.canvas.height - 80);
+	TicTacToe.ctx.fillRect(40, TicTacToe.Display.cellSize, TicTacToe.canvas.width - 80, TicTacToe.Display.borderSize);
+	TicTacToe.ctx.fillRect(40, TicTacToe.Display.cellSize * 2 + TicTacToe.Display.borderSize, TicTacToe.canvas.width - 80, TicTacToe.Display.borderSize);
 
 	var x;
 	var y;
-	TicTacToe.ctx.strokeStyle = "#601496";
+	// TicTacToe.ctx.strokeStyle = "#601496";
 	TicTacToe.ctx.lineWidth = TicTacToe.Display.cellSize / 10;
 	
 	for (let i = 0; i < 3; i++)
@@ -194,71 +195,88 @@ export function drawTicTacToe() {
 		for (let j = 0; j < 3; j++)
 		{
 			x = (TicTacToe.Display.cellSize * j) + (TicTacToe.Display.borderSize * j) + (TicTacToe.Display.cellSize / 2);
-			if (TicTacToe.cells[i][j] == 1)
+			if (TicTacToe.cells[i][j] == 1) {
+				TicTacToe.ctx.strokeStyle = "#6CB4E7";
 				drawO(x, y);
-			else if (TicTacToe.cells[i][j] == 2)
+			}
+			else if (TicTacToe.cells[i][j] == 2) {
+				TicTacToe.ctx.strokeStyle = "#E23434";
 				drawX(x, y);
+			}
 		}
 	}
 
-	TicTacToe.ctx.fillStyle = "#000000";
+	TicTacToe.ctx.fillStyle = "#272727";
+	TicTacToe.ctx.strokeStyle = "#FFFAF0";
 	TicTacToe.ctx.textAlign = 'center';
-	TicTacToe.ctx.font = `${TicTacToe.canvas.height / 15}px Verdana`;
-	if (!TicTacToe.is_playing && !waitOtherPlayer && !TicTacToe.gameOver)
+	TicTacToe.ctx.lineWidth = 5;
+	TicTacToe.ctx.font = `600 ${TicTacToe.canvas.height / 12}px Poppins, sans-serif`;
+	
+	if (!TicTacToe.is_playing && waitOtherPlayer && !TicTacToe.gameOver)
 	{
-		TicTacToe.ctx.fillText(
-			"Press the button to start",
+		TicTacToe.ctx.font = `600 ${TicTacToe.canvas.height / 13}px Poppins, sans-serif`;
+		TicTacToe.ctx.strokeText(
+			"Waiting matchmaking..",
 			TicTacToe.canvas.width / 2,
-			TicTacToe.canvas.height / 2
+			TicTacToe.canvas.height / 1.25
 		);
-	}
-	else if (!TicTacToe.is_playing && waitOtherPlayer && !TicTacToe.gameOver)
-	{
 		TicTacToe.ctx.fillText(
-			"Waiting creation of matchmaking",
+			"Waiting matchmaking..",
 			TicTacToe.canvas.width / 2,
-			TicTacToe.canvas.height / 2
+			TicTacToe.canvas.height / 1.25
 		);
 	}
 	else if (!TicTacToe.is_playing && TicTacToe.gameOver && TicTacToe.wonPlayer > 0)
 	{
-		TicTacToe.ctx.fillText(
-			`Player ${TicTacToe.wonPlayer} has won the game`,
+		TicTacToe.ctx.strokeText(
+			`Player ${TicTacToe.wonPlayer} has won!`,
 			TicTacToe.canvas.width / 2,
-			TicTacToe.canvas.height / 2
+			TicTacToe.canvas.height / 1.25
 		);
+		TicTacToe.ctx.fillText(
+			`Player ${TicTacToe.wonPlayer} has won!`,
+			TicTacToe.canvas.width / 2,
+			TicTacToe.canvas.height / 1.25
+		);
+		displayNavbar();
 	}
 	else if (!TicTacToe.is_playing && TicTacToe.gameOver && TicTacToe.wonPlayer == 0)
 	{
+		TicTacToe.ctx.strokeText(
+			`Nobody won the game`,
+			TicTacToe.canvas.width / 2,
+			TicTacToe.canvas.height / 1.25
+		);
 		TicTacToe.ctx.fillText(
 			`Nobody won the game`,
 			TicTacToe.canvas.width / 2,
-			TicTacToe.canvas.height / 2
+			TicTacToe.canvas.height / 1.25
 		);
+		displayNavbar();
 	}
-	else
-	{
-		TicTacToe.ctx.fillText(
-			`Turn of player ${TicTacToe.playerTurn}`,
-			TicTacToe.canvas.width / 2,
-			TicTacToe.canvas.height / 18
-		);
-	}
+	// else
+	// {
+	// 	TicTacToe.ctx.fillText(
+	// 		`Turn of player ${TicTacToe.playerTurn}`,
+	// 		TicTacToe.canvas.width / 2,
+	// 		TicTacToe.canvas.height / 18
+	// 	);
+	// }
 }
 
 function drawO(x, y) {
 	TicTacToe.ctx.beginPath();
-    TicTacToe.ctx.arc(x, y, TicTacToe.Display.cellSize / 2.5, 0, 2 * Math.PI);
+    TicTacToe.ctx.arc(x, y, TicTacToe.Display.cellSize / 3, 0, 2 * Math.PI);
     TicTacToe.ctx.stroke();
 }
 
 
 function drawX(x, y) {
     TicTacToe.ctx.beginPath();
-    TicTacToe.ctx.moveTo(x - (TicTacToe.Display.cellSize / 2.5), y - (TicTacToe.Display.cellSize / 2.5));
-    TicTacToe.ctx.lineTo(x + (TicTacToe.Display.cellSize / 2.5), y + (TicTacToe.Display.cellSize / 2.5));
-    TicTacToe.ctx.moveTo(x - (TicTacToe.Display.cellSize / 2.5), y + (TicTacToe.Display.cellSize / 2.5));
-    TicTacToe.ctx.lineTo(x + (TicTacToe.Display.cellSize / 2.5), y - (TicTacToe.Display.cellSize / 2.5));
+    TicTacToe.ctx.moveTo(x - (TicTacToe.Display.cellSize / 3), y - (TicTacToe.Display.cellSize / 3));
+    TicTacToe.ctx.lineTo(x + (TicTacToe.Display.cellSize / 3), y + (TicTacToe.Display.cellSize / 3));
+    TicTacToe.ctx.moveTo(x - (TicTacToe.Display.cellSize / 3), y + (TicTacToe.Display.cellSize / 3));
+    TicTacToe.ctx.lineTo(x + (TicTacToe.Display.cellSize / 3), y - (TicTacToe.Display.cellSize / 3));
     TicTacToe.ctx.stroke();
 }
 
