@@ -82,12 +82,12 @@ export function drawAll() {
 		Game.ctx.fillStyle = "#FFFFFF";
 		Game.ctx.strokeStyle = "#000000";
 		Game.ctx.strokeText(
-			"Waiting creation of matchmaking",
+			"Waiting matchmaking..",
 			(Game.canvas.width / 2),
 			Game.canvas.height / 1.25
 		);
 		Game.ctx.fillText(
-			"Waiting creation of matchmaking",
+			"Waiting matchmaking..",
 			(Game.canvas.width / 2),
 			Game.canvas.height / 1.25
 		);
