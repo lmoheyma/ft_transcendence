@@ -9,14 +9,28 @@
 <body>
 	<div id=join class="container">
 		<div class="row d-flex justify-content-center align-items-center h-100">
-			<div class="bubble">
-				<h2 class="fw-bold mb-2" id="title">Join or create a tournament</h2>
-				<div class="d-flex align-items-center">
-					<input type="code" class="form-control input-text me-2" id="code" placeholder="Enter tournament code">
-					<button type="submit" id="join-btn" class="button btn" onclick="join_tournament(event)">Join!</button>
-					<button type="submit" id="create-btn" class="button btn" onclick="create_tournament(event)">Create!</button>
+			<div class="bubble mb-3">
+				<h2 class="fw-bold mb-1" id="title">Join or create a tournament</h2>
+				<div class="d-flex align-items-center" >
+					<input type="code" class="vignette form-control input-text me-2" id="code" placeholder="Enter tournament code">
+					<button type="submit" id="join-btn" class="vignette button btn me-2" onclick="join_tournament(event)">Join!</button>
+					<button type="submit" id="create-btn" class="vignette button btn me-2" onclick="create_tournament(event)">Create!</button>
 				</div>
 				<div ><p class="error" id="status"> </p></div>
+			</div>
+
+			<div class="bubble">
+				<h2 class="fw-bold mb-1" id="title">On-going tournaments</h2>
+				<table class="table">
+					<tr>
+						<th class=w-100>
+							<div class="d-flex align-items-center w-100" >
+								<p class="text-center m-1 w-100 p-1"> X Players </p>
+								<button type="submit" id="join-btn" class="vignette button btn me-2" onclick="join_tournament(event)">Join!</button>
+							</div>
+						</th>
+					</tr>
+				</table>
 			</div>
 		</div>
 	</div>

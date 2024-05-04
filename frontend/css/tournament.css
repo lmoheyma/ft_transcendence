@@ -8,37 +8,43 @@
 
 .error
 {
-    font-size: medium;
-    color: red;
+    font-size: large;
+    color: rgb(134, 25, 25);
     margin-bottom: 0;
 }
 
 .bubble 
 {
     padding : 1vmax;
-    font-size: 4vmax;
     border-radius: 1rem;
     box-shadow: 0.8rem 0.8rem 0px black ;
     background-color: rgb(253, 253, 249);
+}
+
+.vignette
+{
+    border: 0.2rem solid #000;
+    box-shadow: 2px 2px 0px 1px #000;
+}
+
+.vignette:hover, .vignette:focus
+{
+    border : 0.2rem solid #000;
 }
 
 .button
 {
     background-color: rgb(41, 207, 22);
     font-weight: bold;
-    border: 0.2rem solid #000;
 }
 
 .button:hover
 {
     background-color: rgb(26, 255, 0);
-    border: 0.2rem solid #000;
 }
 
 .input-text
 {
 	outline: none;
-    border: 2px solid #000;
-    box-shadow: 2px 2px 0px 1px #000;
 	border-radius: 0.2rem;
 }
