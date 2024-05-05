@@ -105,7 +105,8 @@ class   TournamentParticipant(models.Model):
 class   TournamentGame(models.Model):
     tournament      = models.ForeignKey(Tournament,
                                         null=False,
-                                        on_delete=models.CASCADE)
+                                        on_delete=models.CASCADE,
+                                        related_name='games')
     game            = models.ForeignKey(Game,
                                         null=False,
                                         on_delete=models.CASCADE)

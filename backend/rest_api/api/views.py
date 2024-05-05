@@ -15,7 +15,8 @@ from .serializers import ScoreboardSerializer, \
                             PlayerProfileSerializer, \
                             FriendInviteSerializer, \
                             FriendReqSerializer, \
-                            FriendSerializer
+                            FriendSerializer, \
+                            TournamentSerializer
 from rest_framework.permissions import IsAuthenticated
 from rest_framework.parsers import FileUploadParser
 from django.core.files.uploadedfile import InMemoryUploadedFile
@@ -245,6 +246,7 @@ class   CreateTournamentView(views.APIView):
     def get(self, request, *args, **kwargs):
         tournament = Tournament()
         creator_participant = TournamentParticipant(player=request.user.player, tournament=tournament)
+        tournament.player_no += 1
         tournament.save()
         creator_participant.save()
         return Response({
@@ -266,6 +268,9 @@ class   JoinTournamentView(views.APIView):
         if tournament.is_started == True :
             return Response({'error' : 'Can\'t join because tournament has already started'},
                             status=status.HTTP_400_BAD_REQUEST)
+        if (self.request.user.player in [i.player for i in tournament.participants.all()]):
+            return Response({'error': 'Already joined tournament'},
+                            status=status.HTTP_400_BAD_REQUEST)
         particant = TournamentParticipant(tournament=tournament,
                                             player=self.request.user.player)
         tournament.player_no += 1
@@ -281,10 +286,10 @@ class   StartTournamentView(views.APIView):
     def autogen_matches(self):
         N = self.tournament.player_no
         bracket_no =  N // 2 
-        if N % 2 == 1 and bracket_no % 2 == 0 :
+        if N % 2 == 1 :
             bracket_no -= 1
         round_no = 0
-        while N > 1 :
+        while bracket_no > 0 :
             for i in range(bracket_no):
                 new_game = Game()
                 new_game.save()
@@ -322,7 +327,21 @@ class   StartTournamentView(views.APIView):
         self.assign_first_matches()
         return Response({'success' : 'Tournament has been started'},
                             status=status.HTTP_200_OK)
-    
+
+class   TournamentInfo(views.APIView):
+    permission_classes  = [IsAuthenticated]
+    authentication_classes = [TokenAuthentication]
+    http_method_names   = ['get',]
+
+    def get(self, request,*args, **kwargs):
+        self.tournament = fetch_tournament(request)
+        if self.tournament == None :
+            return Response({'error' : 'Invalid tournament code'},
+                            status=status.HTTP_400_BAD_REQUEST)
+        serializer = TournamentSerializer(self.tournament)
+        return Response(serializer.data,
+                        status=status.HTTP_200_OK)
+
 class   MatchmakingView(views.APIView):
     permission_classes  = [IsAuthenticated]
     authentication_classes = [TokenAuthentication]

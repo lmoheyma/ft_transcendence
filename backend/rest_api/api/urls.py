@@ -15,6 +15,7 @@ from .views import ScoreboardViewSet, \
                         CreateTournamentView, \
                         JoinTournamentView, \
                         StartTournamentView, \
+                        TournamentInfo, \
                         MatchmakingView
 
 router = routers.DefaultRouter()
@@ -29,6 +30,7 @@ urlpatterns = [
     path('tournament/create', CreateTournamentView.as_view()),
     path('tournament/join', JoinTournamentView.as_view()),
     path('tournament/start', StartTournamentView.as_view()),
+    path('tournament/info', TournamentInfo.as_view()),
     # Account management
     path('account/update', AccountUpdateView.as_view()),
     path('account/avatar_upload', AccountAvatarUpload.as_view()),

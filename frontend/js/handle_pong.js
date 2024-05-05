@@ -1,11 +1,11 @@
-import { drawAll } from "./display_pong.js";
-import { handleEventsPongRemote, type } from "./pong_remote.js";
-import { handleEventsPongMultiplayer, moveMultiListener, stopMoveMultiListener, leavePongMulti } from "./pong_multi.js";
+// import { drawAll } from "./display_pong.js";
+// import { handleEventsPongRemote, type } from "./pong_remote.js";
+// import { handleEventsPongMultiplayer, moveMultiListener, stopMoveMultiListener, leavePongMulti } from "./pong_multi.js";
 
 const cgameY = 100;
 const cgameX = 300;
 
-export var Directions = {
+var Directions = {
     NOTHING: 0,
     UP: 1,
     DOWN: 2,
@@ -19,7 +19,7 @@ var GameMod = {
     AI: 2,
 }
 
-export var Game = {
+var Game = {
 	canvas: null,
 	ctx: null,
 	is_playing: false,
@@ -33,19 +33,19 @@ export var Game = {
 	gamemod: 0,
 }
 
-export var Player1 = {
+var Player1 = {
 	dir: 0,
 	pos_Y: 50,
 	score: 0,
 }
 
-export var Player2 = {
+var Player2 = {
 	dir: 0,
 	pos_Y: 50,
 	score: 0,
 }
 
-export var Ball = {
+var Ball = {
 	pos_X: 150,
 	pos_Y: 50,
 	size: Game.border_space,
@@ -53,7 +53,7 @@ export var Ball = {
 	angle: 0,
 }
 
-export var Display = {
+var Display = {
 	border_space: 0,
 	border_size: 0,
 	player1_pos_Y: 0,
@@ -65,10 +65,10 @@ export var Display = {
 	ball_size: 0,
 }
 
-export var socket;
+var socket;
 
 
-export function changeDisplayButtons()
+function changeDisplayButtons()
 {
 	const buttons = document.querySelectorAll('.game-display');
 	buttons.forEach(button => {
@@ -95,18 +95,17 @@ function handleEventsPong() {
 		{
 			if (event.target.id == "multi-btn")
 			{
-				console.log("here");
-				var gamemodsButtons = document.querySelectorAll('input[name="gamemod"]');
-				console.log(gamemodsButtons);
-				var thisGamemod;
-				for (let i = 0; i < gamemodsButtons.length; i++) {
-					if (gamemodsButtons[i].checked) {
-						thisGamemod = gamemodsButtons[i].value;
-						console.log(thisGamemod);
-						break;
-					}
-				}
-
+				const choices = ['remote', 'multi', 'ai']
+				const queryString = window.location.search;
+				const mode = new URLSearchParams(queryString).get('mode');
+				// var gamemodsButtons = document.querySelectorAll('input[name="gamemod"]');
+				var thisGamemod = mode != null && choices.includes(mode) ? mode : 'multi';
+				// for (let i = 0; i < gamemodsButtons.length; i++) {
+				// 	if (gamemodsButtons[i].checked) {
+				// 		thisGamemod = gamemodsButtons[i].value;
+				// 		break;
+				// 	}
+				// }
 				switch (thisGamemod) {
 					case "multi":
 					{
@@ -178,7 +177,7 @@ function handleEventsPong() {
 
 }
 
-export function startGame(calculate) {
+function startGame(calculate) {
 	if (calculate)
 		calculatePoses();
 	if (!Game.gameOver)
@@ -224,7 +223,7 @@ function initialize() {
 	drawAll()
 }
 
-export function initializeGameData() {
+function initializeGameData() {
 
 	Game.pos_X = 150;
 	Game.pos_Y = 50;
@@ -450,7 +449,7 @@ function pointWon(player) {
 	Ball.speed = 1;
 }
 
-export function gameWon(player) {
+function gameWon(player) {
 	Player1.pos_Y = 50;
 	Player2.pos_Y = 50;
 	Player1.dir = Directions.NOTHING;
@@ -492,7 +491,7 @@ export function gameWon(player) {
 	}
 }
 
-export function initHandlePong() {
+function initHandlePong() {
 	initialize();
 	handleEventsPong();
 }

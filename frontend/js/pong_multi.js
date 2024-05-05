@@ -1,7 +1,7 @@
-import { Player1, Player2, Game, Ball, Directions, changeDisplayButtons } from './handle_pong.js';
-import { drawAll } from './display_pong.js';
+// import { Player1, Player2, Game, Ball, Directions, changeDisplayButtons } from './handle_pong.js';
+// import { drawAll } from './display_pong.js';
 
-export function moveMultiListener(event) {
+function moveMultiListener(event) {
 	if (event.key === "w" && Game.is_playing)
 		Player1.dir = Directions.UP;
 	if (event.key === "ArrowUp" && Game.is_playing)
@@ -12,7 +12,7 @@ export function moveMultiListener(event) {
 		Player2.dir = Directions.DOWN;
 }
 
-export function stopMoveMultiListener(event) {
+function stopMoveMultiListener(event) {
 	if (event.key === "w" && Player1.dir === Directions.UP)
 		Player1.dir = Directions.NOTHING;
 	if (event.key === "s" && Player1.dir === Directions.DOWN)
@@ -23,7 +23,7 @@ export function stopMoveMultiListener(event) {
 		Player2.dir = Directions.NOTHING;
 }
 
-export function leavePongMulti(event) {
+function leavePongMulti(event) {
 	if (Game.is_playing)
 	{
 		if (event.target.id == "leave-match")
@@ -42,7 +42,7 @@ export function leavePongMulti(event) {
 	}
 }
 
-export function handleEventsPongMultiplayer() {
+function handleEventsPongMultiplayer() {
 	document.addEventListener('keydown', moveMultiListener);
 	document.addEventListener('keyup', stopMoveMultiListener);
 	document.addEventListener('click', leavePongMulti);

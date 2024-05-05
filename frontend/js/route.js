@@ -19,6 +19,7 @@ const loadAndMarkScript = async (scriptPath) => {
     await import(scriptPath);
     switch (scriptPath) {
         case "/js/display_pong.js":
+            document.getElementById('pong').src = 'html/pong.html' + window.location.search;
             break;
         case "/js/handle_pong.js":
             if (window.location.pathname === '/pong') {
@@ -48,6 +49,8 @@ const loadAndMarkScript = async (scriptPath) => {
             break;
         case "/js/tictactoe_remote.js":
             break;
+        case "/js/tournament.js":
+            break;
         default:
             break;
     }
@@ -63,7 +66,7 @@ const routes = {
     "/": "html/dashboard.html",
     "/dashboard": "html/dashboard.html",
     "/login": "html/login.html",
-    "/pong": "html/pong.html",
+    "/pong": "html/pong-tab.html",
     "/register": "html/register.html",
     "/settings": "html/settings.html",
     "/tournament": "html/tournament.html",
@@ -81,10 +84,7 @@ const handleLocation = async () => {
     document.getElementById("main-page").innerHTML = html;
     if (path === "/pong") {
         await loadScriptsSequentially([
-            "/js/display_pong.js",
-            "/js/handle_pong.js",
-            "/js/pong_multi.js",
-            "/js/pong_remote.js"
+            "/js/display_pong.js"
         ]);
     }
     else if (path === "/settings") {
@@ -106,6 +106,12 @@ const handleLocation = async () => {
         await loadScriptsSequentially([
             "/js/tictactoe.js",
             "/js/tictactoe_remote.js"
+        ]);
+    }
+    else if (path === "/tournament")
+    {
+        await loadScriptsSequentially([
+            "/js/tournament.js"
         ]);
     }
 };

@@ -1,5 +1,5 @@
-import { Game, Display, Player1, Player2, Ball } from './handle_pong.js';
-import { waitOtherPlayer } from './pong_remote.js'
+// import { Game, Display, Player1, Player2, Ball } from './handle_pong.js';
+// import { waitOtherPlayer } from './pong_remote.js'
 
 function updateDisplay() {
 	Display.border_space = Game.border_space * Game.canvas.height / Game.gameY;
@@ -15,11 +15,9 @@ function updateDisplay() {
 	Display.ball_size = Ball.size * Game.canvas.height / Game.gameY;
 }
 
-export function drawAll() {
+function drawAll() {
 	updateDisplay();
 	Game.ctx.clearRect(0, 0, Game.canvas.width, Game.canvas.height);
-	document.getElementById('score-left').style.color = '#FFFAF0';
-	document.getElementById('score-right').style.color = '#FFFAF0';
 
 	var canvasWidth = Game.canvas.width;
 	var canvasHeight = Game.canvas.height;
