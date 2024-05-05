@@ -73,6 +73,7 @@ class   Game(models.Model):
     score_player2   = models.PositiveIntegerField(default=0)
     created_on      = models.DateTimeField(auto_now_add=True)
     is_finished     = models.BooleanField(default=False, null=False)
+    is_tournament   = models.BooleanField(default=False, null=False)
 
 class   Tournament(models.Model):
     code        = models.CharField(max_length=14,
@@ -110,5 +111,13 @@ class   TournamentGame(models.Model):
     game            = models.ForeignKey(Game,
                                         null=False,
                                         on_delete=models.CASCADE)
+    participant1    = models.ForeignKey(Player,
+                                        null=False,
+                                        on_delete=models.CASCADE,
+                                        related_name='p1')
+    participant2    = models.ForeignKey(Player,
+                                        null=False,
+                                        on_delete=models.CASCADE,
+                                        related_name='p2')
     round_no        = models.PositiveIntegerField()
 
