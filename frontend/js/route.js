@@ -19,6 +19,7 @@ const loadAndMarkScript = async (scriptPath) => {
     await import(scriptPath);
     switch (scriptPath) {
         case "/js/display_pong.js":
+            document.getElementById('pong').src = 'html/pong.html' + window.location.search;
             break;
         case "/js/handle_pong.js":
             if (window.location.pathname === '/pong') {
@@ -84,6 +85,7 @@ const handleLocation = async () => {
     document.getElementById("main-page").innerHTML = html;
     if (path === "/pong") {
         await loadScriptsSequentially([
+            "/js/display_pong.js"
         ]);
     }
     else if (path === "/settings") {
