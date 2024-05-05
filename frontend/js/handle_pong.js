@@ -122,15 +122,15 @@ function handleEventsPong() {
 					{
 						Game.gameOver = false;
 						Game.gamemod = GameMod.REMOTE;
-						// const res = await fetch("https://localhost:8000/api/find_match/", {
-						// 	method: "GET",
-						// 	headers: {
-						// 	"Authorization" : "Token " + getCookie("Session"),
-						// 	}
-						// });
-						// const room = await res.json();
-						// socket = new WebSocket(`wss://localhost:8000/ws/room/${room.name}/${getCookie("Session")}`);
-						socket = new WebSocket(`wss://localhost:8000/ws/room/sddfsfd/${getCookie("Session")}`);
+						const res = await fetch("https://localhost:8000/api/find_match/", {
+							method: "GET",
+							headers: {
+							"Authorization" : "Token " + getCookie("Session"),
+							}
+						});
+						const room = await res.json();
+						socket = new WebSocket(`wss://localhost:8000/ws/room/${room.name}/${getCookie("Session")}`);
+						// socket = new WebSocket(`wss://localhost:8000/ws/room/sddfsfd/${getCookie("Session")}`);
 						handleEventsPongRemote();
 						initializeGameData();
 						break;
@@ -479,6 +479,7 @@ function gameWon(player) {
 		document.getElementById('score-right').style.color = '#29cf16';
 	else
 		document.getElementById('score-left').style.color = '#29cf16';
+	displayNavbar();
 	Game.is_playing = false;
 	changeDisplayButtons();
 	Game.gameOver = true;

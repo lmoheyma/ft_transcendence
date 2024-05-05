@@ -64,7 +64,6 @@ const loadScriptsSequentially = async (scriptPaths) => {
 
 const routes = {
     "/": "html/dashboard.html",
-    // "/home": "html/home.html",
     "/dashboard": "html/dashboard.html",
     "/login": "html/login.html",
     "/pong": "html/pong-tab.html",
