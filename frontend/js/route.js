@@ -51,6 +51,8 @@ const loadAndMarkScript = async (scriptPath) => {
             break;
         case "/js/tournament.js":
             break;
+        case "/js/chart.js":
+            displayPieChart();
         default:
             break;
     }
@@ -94,7 +96,8 @@ const handleLocation = async () => {
     }
     else if (path === "/dashboard") {
         await loadScriptsSequentially([
-            "/js/friends.js"
+            "/js/friends.js",
+            "/js/chart.js"
         ]);
     }
     else if (path === "/") {

@@ -9,9 +9,9 @@
 	<body>
 		<div class="container">
 			<h1 class="title">Dashboard</h1>
-			<div class="d-flex flex-wrap justify-content-between align-items-center">
+			<div class="row">
 				<div class="custom-div col">
-					<h2 class="sub-title">Stats</h2>
+					<h2 class="sub-title">Player Stats</h2>
 					<div class="info">
 						<p class="info-title">Games Played</p>
 						<p class="info-text" id="gamesPlayed"></p>
@@ -26,8 +26,8 @@
 					<table class="table table-borderless w-100">
 						<thead class="">
 							<tr>
-							  <th scope="col" class="tab-header">Opponent</th>
-							  <th scope="col" class="tab-header">Score</th>
+							<th scope="col" class="tab-header">Opponent</th>
+							<th scope="col" class="tab-header">Score</th>
 							</tr>
 						</thead>
 						<tbody>
@@ -40,7 +40,7 @@
 								<td class="score">2 - 3</td>
 							</tr>
 						</tbody>
-					  </table>
+					</table>
 					<button type="submit" id="submit-btn" class="btn" onclick="">Show all</button>
 				</div>
 				<div class="custom-div col" id="friendsDiv">
@@ -53,15 +53,15 @@
 					<table class="table table-borderless w-100">
 						<thead id="friendsHead">
 							<tr>
-							  <th scope="col" class="tab-header">Name</th>
-							  <th scope="col" class="tab-header">Status</th>
+							<th scope="col" class="tab-header">Name</th>
+							<th scope="col" class="tab-header">Status</th>
 							</tr>
 						</thead>
 						<tbody id="friendsBody">
 							
 						</tbody>
-					  </table>
-					  <div id="noFriends"></div>
+					</table>
+					<div id="noFriends"></div>
 					<button id="submit-btn" class="btn" onclick="displayFriendsRequests(); displayFriendsRequestsList();">Show friends requests</button>
 				</div>
 				<div class="custom-div col" id="friendsRequestDiv">
@@ -69,15 +69,51 @@
 					<table class="table table-borderless w-100">
 						<thead id="friendsRequestsHead">
 							<tr>
-							  <th scope="col" class="tab-header">Name</th>
+							<th scope="col" class="tab-header">Name</th>
 							</tr>
 						</thead>
 						<tbody id="friendsRequestsBody">
 							
 						</tbody>
-					  </table>
-					  <div id="noFriendsRequests"></div>
+					</table>
+					<div id="noFriendsRequests"></div>
 					<button id="submit-btn" class="btn" onclick="hideFriendsRequests(); displayFriendsList()">Hide friends requests</button>
+				</div>
+			</div>
+			<div class="row">
+				<div class="custom-div col">
+					<h2 class="sub-title">Chart</h2>
+					<div class="row align-items-center">
+						<div class="col-8 d-flex justify-content-center align-items-center">
+							<canvas id="pie-chart"></canvas>
+						</div>
+						<div class="col-4 d-flex justify-content-center align-items-center">
+							<div for="pie-chart"></div>
+						</div>
+					</div>
+				</div>
+				<div class="custom-div col">
+					<h2 class="sub-title">Game Stats</h2>
+					<div class="row justify-content-center">
+						<div class="col-md-5 d-flex justify-content-center align-items-center custom-stats" id="div-0">
+							<p id="stats-title">Average bounces</p>
+							<h1 id="stats-h1">12,8</h1>
+						</div>
+						<div class="col-md-5 d-flex justify-content-center align-items-center custom-stats" id="div-1">
+							<p id="stats-title">Avg Game Duration</p>
+							<h1 id="stats-h1">1,5min</h1>
+						</div>
+					</div>
+					<div class="row justify-content-center">
+						<div class="col-md-5 d-flex justify-content-center align-items-center custom-stats" id="div-2">
+							<p id="stats-title">Surrender Rate</p>
+							<h1 id="stats-h1">20%</h1>
+						</div>
+						<div class="col-md-5 d-flex justify-content-center align-items-center custom-stats" id="div-3">
+							<p id="stats-title">Games against IA</p>
+							<h1 id="stats-h1">3</h1>
+						</div>
+					</div>
 				</div>
 			</div>
 		</div>
