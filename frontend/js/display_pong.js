@@ -18,8 +18,6 @@ function updateDisplay() {
 function drawAll() {
 	updateDisplay();
 	Game.ctx.clearRect(0, 0, Game.canvas.width, Game.canvas.height);
-	document.getElementById('score-left').style.color = '#FFFAF0';
-	document.getElementById('score-right').style.color = '#FFFAF0';
 
 	var canvasWidth = Game.canvas.width;
 	var canvasHeight = Game.canvas.height;
