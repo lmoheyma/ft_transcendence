@@ -95,14 +95,17 @@ function handleEventsPong() {
 		{
 			if (event.target.id == "multi-btn")
 			{
-				var gamemodsButtons = document.querySelectorAll('input[name="gamemod"]');
-				var thisGamemod;
-				for (let i = 0; i < gamemodsButtons.length; i++) {
-					if (gamemodsButtons[i].checked) {
-						thisGamemod = gamemodsButtons[i].value;
-						break;
-					}
-				}
+				const choices = ['remote', 'multi', 'ai']
+				const queryString = window.location.search;
+				const mode = new URLSearchParams(queryString).get('mode');
+				// var gamemodsButtons = document.querySelectorAll('input[name="gamemod"]');
+				var thisGamemod = mode != null && choices.includes(mode) ? mode : 'multi';
+				// for (let i = 0; i < gamemodsButtons.length; i++) {
+				// 	if (gamemodsButtons[i].checked) {
+				// 		thisGamemod = gamemodsButtons[i].value;
+				// 		break;
+				// 	}
+				// }
 				switch (thisGamemod) {
 					case "multi":
 					{
