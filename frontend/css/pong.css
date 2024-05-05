@@ -61,11 +61,11 @@ body
 .score
 {
 	position: relative;
-	top: 8vh;
 	color:black;
 	font-weight: bolder;
 	font-size: 5vmin;
 	margin: 0;
+	margin-top: -4vh;
 }
 
 #player1
@@ -73,6 +73,7 @@ body
 	padding-left : 1rem;
 	float: left;
 	color:#E23434;
+	left:5vh;
 }
 
 #player2
@@ -80,18 +81,34 @@ body
 	padding-right : 1rem;
 	float: right;
 	color:#6CB4E7;
+	right:5vh;
 }
 
 #player1, #player2
 {
-	position: relative;
-	bottom: 17vh;
+	position: absolute;
+	bottom: 2vh;
+}
+
+#score-left
+{
+	left:30%;
+}
+
+#score-right
+{
+	right:30%;
+}
+
+#score-left, #score-right
+{
+	position: absolute;
+	top: 10vh;
 }
 
 .custom-button {
 	position: relative;
-	bottom: 12vh;
-	margin-bottom: -6vh;
+	bottom: 2vmin;
 	display: flex;
     align-items: center;
     flex-direction: column;

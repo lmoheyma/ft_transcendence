@@ -89,6 +89,20 @@ function getCookie(name) {
     return "";
 }
 
+function computeCanvasSize()
+{
+	if (window.innerHeight * (4/3) < window.innerWidth)
+		{
+			Game.canvas.width = window.innerHeight * (4/3);
+			Game.canvas.height = window.innerHeight * 0.9;
+		}
+		else
+		{
+			Game.canvas.width = window.innerWidth * 0.9;
+			Game.canvas.height = window.innerWidth * (2/3);
+		}
+}
+
 function handleEventsPong() {
 	document.addEventListener('click', async (event) => {
 		if (!Game.is_playing)
@@ -147,31 +161,7 @@ function handleEventsPong() {
 		}
 	});
 	window.addEventListener("resize", (event) => {
-		if (window.innerHeight < window.innerWidth)
-		{
-			Game.canvas.height = window.innerHeight - 200;
-			Game.canvas.width = Game.canvas.height * 1.5;
-		}
-		else
-		{
-			Game.canvas.width = window.innerWidth;
-			Game.canvas.height = Game.canvas.width * (2 / 3);
-		}
-
-		if (Game.canvas.width > 900)
-			Game.canvas.width = 900;
-		if (Game.canvas.height > 600)
-			Game.canvas.height = 600;
-
-		if (window.innerHeight < 300)
-		{
-			Game.canvas.height = 100;
-			Game.canvas.width = 150;
-		}
-		
-		if (Math.floor(Game.canvas.height * 1.5) != Game.canvas.width && Math.floor(Game.canvas.height * 1.5) + 1 != Game.canvas.width)
-			console.log("error");
-
+		computeCanvasSize()
 		drawAll();
 	});
 
@@ -191,34 +181,7 @@ function initialize() {
 	Game.canvas = document.querySelector('canvas');
 	Game.ctx = Game.canvas.getContext('2d');
 
-	Game.canvas.height = 600;
-	Game.canvas.width = 600 + 300;
-
-	if (window.innerHeight < window.innerWidth)
-	{
-		Game.canvas.height = window.innerHeight - 200;
-		Game.canvas.width = Game.canvas.height * 1.5;
-	}
-	else
-	{
-		Game.canvas.width = window.innerWidth;
-		Game.canvas.height = Game.canvas.width * (2 / 3);
-	}
-
-	if (Game.canvas.width > 900)
-		Game.canvas.width = 900;
-	if (Game.canvas.height > 600)
-		Game.canvas.height = 600;
-
-	if (window.innerHeight < 300)
-	{
-		Game.canvas.height = 100;
-		Game.canvas.width = 150;
-	}
-
-	if (Math.floor(Game.canvas.height * 1.5) != Game.canvas.width && Math.floor(Game.canvas.height * 1.5) + 1 != Game.canvas.width)
-		console.log("error");
-
+	computeCanvasSize()
 	initializeGameData();
 	drawAll()
 }
