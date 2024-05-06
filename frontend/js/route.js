@@ -50,6 +50,10 @@ const loadAndMarkScript = async (scriptPath) => {
         case "/js/tictactoe_remote.js":
             break;
         case "/js/tournament.js":
+            if (window.location.pathname === '/play-tournament')
+            {
+                loadTournament();
+            }
             break;
         default:
             break;

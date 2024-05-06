@@ -174,7 +174,7 @@ class TournamentSerializer(serializers.ModelSerializer):
                 ]
 
     def get_participants(self, obj):
-        participants    = obj.participants.all()
+        participants    = obj.participants.all().order_by('score')
         return ScoreboardSerializer([i.player for i in participants], many=True).data
 
     def get_games(self, obj):

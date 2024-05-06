@@ -53,20 +53,13 @@ async function logout(event)
 		}
 	});
 	const resultat	= await reponse.json();
-	if (reponse.status == 200)
-	{
-		document.getElementById("logoutId").style.display = "none";
-		document.getElementById("loginId").style.display = "block";
-		console.log("Disconnected token : " + getCookie("Session"));
-		document.cookie = "Session=";
-		session	= null;
-		document.getElementById("logoutId").href="/login";
-		route(event);
-	}
-	else
-	{
-		console.error("Can't disconnect");
-	}
+	document.getElementById("logoutId").style.display = "none";
+	document.getElementById("loginId").style.display = "block";
+	console.log("Disconnected token : " + getCookie("Session"));
+	document.cookie = "Session=";
+	session	= null;
+	document.getElementById("logoutId").href="/login";
+	route(event);
 }
 
 async function register(event) {

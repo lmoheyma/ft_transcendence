@@ -54,15 +54,57 @@ async function create_tournament(event) {
     }
 }
 
+async function    updateScoreboard(code)
+{
+    const response = await fetch("/api/tournament/info?code="+code, {
+        method: "GET",
+        headers: {
+        "Content-Type": "application/json",
+        "Authorization" : "Token " + getCookie("Session"),
+        },
+    });
+    if (await response.status == 200)
+    {
+        const res = await response.json();
+
+        let scoreboard = document.getElementById('scoreboard');
+        const len = scoreboard.rows.length;
+        for (let i = len -1; i > 0; i--) {
+            scoreboard.deleteRow(i);
+        }
+
+        let i = 1;
+        res.participants.forEach(e => {
+            var new_row     = scoreboard.insertRow();
+            var rankCell    = new_row.insertCell();
+            var nameCell    = new_row.insertCell();
+            var scoreCell   = new_row.insertCell();
+
+            rankCell.innerHTML  = i;
+            nameCell.innerHTML  = e.username;
+            scoreCell.innerHTML = 0;
+            i += 1;
+        });
+    }
+    return response.status;
+}
+
 async function loadTournament()
 {
     const code = new URLSearchParams(window.location.search).get('code');
     if (code == null)
     {
-        alert("No code supplied")
+        alert("No code supplied");
     }
     else
     {
-        
+        if (await updateScoreboard(code) == 200)
+        {
+            alert("Ok");
+        }
+        else
+        {
+            alert("Not ok");
+        }
     }
 }
