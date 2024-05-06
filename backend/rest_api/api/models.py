@@ -102,6 +102,7 @@ class   TournamentParticipant(models.Model):
     player          = models.ForeignKey(Player,
                                         null=False,
                                         on_delete=models.CASCADE)
+    score           = models.PositiveIntegerField(default=0)
 
 class   TournamentGame(models.Model):
     tournament      = models.ForeignKey(Tournament,

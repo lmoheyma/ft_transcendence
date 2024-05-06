@@ -12,7 +12,7 @@ async function join_tournament(event) {
         const resultat	= await reponse.json();
         if (reponse.status == 200)
         {
-            document.getElementById("join-btn").href="/tournament?code=" + resultat["code"];
+            document.getElementById("join-btn").href="/play-tournament?code=" + resultat["code"];
             route(event);
             console.log(resultat)
         }
@@ -42,7 +42,7 @@ async function create_tournament(event) {
         });
         const resultat	= await reponse.json();
         if (reponse.status == 200) {
-            document.getElementById("create-btn").href="/tournament?code=" + resultat["code"];
+            document.getElementById("create-btn").href="/play-tournament?code=" + resultat["code"];
             route(event);
             console.log(resultat)
         }
@@ -51,5 +51,18 @@ async function create_tournament(event) {
         }
     } catch (erreur) {
         console.error("Erreur :", erreur);
+    }
+}
+
+async function loadTournament()
+{
+    const code = new URLSearchParams(window.location.search).get('code');
+    if (code == null)
+    {
+        alert("No code supplied")
+    }
+    else
+    {
+        
     }
 }

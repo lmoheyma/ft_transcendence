@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link href="/css/tournament.css" rel="stylesheet">
+    <title>Tournament</title>
+</head>
+<body>
+    <div class="container bubble" style="height: 85vh; width: 90vw;">
+        <div class="d-flex h-100">
+            <div class="bubble vignette w-25 ">
+                <table class="w-100 text-center">
+                    <thead class="score-head">
+                        <tr>
+                            <th scope="col">Rank</th>
+                            <th class="w-75" scope="col">Player</th>
+                            <th scope="col">Score</th>
+                        </tr>
+                      </thead>
+                      <tbody id=scoreboard class="score-body">
+                        <tr>
+                            <td scope="row">1</td>
+                            <td scope="row">Bob</td>
+                            <td scope="row">14</td>
+                        </tr>
+                        <tr>
+                            <td scope="row">2</td>
+                            <td scope="row">Alice</td>
+                            <td scope="row">10</td>
+                        </tr>
+                      </tbody>
+                </table>
+            </div>
+
+            <div class="w-100">
+                <iframe
+                        id="pong"
+                        src="/html/pong.html"
+                        width="100%"
+                        height="100%"
+                        style="margin-left: auto;margin-right: auto;">
+                </iframe>
+            </div>
+        </div>
+    </div>
+</body>

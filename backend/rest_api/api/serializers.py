@@ -169,7 +169,8 @@ class TournamentSerializer(serializers.ModelSerializer):
         model   = Tournament
         fields = [
                 'participants',
-                'games'
+                'games',
+                'is_started'
                 ]
 
     def get_participants(self, obj):

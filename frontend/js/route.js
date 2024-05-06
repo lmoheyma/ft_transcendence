@@ -71,6 +71,7 @@ const routes = {
     "/settings": "html/settings.html",
     "/tournament": "html/tournament.html",
     "/tictactoe": "html/tic-tac-toe.html",
+    "/play-tournament" : "html/play-tournament.html"
 };
 
 const handleLocation = async () => {
@@ -109,6 +110,12 @@ const handleLocation = async () => {
         ]);
     }
     else if (path === "/tournament")
+    {
+        await loadScriptsSequentially([
+            "/js/tournament.js"
+        ]);
+    }
+    else if (path === "/play-tournament")
     {
         await loadScriptsSequentially([
             "/js/tournament.js"

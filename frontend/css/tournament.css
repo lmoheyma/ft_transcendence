@@ -48,3 +48,13 @@
 	outline: none;
 	border-radius: 0.2rem;
 }
+
+.score-body
+{
+    font-size: small;
+}
+
+.score-head
+{
+    font-size: medium;
+}

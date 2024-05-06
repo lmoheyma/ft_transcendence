@@ -21,6 +21,7 @@ from rest_framework.permissions import IsAuthenticated
 from rest_framework.parsers import FileUploadParser
 from django.core.files.uploadedfile import InMemoryUploadedFile
 from django.db.models import Q
+from django.contrib.auth.models import User
 
 import io, os
 from PIL import Image
