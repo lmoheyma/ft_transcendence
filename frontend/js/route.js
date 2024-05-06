@@ -15,6 +15,15 @@ function getCookie(cname) {
     return "";
 }
 
+async function loadLanguage(lang) {
+    const response = await fetch(`../json/${lang}.json`);
+    const translations = await response.json();
+    document.querySelectorAll('[data-translate]').forEach(el => {
+      const key = el.getAttribute('data-translate');
+      el.textContent = translations[key] || el.textContent;
+    });
+  }
+
 const loadAndMarkScript = async (scriptPath) => {
     await import(scriptPath);
     switch (scriptPath) {
@@ -84,6 +93,10 @@ const handleLocation = async () => {
     const route = routes[path] || routes[404];
     const html = await fetch(route).then((data) => data.text());
     document.getElementById("main-page").innerHTML = html;
+
+    const currentLanguage = 'fr';
+    await loadLanguage(currentLanguage);
+
     if (path === "/pong") {
         await loadScriptsSequentially([
             "/js/display_pong.js"

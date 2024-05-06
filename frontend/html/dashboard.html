@@ -3,31 +3,31 @@
 	<head>
 		<meta charset="utf-8">
    		<meta name="viewport" content="width=device-width, initial-scale=1">
-		<title>Login Page</title>
+		<title data-translate="login-page">Login Page</title>
 		<link href="/css/dashboard.css" rel="stylesheet">
 	</head>
 	<body>
 		<div class="container">
-			<h1 class="title">Dashboard</h1>
+			<h1 class="title" data-translate="dashboard">Dashboard</h1>
 			<div class="row">
 				<div class="custom-div col">
-					<h2 class="sub-title">Player Stats</h2>
+					<h2 class="sub-title" data-translate="player-stats">Player Stats</h2>
 					<div class="info">
-						<p class="info-title">Games Played</p>
+						<p class="info-title" data-translate="played-games">Games Played</p>
 						<p class="info-text" id="gamesPlayed"></p>
-						<p class="info-title">Wins</p>
+						<p class="info-title" data-translate="wins">Wins</p>
 						<p class="info-text" id="gamesWons"></p>
-						<p class="info-title">Loses</p>
+						<p class="info-title" data-translate="loses">Loses</p>
 						<p class="info-text" id="gamesLoses"></p>
 					</div>
 				</div>
 				<div class="custom-div col">
-					<h2 class="sub-title">Game History</h2>
+					<h2 class="sub-title" data-translate="game-history">Game History</h2>
 					<table class="table table-borderless w-100">
 						<thead class="">
 							<tr>
-							<th scope="col" class="tab-header">Opponent</th>
-							<th scope="col" class="tab-header">Score</th>
+							<th scope="col" class="tab-header" data-translate="opps">Opponent</th>
+							<th scope="col" class="tab-header" data-translate="score">Score</th>
 							</tr>
 						</thead>
 						<tbody>
@@ -41,20 +41,20 @@
 							</tr>
 						</tbody>
 					</table>
-					<button type="submit" id="submit-btn" class="btn" onclick="">Show all</button>
+					<button type="submit" id="submit-btn" class="btn" onclick="" data-translate="show-all">Show all</button>
 				</div>
 				<div class="custom-div col" id="friendsDiv">
-					<h2 class="sub-title">Friends</h2>
+					<h2 class="sub-title" data-translate="friends">Friends</h2>
 					<div class="position-absolute top-0 end-0 p-3">
-						<button type="button" class="btn btn-success" data-bs-toggle="modal" data-bs-target="#addFriendsModal">
+						<button type="button" class="btn btn-success" data-bs-toggle="modal" data-bs-target="#addFriendsModal" data-translate="add">
 							ADD
 						</button>
 					</div>
 					<table class="table table-borderless w-100">
 						<thead id="friendsHead">
 							<tr>
-							<th scope="col" class="tab-header">Name</th>
-							<th scope="col" class="tab-header">Status</th>
+							<th scope="col" class="tab-header" data-translate="name">Name</th>
+							<th scope="col" class="tab-header" data-translate="status">Status</th>
 							</tr>
 						</thead>
 						<tbody id="friendsBody">
@@ -62,14 +62,14 @@
 						</tbody>
 					</table>
 					<div id="noFriends"></div>
-					<button id="submit-btn" class="btn" onclick="displayFriendsRequests(); displayFriendsRequestsList();">Show friends requests</button>
+					<button id="submit-btn" class="btn" onclick="displayFriendsRequests(); displayFriendsRequestsList();" data-translate="show-friends-requests">Show friends requests</button>
 				</div>
 				<div class="custom-div col" id="friendsRequestDiv">
-					<h2 class="sub-title">Friends Requests</h2>
+					<h2 class="sub-title", data-translate="friends-requests">Friends Requests</h2>
 					<table class="table table-borderless w-100">
 						<thead id="friendsRequestsHead">
 							<tr>
-							<th scope="col" class="tab-header">Name</th>
+							<th scope="col" class="tab-header" data-translate="name">Name</th>
 							</tr>
 						</thead>
 						<tbody id="friendsRequestsBody">
@@ -77,12 +77,12 @@
 						</tbody>
 					</table>
 					<div id="noFriendsRequests"></div>
-					<button id="submit-btn" class="btn" onclick="hideFriendsRequests(); displayFriendsList()">Hide friends requests</button>
+					<button id="submit-btn" class="btn" onclick="hideFriendsRequests(); displayFriendsList()" data-translate="hide-friends-requests">Hide friends requests</button>
 				</div>
 			</div>
 			<div class="row">
 				<div class="custom-div col">
-					<h2 class="sub-title">Chart</h2>
+					<h2 class="sub-title" data-translate="chart">Chart</h2>
 					<div class="row align-items-center">
 						<div class="col-8 d-flex justify-content-center align-items-center">
 							<canvas id="pie-chart"></canvas>
@@ -93,24 +93,24 @@
 					</div>
 				</div>
 				<div class="custom-div col">
-					<h2 class="sub-title">Game Stats</h2>
+					<h2 class="sub-title" data-translate="game-stats">Game Stats</h2>
 					<div class="row justify-content-center">
 						<div class="col-md-5 d-flex justify-content-center align-items-center custom-stats" id="div-0">
-							<p id="stats-title">Average bounces</p>
+							<p id="stats-title" data-translate="average-bounces">Average bounces</p>
 							<h1 id="stats-h1">12,8</h1>
 						</div>
 						<div class="col-md-5 d-flex justify-content-center align-items-center custom-stats" id="div-1">
-							<p id="stats-title">Avg Game Duration</p>
+							<p id="stats-title" data-translate="avg-game-duration">Avg Game Duration</p>
 							<h1 id="stats-h1">1,5min</h1>
 						</div>
 					</div>
 					<div class="row justify-content-center">
 						<div class="col-md-5 d-flex justify-content-center align-items-center custom-stats" id="div-2">
-							<p id="stats-title">Surrender Rate</p>
+							<p id="stats-title" data-translate="surrender-rate">Surrender Rate</p>
 							<h1 id="stats-h1">20%</h1>
 						</div>
 						<div class="col-md-5 d-flex justify-content-center align-items-center custom-stats" id="div-3">
-							<p id="stats-title">Games against IA</p>
+							<p id="stats-title" data-translate="game-against-ia">Games against IA</p>
 							<h1 id="stats-h1">3</h1>
 						</div>
 					</div>
@@ -122,19 +122,19 @@
 			<div class="modal-dialog">
 			  <div class="modal-content">
 				<div class="modal-header border-secondary">
-				  <h1 class="modal-title fs-5 text-light" id="addFriendsModalLabel">Add friend</h1>
+				  <h1 class="modal-title fs-5 text-light" id="addFriendsModalLabel" data-translate="add-friend">Add friend</h1>
 				  <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close" id="customCloseButton"></button>
 				</div>
 				<div class="modal-body">
 					<div class="mb-3">
-						<label for="friendUsername" class="col-form-label text-light">Username</label>
+						<label for="friendUsername" class="col-form-label text-light" data-translate="username">Username</label>
 						<input type="text" class="form-control border-secondary text-dark" id="friendUsername">
 					</div>
 				</div>
 				<div class="modal-footer border-secondary">
 					<div id="status"></div>
-					<button type="button" class="btn btn-secondary" data-bs-dismiss="modal">CLOSE</button>
-					<button type="button" onclick="sendFriendRequest()" class="btn btn-success">ADD!</button>
+					<button type="button" class="btn btn-secondary" data-bs-dismiss="modal" data-translate="close">CLOSE</button>
+					<button type="button" onclick="sendFriendRequest()" class="btn btn-success" data-translate="add">ADD!</button>
 				</div>
 			  </div>
 			</div>
