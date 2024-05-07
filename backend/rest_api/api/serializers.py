@@ -182,13 +182,16 @@ class   TournamentGameSerializer(serializers.ModelSerializer):
 class   TournamentSerializer(serializers.ModelSerializer):
     participants    = serializers.SerializerMethodField()
     games           = serializers.SerializerMethodField()
+    ismod           = serializers.SerializerMethodField()
+
 
     class Meta:
         model   = Tournament
         fields = [
                 'participants',
                 'games',
-                'is_started'
+                'is_started',
+                'ismod'
                 ]
 
     def get_participants(self, obj):
@@ -200,3 +203,6 @@ class   TournamentSerializer(serializers.ModelSerializer):
                                                  & (Q(participant1=self.context.get('request', None).user.player)
                                                     | Q(participant2=self.context.get('request', None).user.player)))
         return TournamentGameSerializer([i for i in games], many=True).data
+    
+    def get_ismod(self , obj):
+        return obj.creator == self.context.get('request', None).user.player

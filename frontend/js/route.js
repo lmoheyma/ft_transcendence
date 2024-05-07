@@ -52,7 +52,6 @@ const loadAndMarkScript = async (scriptPath) => {
         case "/js/tournament.js":
             if (window.location.pathname === '/play-tournament')
             {
-                const { initTournament } = await import('./tournament.js');
                 loadTournament();
             }
             break;
@@ -127,6 +126,12 @@ const handleLocation = async () => {
         ]);
     }
 };
+
+const redirect = async (path) =>
+{
+    window.location.pathname = path;
+    handleLocation();
+}
 
 const route = (event) => {
     event = event || window.event;

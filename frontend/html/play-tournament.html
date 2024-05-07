@@ -9,7 +9,7 @@
 <body>
     <div class="container bubble" style="height: 85vh; width: 90vw;">
         <div class="d-flex h-100">
-            <div class="bubble vignette w-25 ">
+            <div id=scoreboard-div class="bubble vignette w-25 ">
                 <table class="w-100 text-center"  id=scoreboard>
                     <thead class="score-head">
                         <tr>
@@ -24,7 +24,9 @@
             </div>
 
             <div class="w-100">
-                <h4 id=info class="mb-0"> Waiting for host to start ... </h4>
+                <div>
+                    <h4 id=info class="mb-0"> Waiting for host to start ... </h4>
+                </div>
                 <iframe
                         id="pong"
                         src="/html/pong.html?mode=ai"

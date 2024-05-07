@@ -267,11 +267,13 @@ class   JoinTournamentView(views.APIView):
             return Response({'error' : 'Invalid tournament code'},
                             status=status.HTTP_400_BAD_REQUEST)
         if tournament.is_started == True :
-            return Response({'error' : 'Can\'t join because tournament has already started'},
-                            status=status.HTTP_400_BAD_REQUEST)
+            return Response({'error' : 'Tournament has already started',
+                             'code' : tournament.code},
+                            status=status.HTTP_200_OK)
         if (self.request.user.player in [i.player for i in tournament.participants.all()]):
-            return Response({'error': 'Already joined tournament'},
-                            status=status.HTTP_400_BAD_REQUEST)
+            return Response({'error': 'Already joined tournament',
+                             'code' : tournament.code},
+                            status=status.HTTP_200_OK)
         particant = TournamentParticipant(tournament=tournament,
                                             player=self.request.user.player)
         tournament.player_no += 1
