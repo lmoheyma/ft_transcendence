@@ -1,3 +1,5 @@
+var code = null;
+
 async function join_tournament(event) {
     const code = document.getElementById('code').value;
 
@@ -54,7 +56,7 @@ async function create_tournament(event) {
     }
 }
 
-async function    updateScoreboard(code)
+async function    updateScoreboard()
 {
     const response = await fetch("/api/tournament/info?code="+code, {
         method: "GET",
@@ -86,21 +88,21 @@ async function    updateScoreboard(code)
             i += 1;
         });
     }
-    return response.status;
+    return await response.status;
 }
 
 async function loadTournament()
 {
-    const code = new URLSearchParams(window.location.search).get('code');
+    code = new URLSearchParams(window.location.search).get('code');
     if (code == null)
     {
         alert("No code supplied");
     }
     else
     {
-        if (await updateScoreboard(code) == 200)
+        if (await updateScoreboard() == 200)
         {
-            alert("Ok");
+            updateInterval  = window.setInterval(updateScoreboard, 1000);
         }
         else
         {

@@ -1,7 +1,8 @@
 from rest_framework import serializers
 import rest_framework.validators as validators
-from .models import Player, User, Game, FriendInvite, Tournament
+from .models import Player, User, Game, FriendInvite, Tournament, TournamentGame
 from django.contrib.auth.password_validation import validate_password
+from django.db.models import Q
 
 class   GameSerializer(serializers.ModelSerializer):
     class Meta:
@@ -161,7 +162,24 @@ class   FriendReqSerializer(serializers.Serializer):
     class Meta:
         fields = ['id', ]
 
-class TournamentSerializer(serializers.ModelSerializer):
+class   TournamentGameSerializer(serializers.ModelSerializer):
+    code    = serializers.CharField(source='game.name')
+    p1      = serializers.CharField(source='participant1.user.username')
+    p2      = serializers.CharField(source='participant2.user.username')
+
+    class Meta :
+        model   = TournamentGame
+        fields = [
+                'round_no',
+                'code',
+                'p1',
+                'p2',
+                ]
+    
+    def get_game_code(self, obj):
+        pass
+
+class   TournamentSerializer(serializers.ModelSerializer):
     participants    = serializers.SerializerMethodField()
     games           = serializers.SerializerMethodField()
 
@@ -178,5 +196,7 @@ class TournamentSerializer(serializers.ModelSerializer):
         return ScoreboardSerializer([i.player for i in participants], many=True).data
 
     def get_games(self, obj):
-        games           = obj.games.all()
-        return GameSerializer([i.game for i in games], many=True).data
+        games           = obj.games.all().filter(Q(game__is_finished=False) \
+                                                 & (Q(participant1=self.context.get('request', None).user.player)
+                                                    | Q(participant2=self.context.get('request', None).user.player)))
+        return TournamentGameSerializer([i for i in games], many=True).data

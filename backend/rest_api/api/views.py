@@ -339,7 +339,7 @@ class   TournamentInfo(views.APIView):
         if self.tournament == None :
             return Response({'error' : 'Invalid tournament code'},
                             status=status.HTTP_400_BAD_REQUEST)
-        serializer = TournamentSerializer(self.tournament)
+        serializer = TournamentSerializer(self.tournament, context={'request' : self.request})
         return Response(serializer.data,
                         status=status.HTTP_200_OK)
 

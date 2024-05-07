@@ -136,13 +136,21 @@ function handleEventsPong() {
 					{
 						Game.gameOver = false;
 						Game.gamemod = GameMod.REMOTE;
-						const res = await fetch("https://localhost:8000/api/find_match/", {
-							method: "GET",
-							headers: {
-							"Authorization" : "Token " + getCookie("Session"),
-							}
-						});
-						const room = await res.json();
+						const code = new URLSearchParams(queryString).get('code');
+						if (code == null)
+						{
+							const res = await fetch("https://localhost:8000/api/find_match/", {
+								method: "GET",
+								headers: {
+								"Authorization" : "Token " + getCookie("Session"),
+								}
+							});
+							const room = await res.json();
+						}
+						else
+						{
+							const room = code;
+						}
 						socket = new WebSocket(`wss://localhost:8000/ws/room/${room.name}/${getCookie("Session")}`);
 						// socket = new WebSocket(`wss://localhost:8000/ws/room/sddfsfd/${getCookie("Session")}`);
 						handleEventsPongRemote();

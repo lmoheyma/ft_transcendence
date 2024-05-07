@@ -126,24 +126,3 @@ class   StatusConsumer(AsyncWebsocketConsumer):
 
     async def disconnect(self, code):
         await self.status_update(Player.OFFLINE)
-
-class   TournamentConsumer(AsyncWebsocketConsumer):
-
-    @database_sync_to_async
-    def token_connect(self):
-        try :
-            self.token = self.scope["url_route"]["kwargs"]["token"]
-            self.token_obj = Token.objects.get(key=self.token)
-            self.player = self.token_obj.user.player
-            return True
-        except :
-            return False
-
-    async def connect(self):
-        pass
-
-    async def receive(self, text_data=None, bytes_data=None):
-        pass
-
-    async def disconnect(self, code):
-        pass
