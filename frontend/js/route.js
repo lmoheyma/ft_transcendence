@@ -16,6 +16,8 @@ function getCookie(cname) {
 }
 
 async function loadLanguage(lang) {
+    if (!lang)
+        return;
     const response = await fetch(`../json/${lang}.json`);
     const translations = await response.json();
     document.querySelectorAll('[data-translate]').forEach(el => {
@@ -94,7 +96,7 @@ const handleLocation = async () => {
     const html = await fetch(route).then((data) => data.text());
     document.getElementById("main-page").innerHTML = html;
 
-    const currentLanguage = 'fr';
+    const currentLanguage = '';
     await loadLanguage(currentLanguage);
 
     if (path === "/pong") {
