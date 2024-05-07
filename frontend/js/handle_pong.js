@@ -1,6 +1,7 @@
 import { drawAll } from "./display_pong.js";
 import { handleEventsPongRemote, type } from "./pong_remote.js";
 import { handleEventsPongMultiplayer, moveMultiListener, stopMoveMultiListener, leavePongMulti } from "./pong_multi.js";
+import { handleEventsPongAi } from "./pong_ai.js";
 
 const cgameY = 100;
 const cgameX = 300;
@@ -138,7 +139,13 @@ function handleEventsPong() {
 					}
 					case "ai":
 					{
-						
+						Game.gameOver = false;
+						Game.gamemod = GameMod.AI;
+						handleEventsPongAi();
+						initializeGameData();
+						Game.is_playing = true;
+						changeDisplayButtons();
+						startGame(true);
 						break;
 					}
 					default:
