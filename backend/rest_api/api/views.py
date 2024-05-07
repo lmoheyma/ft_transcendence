@@ -326,6 +326,8 @@ class   StartTournamentView(views.APIView):
             return Response({'error' : 'Not enough players (player_count > 2)'},
                             status=status.HTTP_400_BAD_REQUEST)
         self.autogen_matches()
+        self.tournament.is_started = True
+        self.tournament.save()
         return Response({'success' : 'Tournament has been started'},
                             status=status.HTTP_200_OK)
 

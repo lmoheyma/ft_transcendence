@@ -146,13 +146,12 @@ function handleEventsPong() {
 								}
 							});
 							const room = await res.json();
+							socket = new WebSocket(`wss://localhost:8000/ws/room/${room.name}/${getCookie("Session")}`);
 						}
 						else
 						{
-							const room = code;
+							socket = new WebSocket(`wss://localhost:8000/ws/room/${code}/${getCookie("Session")}`);
 						}
-						socket = new WebSocket(`wss://localhost:8000/ws/room/${room.name}/${getCookie("Session")}`);
-						// socket = new WebSocket(`wss://localhost:8000/ws/room/sddfsfd/${getCookie("Session")}`);
 						handleEventsPongRemote();
 						initializeGameData();
 						break;
