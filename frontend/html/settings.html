@@ -3,12 +3,12 @@
 	<head>
 		<meta charset="utf-8">
    		<meta name="viewport" content="width=device-width, initial-scale=1">
-		<title>Settings</title>
+		<title data-translate="settings">Settings</title>
 		<link href="/css/settings.css" rel="stylesheet">
 	</head>
 	<body>
 		<div class="container">
-			<h1 class="title">Settings</h1>
+			<h1 class="title" data-translate="settings">Settings</h1>
 			<div class="container mt-3 mt-md-5 d-flex flex-column" id="custom-div">
 				<div class="row">
 					<div class="col-md-4 mb-3">
@@ -22,9 +22,9 @@
 							<div class="row mb-2">
 								<form id="formAvatar" onsubmit="handleSubmit(event)">
 									<p id="filenameId"></p>
-									<label for="fileToUpload" class="btn btn-warning customUpload">CHOOSE..</label>
+									<label for="fileToUpload" class="btn btn-warning customUpload" data-translate="choose">CHOOSE..</label>
 									<input type="file" name="fileToUpload" id="fileToUpload" onchange="getFileName(this)">
-									<label for="uploadSubmit" class="btn btn-success customUpload">UPLOAD</label>
+									<label for="uploadSubmit" class="btn btn-success customUpload" data-translate="upload">UPLOAD</label>
 									<input type="submit" name="submit" id="uploadSubmit">
 								</form>
 							</div>
@@ -35,15 +35,15 @@
 					</div>
 					<div class="col-md-7 mb-3">
 						<div class="custom-form">
-							<h2 class="edit-profile">Edit profile</h2>
+							<h2 class="edit-profile" data-translate="edit-profile">Edit profile</h2>
 							<div class="row">
 								<div class="col form-sub-div">
 									<div class="mb-3">
-										<label for="password" class="form-label">Current password</label>
+										<label for="password" class="form-label" data-translate="current-password">Current password</label>
 										<input type="password" class="form-control" id="password">
 									</div>
 									<div class="mb-3">
-										<label for="username" class="form-label">Username</label>
+										<label for="username" class="form-label" data-translate="username">Username</label>
 										<input type="text" class="form-control" id="username">
 									</div>
 									<div class="mb-3">
@@ -51,11 +51,11 @@
 										<input type="email" class="form-control" id="email">
 									</div>
 									<div class="mb-3">
-										<label for="new_password" class="form-label">New password</label>
+										<label for="new_password" class="form-label" data-translate="new-password">New password</label>
 										<input type="password" class="form-control" id="new_password">
 									</div>
 									<div class="mb-3 text-right">
-										<button type="submit" id="submit-btn" class="btn btn-success" onclick="editProfile()">EDIT!</button>
+										<button type="submit" id="submit-btn" class="btn btn-success" onclick="editProfile()" data-translate="edit">EDIT!</button>
 									</div>
 								</div>
 								<div class="col status-div" id="status">

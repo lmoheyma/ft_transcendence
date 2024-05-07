@@ -3,16 +3,16 @@
 <head>
 	<meta charset="UTF-8">
 	<meta name="viewport" content="width=device-width, initial-scale=1.0">
-	<title>Tic Tac Toe</title>
+	<title data-translate="tic-tac-toe">Tic Tac Toe</title>
 	<link href="/css/tic-tac-toe.css" rel="stylesheet">
 </head>
 <body>
 	<div class="container">
-		<h1 class="title">Tic Tac Toe</h1>
+		<h1 class="title" data-translate="tic-tac-toe">Tic Tac Toe</h1>
 		<div class="row">
 			<div class="col-md-12">
 				<div class="canvas-div">
-					<h1 id="against-title">Game against you</h1>
+					<h1 id="against-title" data-translate="game-against-you">Game against you</h1>
 					<canvas></canvas>
 				</div>
 			</div>
@@ -27,14 +27,10 @@
 			</div>
 			<div class="col custom-button game-display" id="game-choice">
 				<input type="radio" class="btn-check input-game" value="remote" name="gamemod" id="remote">
-				<label id="input-label" class="btn" for="remote">ONLINE</label>
-			</div>
-			<div class="col custom-button game-display" id="game-choice">
-				<input type="radio" class="btn-check input-game" value="ai" name="gamemod" id="ai">
-				<label id="input-label" class="btn" for="ai">BOT</label>
+				<label id="input-label" class="btn" for="remote" data-translate="online">ONLINE</label>
 			</div>
 			<div class="col custom-button game-display">
-				<button id="multi-btn" class="btn" onclick="hideNavbar()">START!</button>
+				<button id="multi-btn" class="btn" onclick="hideNavbar()" data-translate="start">START!</button>
 			</div>
 		</div>
 	</div>
