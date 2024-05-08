@@ -43,6 +43,15 @@ class   PongConsumer(AsyncWebsocketConsumer):
                 return connect_status.TOO_MANY_PLAYERS
             return connect_status.SUCCESS
         return connect_status.INVALID_TOKEN
+    
+    @database_sync_to_async
+    def disconnect_match(self):
+        try :
+            game = Game.objects.get(name=self.room_name)
+        except :
+            return
+        game.is_finished = True
+        game.save()
 
     async def connect(self):
         self.user = None
@@ -75,6 +84,8 @@ class   PongConsumer(AsyncWebsocketConsumer):
             await self.channel_layer.group_discard(
                 self.user.username, self.channel_name
             )
+        await self.disconnect_match()
+
 
     async def receive(self, text_data=None, bytes_data=None):
         try :

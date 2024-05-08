@@ -246,8 +246,9 @@ class   CreateTournamentView(views.APIView):
 
     def get(self, request, *args, **kwargs):
         tournament = Tournament()
-        creator_participant = TournamentParticipant(player=request.user.player, tournament=tournament)
-        tournament.player_no += 1
+        creator_participant     = TournamentParticipant(player=request.user.player, tournament=tournament)
+        tournament.player_no    += 1
+        tournament.creator      = request.user.player
         tournament.save()
         creator_participant.save()
         return Response({
@@ -324,7 +325,7 @@ class   StartTournamentView(views.APIView):
         if self.tournament.is_started == True :
             return Response({'error' : 'Can\'t start because tournament has already started'},
                             status=status.HTTP_400_BAD_REQUEST)
-        if self.tournament.player_no <= 2 :
+        if self.tournament.player_no < 2 :
             return Response({'error' : 'Not enough players (player_count > 2)'},
                             status=status.HTTP_400_BAD_REQUEST)
         self.autogen_matches()

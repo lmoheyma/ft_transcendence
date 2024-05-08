@@ -51,9 +51,7 @@ const loadAndMarkScript = async (scriptPath) => {
             break;
         case "/js/tournament.js":
             if (window.location.pathname === '/play-tournament')
-            {
                 loadTournament();
-            }
             break;
         default:
             break;
