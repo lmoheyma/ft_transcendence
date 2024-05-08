@@ -3,6 +3,7 @@ var tournament_state = null;
 var current_game = null;
 var updateInterval = null;
 var selfInfo = null;
+var ws = null;
 const button_classes = ['vignette', 'button', 'btn', 'mx-4'];
 
 async function get_api(endpoint, method)
@@ -28,6 +29,7 @@ async function startTournament()
             button_classes.forEach(e => {
                 tour_info.classList.remove(e);
             });
+            ws.send('START');
             break;
         case 400 :
             const resultat  = await response.json();
@@ -223,6 +225,23 @@ async function loadTournament()
     else
     {
         if (await updateTournament() == 200)
-            updateInterval  = window.setInterval(updateTournament, 5000);
+        {
+            updateInterval   = window.setInterval(updateTournament, 10000);
+            ws               = new WebSocket(`wss://localhost:8000/ws/tournament/${code}/${getCookie('Session')}`);
+            window.onmessage = function(e) {
+                if (e.data == 'UPDATE') {
+                    updateTournament();
+                    ws.send('UPDATE');
+                    console.log(e.data);
+                }
+            };
+            ws.onopen = function (event) {
+                ws.send('UPDATE');
+            };
+            ws.onmessage = function (event) {
+                if (event.data == 'START' || event.data == 'UPDATE')
+                    updateTournament();
+            };
+        }
     }
 }

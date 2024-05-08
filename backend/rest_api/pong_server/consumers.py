@@ -2,7 +2,7 @@ import json
 from asgiref.sync import async_to_sync
 from channels.generic.websocket import AsyncWebsocketConsumer
 from rest_framework.authtoken.models import Token
-from api.models import Game, Player
+from api.models import Game, Player, Tournament
 from channels.db import database_sync_to_async
 
 connected_clients = set()
@@ -143,3 +143,64 @@ class   StatusConsumer(AsyncWebsocketConsumer):
 
     async def disconnect(self, code):
         await self.status_update(Player.OFFLINE)
+
+class   TournamentConsumer(AsyncWebsocketConsumer):
+    @database_sync_to_async
+    def token_connect(self):
+        try :
+            self.token = self.scope["url_route"]["kwargs"]["token"]
+            self.token_obj = Token.objects.get(key=self.token)
+            self.player = self.token_obj.user.player
+            return True
+        except :
+            return False
+
+    @database_sync_to_async
+    def get_tournament(self):
+        try :
+            self.tournament = Tournament.objects.get(code=self.room_name)
+        except :
+            self.tournament = None
+
+    @database_sync_to_async
+    def check_is_host(self):
+        if self.tournament.creator == self.player :
+            return True
+        else :
+            return False
+
+    async def connect(self):
+        self.room_name = self.scope["url_route"]["kwargs"]["room_name"]
+        await self.get_tournament()
+        if await self.token_connect() == True and self.tournament != None:
+            self.is_host = await self.check_is_host()
+            await self.channel_layer.group_add(
+                self.room_name, self.channel_name
+            )
+            await self.accept()
+        else :
+            await self.close()
+
+    async def receive(self, text_data=None, bytes_data=None):
+        if text_data == 'UPDATE' :
+            await self.channel_layer.group_send(
+            self.room_name,
+            {
+                "type" : "send_packet",
+                "message" : text_data
+            }
+        )
+        elif text_data == 'START' and self.is_host == True:
+            await self.channel_layer.group_send(
+            self.room_name,
+            {
+                "type" : "send_packet",
+                "message" : text_data
+            }
+        )
+
+    async def send_packet(self, event):
+        await self.send(text_data=event["message"])
+
+    async def disconnect(self, code):
+        return await super().disconnect(code)

@@ -194,6 +194,7 @@ function handleEventsPongRemote() {
 					Game.gameOver = true;
 					type = "";
 					adversaryType = "";
+					window.top.postMessage('UPDATE', '*')
 					break;
 				}
 				case "ff":
@@ -216,6 +217,7 @@ function handleEventsPongRemote() {
 					type = "";
 					adversaryType = "";
 					drawAll();
+					window.top.postMessage('UPDATE', '*')
 					alert('Victoire par forfait');
 					break;
 				}
@@ -270,6 +272,7 @@ function handleEventsPongRemote() {
 					socket.send(JSON.stringify(send_data));
 					clearInterval(interval);
 					socket.close();
+					window.top.postMessage('UPDATE', '*')
 					break;
 				}
 				case "ff":
@@ -292,6 +295,7 @@ function handleEventsPongRemote() {
 					type = "";
 					adversaryType = "";
 					drawAll();
+					window.top.postMessage('UPDATE', '*')
 					alert('Victoire par forfait');
 					break;
 				}

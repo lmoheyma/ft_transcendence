@@ -201,9 +201,9 @@ class   TournamentSerializer(serializers.ModelSerializer):
 
     def get_games(self, obj):
         games           = obj.games.all().filter(Q(game__is_finished=False) \
-                                                 & (Q(participant1=self.context.get('request', None).user.player)
-                                                    | Q(participant2=self.context.get('request', None).user.player)))
+                                                 & (Q(participant1=self.context.get('player', None))
+                                                    | Q(participant2=self.context.get('player', None))))
         return TournamentGameSerializer([i for i in games], many=True).data
     
     def get_ismod(self , obj):
-        return obj.creator == self.context.get('request', None).user.player
+        return obj.creator == self.context.get('player', None)
