@@ -1,6 +1,12 @@
 from rest_framework import serializers
 import rest_framework.validators as validators
-from .models import Player, User, Game, FriendInvite, Tournament, TournamentGame
+from .models import Player,\
+                    User,\
+                    Game,\
+                    FriendInvite,\
+                    Tournament,\
+                    TournamentGame,\
+                    TournamentParticipant
 from django.contrib.auth.password_validation import validate_password
 from django.db.models import Q
 
@@ -175,15 +181,39 @@ class   TournamentGameSerializer(serializers.ModelSerializer):
                 'p1',
                 'p2',
                 ]
-    
+
     def get_game_code(self, obj):
         pass
+
+class   TournamentParticipantSerializer(serializers.ModelSerializer):
+    username    = serializers.CharField(source="user.username", read_only=True)
+    avatar      = serializers.CharField(source='user.avatar', read_only=True)
+    score       = serializers.SerializerMethodField()
+
+    class Meta:
+        model = TournamentParticipant
+        fields = [
+                'avatar',
+                'username',
+                'score',
+                ]
+
+    def get_score(self, obj):
+        tournament      = self.context.get('tournament')
+        player          = obj
+        player_games    = [ i.game for i in tournament.games.all() ]
+        S               = 0
+        for i in player_games :
+            if i.player1 == player :
+                S += i.score_player1
+            if i.player2 == player :
+                S += i.score_player2
+        return S
 
 class   TournamentSerializer(serializers.ModelSerializer):
     participants    = serializers.SerializerMethodField()
     games           = serializers.SerializerMethodField()
     ismod           = serializers.SerializerMethodField()
-
 
     class Meta:
         model   = Tournament
@@ -197,7 +227,11 @@ class   TournamentSerializer(serializers.ModelSerializer):
 
     def get_participants(self, obj):
         participants    = obj.participants.all().order_by('score')
-        return ScoreboardSerializer([i.player for i in participants], many=True).data
+        return TournamentParticipantSerializer([i.player for i in participants],
+                                                context={
+                                                    'tournament' : obj,
+                                                    'player' : self.context.get('player', None)
+                                                }, many=True).data
 
     def get_games(self, obj):
         games           = obj.games.all().filter(Q(game__is_finished=False) \

@@ -50,7 +50,13 @@ class   PongConsumer(AsyncWebsocketConsumer):
             game = Game.objects.get(name=self.room_name)
         except :
             return
-        game.is_finished = True
+        game.is_finished    = True
+        game.score_player1 = self.stat_tracker['player1_score']
+        game.score_player2 = self.stat_tracker['player2_score']
+        if game.score_player2 > game.score_player1 :
+            game.winner = game.player2
+        else :
+            game.winner = game.player1
         if game.is_tournament == True :
             tournament = [i for i in game.tournament.all()][0].tournament
             tour_games = tournament.games
@@ -63,6 +69,10 @@ class   PongConsumer(AsyncWebsocketConsumer):
         self.user = None
         self.room_name = self.scope["url_route"]["kwargs"]["room_name"]
         self.token = self.scope["url_route"]["kwargs"]["token"]
+        self.stat_tracker = {
+            'player1_score' : 0,
+            'player2_score' : 0,
+        }
         connected_clients.add(self.channel_name)
         ret = await self.token_connect()
         if ret != connect_status.SUCCESS:
@@ -99,6 +109,9 @@ class   PongConsumer(AsyncWebsocketConsumer):
             obj['connected_clients'] = len(connected_clients)
         except :
             obj = {'type' : 'error', 'message' : 'Invalid JSON'}
+        request = obj.get('request', None)
+        if request == "game" :
+            self.stat_tracker = obj
         await self.channel_layer.group_send(
             self.room_name + str(((self.player_no - 1) ^ 1 & 1) + 1),
             {

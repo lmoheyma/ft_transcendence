@@ -69,6 +69,11 @@ class   Game(models.Model):
                                         null=True,
                                         on_delete=models.SET_NULL,
                                         related_name='history2_set')
+    winner          = models.ForeignKey(Player,
+                                        blank=True,
+                                        null=True,
+                                        on_delete=models.SET_NULL,
+                                        related_name='games_won')
     score_player1   = models.PositiveIntegerField(default=0)
     score_player2   = models.PositiveIntegerField(default=0)
     created_on      = models.DateTimeField(auto_now_add=True)
