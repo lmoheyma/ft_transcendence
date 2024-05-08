@@ -6,7 +6,7 @@ build :
 	docker-compose $(CMPS_PATH) build
 
 run : 
-	docker-compose $(CMPS_PATH) up
+	docker-compose $(CMPS_PATH) up -d
 
 stop :
 	docker-compose $(CMPS_PATH) stop

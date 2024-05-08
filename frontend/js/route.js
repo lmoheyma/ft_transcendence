@@ -61,6 +61,8 @@ const loadAndMarkScript = async (scriptPath) => {
         case "/js/tictactoe_remote.js":
             break;
         case "/js/tournament.js":
+            if (window.location.pathname === '/play-tournament')
+                loadTournament();
             break;
         case "/js/chart.js":
             displayPieChart();
@@ -84,6 +86,7 @@ const routes = {
     "/settings": "html/settings.html",
     "/tournament": "html/tournament.html",
     "/tictactoe": "html/tic-tac-toe.html",
+    "/play-tournament" : "html/play-tournament.html"
 };
 
 const handleLocation = async () => {
@@ -132,7 +135,19 @@ const handleLocation = async () => {
             "/js/tournament.js"
         ]);
     }
+    else if (path === "/play-tournament")
+    {
+        await loadScriptsSequentially([
+            "/js/tournament.js"
+        ]);
+    }
 };
+
+const redirect = async (path) =>
+{
+    window.location.pathname = path;
+    handleLocation();
+}
 
 const route = (event) => {
     event = event || window.event;

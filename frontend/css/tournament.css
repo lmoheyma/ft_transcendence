@@ -1,3 +1,9 @@
+#info
+{
+    width: 75%;
+    text-align: center;
+}
+
 #join
 {
     margin-top: 5rem;
@@ -47,4 +53,14 @@
 {
 	outline: none;
 	border-radius: 0.2rem;
+}
+
+.score-body
+{
+    font-size: small;
+}
+
+.score-head
+{
+    font-size: medium;
 }
