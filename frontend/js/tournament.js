@@ -194,11 +194,17 @@ async function  updateTournament()
         {
             let game_iframe = document.getElementById('pong');
             game_iframe.src = '';
+            game_iframe.width = '0';
+            game_iframe.parentNode.classList.remove('w-100')
             let scoreboard_div = document.getElementById('scoreboard-div');
             scoreboard_div.classList.remove('w-25');
             scoreboard_div.classList.add('w-100');
-            document.getElementById('info').remove()
+            let info_div = document.getElementById('info');
+            if (info_div != null)
+                document.getElementById('info').remove();
         }
+        if (tournament_state.is_finished == true)
+            clearInterval(updateInterval);
         updateScoreboard();
     }
     else
@@ -217,6 +223,6 @@ async function loadTournament()
     else
     {
         if (await updateTournament() == 200)
-            updateInterval  = window.setInterval(updateTournament, 1000);
+            updateInterval  = window.setInterval(updateTournament, 5000);
     }
 }

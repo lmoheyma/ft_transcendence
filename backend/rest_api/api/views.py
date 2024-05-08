@@ -280,7 +280,8 @@ class   JoinTournamentView(views.APIView):
         tournament.player_no += 1
         particant.save()
         tournament.save()
-        return Response({'success' : 'Successfully joined tournament'})
+        return Response({'success' : 'Successfully joined tournament',
+                         'code': tournament.code})
 
 from collections import deque
 

@@ -93,6 +93,7 @@ class   Tournament(models.Model):
                                         related_name='won_tournaments')
     round_no        = models.PositiveSmallIntegerField(default=0)
     is_started      = models.BooleanField(default=False)
+    is_finished     = models.BooleanField(default=False)
 
 class   TournamentParticipant(models.Model):
     tournament      = models.ForeignKey(Tournament,
@@ -111,7 +112,8 @@ class   TournamentGame(models.Model):
                                         related_name='games')
     game            = models.ForeignKey(Game,
                                         null=False,
-                                        on_delete=models.CASCADE)
+                                        on_delete=models.CASCADE,
+                                        related_name='tournament')
     participant1    = models.ForeignKey(Player,
                                         null=False,
                                         on_delete=models.CASCADE,

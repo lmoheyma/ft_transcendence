@@ -51,6 +51,12 @@ class   PongConsumer(AsyncWebsocketConsumer):
         except :
             return
         game.is_finished = True
+        if game.is_tournament == True :
+            tournament = [i for i in game.tournament.all()][0].tournament
+            tour_games = tournament.games
+            if len([i for i in tour_games.all() if i.game.is_finished == False]):
+                tournament.is_finished = True
+                tournament.save()
         game.save()
 
     async def connect(self):

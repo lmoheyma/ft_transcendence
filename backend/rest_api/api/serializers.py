@@ -191,6 +191,7 @@ class   TournamentSerializer(serializers.ModelSerializer):
                 'participants',
                 'games',
                 'is_started',
+                'is_finished',
                 'ismod'
                 ]
 
