@@ -141,7 +141,7 @@ function  updateScoreboard()
 
         rankCell.innerHTML  = i;
         nameCell.innerHTML  = e.username;
-        scoreCell.innerHTML = 0;
+        scoreCell.innerHTML = e.score;
         i += 1;
     });
 }
