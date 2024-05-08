@@ -158,7 +158,13 @@ function handleEventsPong() {
 					}
 					case "ai":
 					{
-						
+						Game.gameOver = false;
+						Game.gamemod = GameMod.AI;
+						handleEventsPongAiplayer();
+						initializeGameData();
+						Game.is_playing = true;
+						changeDisplayButtons();
+						startGame(true);
 						break;
 					}
 					default:

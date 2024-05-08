@@ -32,7 +32,8 @@
 	display: flex;
     align-items: center;
     flex-direction: column;
-	height: 351.5px;
+	min-height: 250px;
+	height: auto;
     width: auto;
 	padding: 0 50px;
     border-radius: 20px;
@@ -196,4 +197,50 @@
 
 #friendUsername {
 	border: 3px solid black ;
+}
+
+#pie-chart {
+	padding-top: 10px;
+	padding-bottom: 30px;
+}
+
+.custom-stats {
+	/* position: relative; */
+	display: flex;
+    align-items: center;
+	justify-content: center;
+    flex-direction: column;
+	min-height: 60px;
+	height: 100px;
+	width: 210px;
+    border-radius: 15px;
+	margin: 10px 20px 35px 20px;
+	box-shadow: 10px 10px #000000;
+	/* padding: 10px; */
+}
+
+#div-0 {
+	background-color: #80DEEA;
+}
+
+#div-1 {
+	background-color: #FFE082;
+}
+
+#div-2 {
+	background-color: #FFAB91;
+}
+
+#div-3 {
+	background-color: #CE93D8;
+}
+
+#stats-title {
+	text-align: center;
+	margin-bottom: 0 !important;
+}
+
+#stats-h1 {
+	text-align: center;
+	font-weight: bold;
 }

@@ -121,11 +121,6 @@ function handleEventsTicTacToe() {
 						handleEventsTTTRemote();
 						break;
 					}
-					case "ai":
-					{
-						
-						break;
-					}
 					default:
 						break;
 				}

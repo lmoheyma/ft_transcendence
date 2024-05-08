@@ -4,17 +4,17 @@
 	<meta charset="UTF-8">
 	<meta name="viewport" content="width=device-width, initial-scale=1.0">
 	<link href="/css/tournament.css" rel="stylesheet">
-	<title>Tournament</title>
+	<title data-translate="tournament">Tournament</title>
 </head>
 <body>
 	<div id=join class="container">
 		<div class="row d-flex justify-content-center align-items-center h-100">
 			<div class="bubble mb-3">
-				<h2 class="fw-bold mb-1" id="title">Join or create a tournament</h2>
+				<h2 class="fw-bold mb-1" id="title" data-translate="join-or-create-tournament">Join or create a tournament</h2>
 				<div class="d-flex align-items-center" >
 					<input type="code" class="vignette form-control input-text me-2" id="code" placeholder="Enter tournament code">
-					<button type="submit" id="join-btn" class="vignette button btn me-2" onclick="join_tournament(event)">Join!</button>
-					<button type="submit" id="create-btn" class="vignette button btn me-2" onclick="create_tournament(event)">Create!</button>
+					<button type="submit" id="join-btn" class="vignette button btn me-2" onclick="join_tournament(event)" data-translate="join">Join!</button>
+					<button type="submit" id="create-btn" class="vignette button btn me-2" onclick="create_tournament(event)" data-translate="create">Create!</button>
 				</div>
 				<div ><p class="error" id="status"> </p></div>
 			</div>
