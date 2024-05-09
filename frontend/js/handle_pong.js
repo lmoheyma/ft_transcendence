@@ -380,7 +380,7 @@ function pointWon(player) {
 				break;
 			}
 		}
-		Ball.dir_X = Directions.LEFT;
+		Ball.dir_X = Directions.RIGHT;
 		Ball.angle = 0;
 	}
 	else
@@ -413,7 +413,7 @@ function pointWon(player) {
 				break;
 			}
 		}
-		Ball.dir_X = Directions.RIGHT;
+		Ball.dir_X = Directions.LEFT;
 		Ball.angle = 180;
 	}
 	Player1.pos_Y = 50;
@@ -464,6 +464,14 @@ function gameWon(player) {
 		document.removeEventListener('keydown', moveMultiListener);
 		document.removeEventListener('keyup', stopMoveMultiListener);
 		document.removeEventListener('click', leavePongMulti);
+	}
+	if (Game.gamemod == GameMod.AI)
+	{
+		clearInterval(predictInterval);
+		clearInterval(moveInterval);
+		document.removeEventListener('keydown', moveAiListener);
+		document.removeEventListener('keyup', stopMoveAiListener);
+		document.removeEventListener('click', leavePongAi);
 	}
 }
 

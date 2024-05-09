@@ -38,6 +38,9 @@ function leavePongMulti(event) {
 			Game.gameOver = true;
 			changeDisplayButtons();
 			drawAll();
+			document.removeEventListener('keydown', moveMultiListener);
+			document.removeEventListener('keyup', stopMoveMultiListener);
+			document.removeEventListener('click', leavePongMulti);
 		}
 	}
 }
