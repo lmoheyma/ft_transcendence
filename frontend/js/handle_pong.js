@@ -171,6 +171,19 @@ function handleEventsPong() {
 						break;
 				}
 			}
+			else if (event.target.name == "gamemod")
+			{
+				var gamemodsButtons = document.querySelectorAll('input[name="gamemod"]');
+				var thisGamemod;
+				for (let i = 0; i < gamemodsButtons.length; i++) {
+					if (gamemodsButtons[i].checked) {
+						thisGamemod = gamemodsButtons[i].value;
+						break;
+					}
+				}
+				var iframeEl = window.frameElement;
+				iframeEl.src = `/html/pong.html?mode=${thisGamemod}`;
+			}
 		}
 	});
 	window.addEventListener("resize", (event) => {
