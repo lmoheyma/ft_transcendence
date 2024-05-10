@@ -6,18 +6,6 @@ var selfInfo = null;
 var ws = null;
 const button_classes = ['vignette', 'button', 'btn', 'mx-4'];
 
-async function get_api(endpoint, method)
-{
-    const reponse = await fetch(endpoint, {
-        method: method,
-        headers: {
-        "Authorization" : "Token " + getCookie("Session"),
-        "Content-Type": "application/json"
-        },
-    });
-    return await reponse;
-}
-
 async function startTournament()
 {
     const response   = await get_api("api/tournament/start?code=" + code, "GET");
@@ -38,7 +26,8 @@ async function startTournament()
         case 401 :
             document.cookie = "Session=";
             session = null;
-            redirect('/login');
+            router.redirect('/login');
+            try { status_ws.close(); } catch {}
             break;
         default :
             alert('Error : Try again later.');
@@ -55,14 +44,15 @@ async function join_tournament(event) {
         {
             case 200 :
                 document.getElementById("join-btn").href="/play-tournament?code=" + resultat["code"];
-                route(event);
+                router.route(event);
                 console.log(resultat);
                 break;
             case 401 :
                 document.cookie = "Session=";
                 session = null;
                 document.getElementById("logoutId").href="/login";
-                route(event);
+                try { status_ws.close(); } catch {}
+                router.route(event);
                 break;
             case 400 :
                 if ("error" in resultat) 
@@ -88,7 +78,7 @@ async function create_tournament(event) {
         const resultat	= await reponse.json();
         if (reponse.status == 200) {
             document.getElementById("create-btn").href="/play-tournament?code=" + resultat["code"];
-            route(event);
+            router.route(event);
             console.log(resultat)
         }
         else if (reponse.status == 400) {
@@ -98,14 +88,14 @@ async function create_tournament(event) {
         {
             case 200 :
                 document.getElementById("join-btn").href="/play-tournament?code=" + resultat["code"];
-                route(event);
+                router.route(event);
                 console.log(resultat);
                 break;
             case 401 :
                 document.cookie = "Session=";
                 session = null;
                 document.getElementById("logoutId").href="/login";
-                route(event);
+                router.route(event);
                 break;
             case 400 :
                 if ("error" in resultat) 
@@ -212,7 +202,7 @@ async function  updateTournament()
     else
     {
         selfDestroy();
-        redirect('/tournament')
+        router.redirect('/tournament')
     }
     return response.status;
 }
@@ -221,7 +211,7 @@ async function loadTournament()
 {
     code = new URLSearchParams(window.location.search).get('code');
     if (code == null)
-        redirect('/tournament');
+        router.redirect('/tournament');
     else
     {
         if (await updateTournament() == 200)
@@ -242,6 +232,10 @@ async function loadTournament()
                 if (event.data == 'START' || event.data == 'UPDATE')
                     updateTournament();
             };
+            try {
+                status_ws.send('INGAME');
+            } catch (error) {
+            }
         }
     }
 }
