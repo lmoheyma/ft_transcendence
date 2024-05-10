@@ -58,12 +58,12 @@ class DashboardView extends FileView
         super(["/js/friends.js", "/js/chart.js"], '/html/dashboard.html', true);
     }
 
-    init()
-    {
+    async init() {
         displayPieChart();
         displayStats();
         hideFriendsRequests();
         displayFriendsList();
+        console.log("scripts called");
     }
 }
 
@@ -80,7 +80,7 @@ class SettingsView extends FileView
         super(['/js/settings.js'], '/html/settings.html', true);
     }
 
-    init() {
+    async init() {
         setupPlaceholder();
         setupUsername();
         displayAvatar();
@@ -93,7 +93,7 @@ class PongView extends FileView
         super(['/js/display_pong.js'], '/html/pong-tab.html', true);
     }
 
-    init() {
+    async init() {
         document.getElementById('pong').src = 'html/pong.html' + window.location.search;
     }
 }
@@ -111,7 +111,7 @@ class PlayTournamentView extends FileView
         super(['/js/tournament.js'], '/html/play-tournament.html', true);
     }
 
-    init() {
+    async init() {
         loadTournament();
     }
 }
@@ -122,7 +122,7 @@ class TicTacToeView extends FileView
         super(["/js/tictactoe.js", "/js/tictactoe_remote.js"], '/html/tournament.html', true);
     }
 
-    init()
+    async init()
     {
         initHandleTTT();
     }
@@ -135,7 +135,6 @@ class RegisterView extends FileView
         super([], '/html/register.html', true);
     }
 }
-
 
 class Router
 {
@@ -162,6 +161,7 @@ class Router
     
         const currentLanguage = '';
         await loadLanguage(currentLanguage);
+        this.current_view.enter();
     }
 
     async route(event) {
