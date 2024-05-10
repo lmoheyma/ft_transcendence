@@ -92,15 +92,15 @@ function getCookie(name) {
 function computeCanvasSize()
 {
 	if (window.innerHeight * (4/3) < window.innerWidth)
-		{
-			Game.canvas.width = window.innerHeight * (4/3);
-			Game.canvas.height = window.innerHeight * 0.9;
-		}
-		else
-		{
-			Game.canvas.width = window.innerWidth * 0.9;
-			Game.canvas.height = window.innerWidth * (2/3);
-		}
+	{
+		Game.canvas.width = window.innerHeight * (4/3);
+		Game.canvas.height = window.innerHeight * 0.9;
+	}
+	else
+	{
+		Game.canvas.width = window.innerWidth * 0.9;
+		Game.canvas.height = window.innerWidth * (2/3);
+	}
 }
 
 function handleEventsPong() {

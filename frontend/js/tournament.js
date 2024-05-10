@@ -39,6 +39,7 @@ async function startTournament()
             document.cookie = "Session=";
             session = null;
             redirect('/login');
+            try { status_ws.close(); } catch {}
             break;
         default :
             alert('Error : Try again later.');
@@ -55,14 +56,15 @@ async function join_tournament(event) {
         {
             case 200 :
                 document.getElementById("join-btn").href="/play-tournament?code=" + resultat["code"];
-                route(event);
+                router.route(event);
                 console.log(resultat);
                 break;
             case 401 :
                 document.cookie = "Session=";
                 session = null;
                 document.getElementById("logoutId").href="/login";
-                route(event);
+                try { status_ws.close(); } catch {}
+                router.route(event);
                 break;
             case 400 :
                 if ("error" in resultat) 
@@ -88,7 +90,7 @@ async function create_tournament(event) {
         const resultat	= await reponse.json();
         if (reponse.status == 200) {
             document.getElementById("create-btn").href="/play-tournament?code=" + resultat["code"];
-            route(event);
+            router.route(event);
             console.log(resultat)
         }
         else if (reponse.status == 400) {
@@ -98,14 +100,14 @@ async function create_tournament(event) {
         {
             case 200 :
                 document.getElementById("join-btn").href="/play-tournament?code=" + resultat["code"];
-                route(event);
+                router.route(event);
                 console.log(resultat);
                 break;
             case 401 :
                 document.cookie = "Session=";
                 session = null;
                 document.getElementById("logoutId").href="/login";
-                route(event);
+                router.route(event);
                 break;
             case 400 :
                 if ("error" in resultat) 
@@ -242,6 +244,10 @@ async function loadTournament()
                 if (event.data == 'START' || event.data == 'UPDATE')
                     updateTournament();
             };
+            try {
+                status_ws.send('INGAME');
+            } catch (error) {
+            }
         }
     }
 }

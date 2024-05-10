@@ -26,137 +26,169 @@ async function loadLanguage(lang) {
     });
   }
 
-const loadAndMarkScript = async (scriptPath) => {
-    await import(scriptPath);
-    switch (scriptPath) {
-        case "/js/display_pong.js":
-            document.getElementById('pong').src = 'html/pong.html' + window.location.search;
-            break;
-        case "/js/handle_pong.js":
-            if (window.location.pathname === '/pong') {
-                const { initHandlePong } = await import('./handle_pong.js');
-                initHandlePong();
-            }
-            break;
-        case "/js/pong_multi.js":
-            break;
-        case "/js/pong_remote.js":
-            break;
-        case "/js/settings.js":
-            setupPlaceholder();
-            setupUsername();
-            displayAvatar();
-            break;
-        case "/js/friends.js":
-            displayStats();
-            hideFriendsRequests();
-            displayFriendsList();
-            break;
-        case "/js/tictactoe.js":
-            if (window.location.pathname === '/tictactoe') {
-                const { initHandleTTT } = await import('./tictactoe.js');
-                initHandleTTT();
-            }
-            break;
-        case "/js/tictactoe_remote.js":
-            break;
-        case "/js/tournament.js":
-            if (window.location.pathname === '/play-tournament')
-                loadTournament();
-            break;
-        case "/js/chart.js":
-            displayPieChart();
-        default:
-            break;
-    }
-};
-
-const loadScriptsSequentially = async (scriptPaths) => {
-    for (const scriptPath of scriptPaths) {
-        await loadAndMarkScript(scriptPath);
-    }
-};
-
-const routes = {
-    "/": "html/dashboard.html",
-    "/dashboard": "html/dashboard.html",
-    "/login": "html/login.html",
-    "/pong": "html/pong-tab.html",
-    "/register": "html/register.html",
-    "/settings": "html/settings.html",
-    "/tournament": "html/tournament.html",
-    "/tictactoe": "html/tic-tac-toe.html",
-    "/play-tournament" : "html/play-tournament.html"
-};
-
-const handleLocation = async () => {
-
-    var path = window.location.pathname;
-    if (getCookie("Session") == "" && path != "/register") {
-        path = "/login";
-    }
-    const route = routes[path] || routes[404];
-    const html = await fetch(route).then((data) => data.text());
-    document.getElementById("main-page").innerHTML = html;
-
-    const currentLanguage = '';
-    await loadLanguage(currentLanguage);
-
-    if (path === "/pong") {
-        await loadScriptsSequentially([
-            "/js/display_pong.js"
-        ]);
-    }
-    else if (path === "/settings") {
-        await loadScriptsSequentially([
-            "/js/settings.js"
-        ]);
-    }
-    else if (path === "/dashboard") {
-        await loadScriptsSequentially([
-            "/js/friends.js",
-            "/js/chart.js"
-        ]);
-    }
-    else if (path === "/") {
-        await loadScriptsSequentially([
-            "/js/friends.js"
-        ]);
-    }
-    else if (path === "/tictactoe") {
-        await loadScriptsSequentially([
-            "/js/tictactoe.js",
-            "/js/tictactoe_remote.js"
-        ]);
-    }
-    else if (path === "/tournament")
-    {
-        await loadScriptsSequentially([
-            "/js/tournament.js"
-        ]);
-    }
-    else if (path === "/play-tournament")
-    {
-        await loadScriptsSequentially([
-            "/js/tournament.js"
-        ]);
-    }
-};
-
-const redirect = async (path) =>
+class FileView
 {
-    window.location.pathname = path;
-    handleLocation();
+    constructor(scripts, file, auth) {
+        this.scripts    = scripts;
+        this.file       = file;
+        this.auth       = auth;
+    }
+
+    async loadScripts() {
+        this.scripts.forEach(e => {
+            import(e);
+        });
+    }
+
+    async init() {
+    }
+
+    async enter() {
+        await this.loadScripts();
+        await this.init();
+    }
+
+    async leave() {
+    }
 }
 
-const route = (event) => {
-    event = event || window.event;
-    event.preventDefault();
-    window.history.pushState({}, "", event.target.href);
-    handleLocation();
-};
+class DashboardView extends FileView
+{
+    constructor() {
+        super(["/js/friends.js", "/js/chart.js"], '/html/dashboard.html', true);
+    }
 
-window.onpopstate = handleLocation;
-window.route = route;
+    init()
+    {
+        displayPieChart();
+        displayStats();
+        hideFriendsRequests();
+        displayFriendsList();
+    }
+}
 
-handleLocation();
+class LoginView extends FileView
+{
+    constructor() {
+        super([], '/html/login.html', false);
+    }
+}
+
+class SettingsView extends FileView
+{
+    constructor() {
+        super(['/js/settings.js'], '/html/settings.html', true);
+    }
+
+    init() {
+        setupPlaceholder();
+        setupUsername();
+        displayAvatar();
+    }
+}
+
+class PongView extends FileView
+{
+    constructor() {
+        super(['/js/display_pong.js'], '/html/pong-tab.html', true);
+    }
+
+    init() {
+        document.getElementById('pong').src = 'html/pong.html' + window.location.search;
+    }
+}
+
+class TournamentView extends FileView
+{
+    constructor() {
+        super(['/js/tournament.js'], '/html/tournament.html', true);
+    }
+}
+
+class PlayTournamentView extends FileView
+{
+    constructor() {
+        super(['/js/tournament.js'], '/html/play-tournament.html', true);
+    }
+
+    init() {
+        loadTournament();
+    }
+}
+
+class TicTacToeView extends FileView
+{
+    constructor() {
+        super(["/js/tictactoe.js", "/js/tictactoe_remote.js"], '/html/tournament.html', true);
+    }
+
+    init()
+    {
+        initHandleTTT();
+    }
+}
+
+
+class RegisterView extends FileView
+{
+    constructor() {
+        super([], '/html/register.html', true);
+    }
+}
+
+
+class Router
+{
+    constructor() {
+        this.routes = {};
+        this.current_view = null;
+    }
+
+    register(route, view) {
+        this.routes[route] = view;
+        console.log(this.routes[route]);
+    }
+
+    async handleLocation() {
+        var path = window.location.pathname;
+        if (this.current_view != null)
+            this.current_view.leave();
+        this.current_view = this.routes[path] || this.routes[404];
+        if (getCookie("Session") == "" && this.current_view != "/register") {
+            this.current_view = this.routes['/login'];
+        }
+        const html = await fetch(this.current_view.file).then((data) => data.text());
+        document.getElementById("main-page").innerHTML = html;
+    
+        const currentLanguage = '';
+        await loadLanguage(currentLanguage);
+    }
+
+    async route(event) {
+        event = event || window.event;
+        event.preventDefault();
+        window.history.pushState({}, "", event.target.href);
+        await this.handleLocation();
+    }
+
+    async redirect() {
+        window.location.pathname = path;
+        await this.handleLocation();
+    }
+}
+
+var router = new Router();
+router.register('/', new DashboardView());
+router.register('/dashboard', new DashboardView());
+router.register('/login', new LoginView());
+router.register('/pong', new PongView());
+router.register('/settings', new SettingsView());
+router.register('/register', new RegisterView());
+router.register('/tournament', new TournamentView());
+router.register('/play-tournament', new PlayTournamentView());
+router.register('/tictactoe', new TicTacToeView());
+
+window.onpopstate = router.handleLocation;
+window.route = router.route;
+
+router.handleLocation();

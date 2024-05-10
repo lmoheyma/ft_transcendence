@@ -1,3 +1,4 @@
+var	status_ws;
 
 async function login(event) {
 	const username = document.getElementById('username').value;
@@ -21,9 +22,10 @@ async function login(event) {
 			document.cookie = "Session=" + resultat.token;
 			session = resultat.token;
 			document.getElementById("submit-btn").href="/dashboard";
-			route(event);
+			router.route(event);
 			loginActivePage();
 			console.log("New session token : " + session);
+			status_ws = new WebSocket("wss://localhost:8000/ws/status/"+session);
 		}
 		else if (reponse.status == 400) 
 		{
@@ -59,7 +61,8 @@ async function logout(event)
 	document.cookie = "Session=";
 	session	= null;
 	document.getElementById("logoutId").href="/login";
-	route(event);
+	try { status_ws.close(); } catch { }
+	router.route(event);
 }
 
 async function register(event) {
@@ -82,7 +85,7 @@ async function register(event) {
 		if (reponse.status == 201)
 		{
 			document.getElementById("submit-btn").href="/login";
-			route(event);
+			router.route(event);
 			console.log("Réussite :", resultat);
 		}
 		else if (reponse.status == 400)
