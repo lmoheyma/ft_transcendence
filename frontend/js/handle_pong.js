@@ -68,6 +68,7 @@ var Display = {
 var socket;
 var start;
 var nbRebonds = 0;
+var thisGamemod;
 
 function changeDisplayButtons()
 {
@@ -110,11 +111,11 @@ function handleEventsPong() {
 		{
 			if (event.target.id == "multi-btn")
 			{
-				const choices = ['remote', 'multi', 'ai']
-				const queryString = window.location.search;
-				const mode = new URLSearchParams(queryString).get('mode');
+				// const choices = ['remote', 'multi', 'ai']
+				// const queryString = window.location.search;
+				// const mode = new URLSearchParams(queryString).get('mode');
 				// var gamemodsButtons = document.querySelectorAll('input[name="gamemod"]');
-				var thisGamemod = mode != null && choices.includes(mode) ? mode : 'multi';
+				// var thisGamemod = mode != null && choices.includes(mode) ? mode : 'multi';
 				// for (let i = 0; i < gamemodsButtons.length; i++) {
 				// 	if (gamemodsButtons[i].checked) {
 				// 		thisGamemod = gamemodsButtons[i].value;
@@ -175,6 +176,12 @@ function handleEventsPong() {
 						break;
 				}
 			}
+			else if (event.target.name == "gamemod")
+			{
+				var gamemodChecked = document.querySelector('input[name="gamemod"]:checked').value;
+				var iframeEl = window.frameElement;
+				iframeEl.src = `/html/pong.html?mode=${gamemodChecked}`;
+			}
 		}
 	});
 	window.addEventListener("resize", (event) => {
@@ -196,6 +203,15 @@ function startGame(calculate) {
 function initialize() {
 	Game.canvas = document.querySelector('canvas');
 	Game.ctx = Game.canvas.getContext('2d');
+
+	const choices = ['remote', 'multi', 'ai']
+	const queryString = window.location.search;
+	const mode = new URLSearchParams(queryString).get('mode');
+	thisGamemod = mode != null && choices.includes(mode) ? mode : 'multi';
+
+	var btn = document.querySelector(`input[type="radio"][value="${thisGamemod}"]`);
+	if (btn)
+		btn.checked = true;
 
 	computeCanvasSize()
 	initializeGameData();
