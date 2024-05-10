@@ -119,6 +119,11 @@ class PongView extends FileView
 
     async init() {
         document.getElementById('pong').src = 'html/pong.html' + window.location.search;
+        status_ws.send('INGAME');
+    }
+
+    async leave() {
+        status_ws.send('ONLINE');
     }
 }
 
@@ -137,6 +142,11 @@ class PlayTournamentView extends FileView
 
     async init() {
         loadTournament();
+        status_ws.send('INGAME');
+    }
+
+    async leave() {
+        status_ws.send('ONLINE');
     }
 }
 
@@ -170,13 +180,12 @@ class Router
 
     register(route, view) {
         this.routes[route] = view;
-        console.log(this.routes[route]);
     }
 
     async handleLocation() {
         var path = window.location.pathname;
         if (this.current_view != null)
-            this.current_view.leave();
+            await this.current_view.leave();
         this.current_view = this.routes[path] || this.routes[404];
         if (this.current_view.auth == true && await check_token() === false) {
             this.current_view = this.routes['/login'];
@@ -215,8 +224,18 @@ router.register('/play-tournament', new PlayTournamentView());
 router.register('/tictactoe', new TicTacToeView());
 
 function onpopstate_route() { router.handleLocation(); }
-
+if (getCookie('Session') != '')
+{
+    try
+    {
+        status_ws = new WebSocket("wss://localhost:8000/ws/status/"+getCookie('Session'));
+    } catch
+    {
+        document.cookie = "Session=";
+        session = null;
+        router.redirect('/login');
+    }
+}
 window.onpopstate = onpopstate_route;
 window.route = router.route;
-
 router.handleLocation();
