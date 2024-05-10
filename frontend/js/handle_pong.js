@@ -67,7 +67,6 @@ var Display = {
 
 var socket;
 var start;
-var gameAgainstIA = 0;
 var nbRebonds = 0;
 
 function changeDisplayButtons()
@@ -169,7 +168,6 @@ function handleEventsPong() {
 						Game.is_playing = true;
 						changeDisplayButtons();
 						startGame(true);
-						gameAgainstIA++;
 						start = performance.now();
 						break;
 					}
@@ -372,6 +370,8 @@ function pointWon(player) {
 					"wonPlayer": 1,
 					"player1_score": Player1.score,
 					"player2_score" : Player2.score,
+					"nbBounces" : nbRebonds,
+					"gameDuration" : gameDuration
 				};
 				socket.send(JSON.stringify(send_data));
 			}
@@ -407,6 +407,8 @@ function pointWon(player) {
 					"wonPlayer": 2,
 					"player1_score": Player1.score,
 					"player2_score" : Player2.score,
+					"nbBounces" : nbRebonds,
+					"gameDuration" : gameDuration
 				};
 				socket.send(JSON.stringify(send_data));
 			}
