@@ -66,8 +66,9 @@ var Display = {
 }
 
 var socket;
+var start;
+var nbRebonds = 0;
 var thisGamemod;
-
 
 function changeDisplayButtons()
 {
@@ -131,6 +132,7 @@ function handleEventsPong() {
 						Game.is_playing = true;
 						changeDisplayButtons();
 						startGame(true);
+						start = performance.now();
 						break;
 					}
 					case "remote":
@@ -155,6 +157,7 @@ function handleEventsPong() {
 						}
 						handleEventsPongRemote();
 						initializeGameData();
+						start = performance.now();
 						break;
 					}
 					case "ai":
@@ -166,6 +169,7 @@ function handleEventsPong() {
 						Game.is_playing = true;
 						changeDisplayButtons();
 						startGame(true);
+						start = performance.now();
 						break;
 					}
 					default:
@@ -184,7 +188,6 @@ function handleEventsPong() {
 		computeCanvasSize()
 		drawAll();
 	});
-
 }
 
 function startGame(calculate) {
@@ -288,6 +291,7 @@ function calculatePoses() {
 	}
 
 	if (Ball.pos_X <= 24 && (Ball.pos_Y <= Player1.pos_Y + 9 && Ball.pos_Y >= Player1.pos_Y - 9)) {
+		nbRebonds++;
 		if (Ball.pos_Y - Player1.pos_Y < 0)
 			Ball.dir_Y = Directions.UP;
 		else if (Ball.pos_Y - Player1.pos_Y > 0)
@@ -318,6 +322,7 @@ function calculatePoses() {
 		Ball.speed += 0.3;
 	}
 	if (Ball.pos_X >= 276 && (Ball.pos_Y <= Player2.pos_Y + 9 && Ball.pos_Y >= Player2.pos_Y - 9)) {
+		nbRebonds++;
 		if (Ball.pos_Y - Player2.pos_Y < 0)
 			Ball.dir_Y = Directions.UP;
 		else if (Ball.pos_Y - Player2.pos_Y > 0)
@@ -371,6 +376,8 @@ function pointWon(player) {
 		Player1.score++;
 		if (Player1.score > 2)
 		{
+			const end = performance.now();
+			const gameDuration = ((end - start) / 1000).toFixed(1);
 			if (Game.gamemod === GameMod.REMOTE)
 			{
 				var send_data = {
@@ -379,6 +386,8 @@ function pointWon(player) {
 					"wonPlayer": 1,
 					"player1_score": Player1.score,
 					"player2_score" : Player2.score,
+					"nbBounces" : nbRebonds,
+					"gameDuration" : gameDuration
 				};
 				socket.send(JSON.stringify(send_data));
 			}
@@ -404,6 +413,8 @@ function pointWon(player) {
 		Player2.score++;
 		if (Player2.score > 2)
 		{
+			const end = performance.now();
+			const gameDuration = ((end - start) / 1000).toFixed(1);
 			if (Game.gamemod === GameMod.REMOTE)
 			{
 				var send_data = {
@@ -412,6 +423,8 @@ function pointWon(player) {
 					"wonPlayer": 2,
 					"player1_score": Player1.score,
 					"player2_score" : Player2.score,
+					"nbBounces" : nbRebonds,
+					"gameDuration" : gameDuration
 				};
 				socket.send(JSON.stringify(send_data));
 			}
