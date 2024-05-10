@@ -147,6 +147,7 @@ class PlayTournamentView extends FileView
 
     async leave() {
         status_ws.send('ONLINE');
+        ws.close();
     }
 }
 
