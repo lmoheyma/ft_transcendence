@@ -69,6 +69,7 @@ var socket;
 var start;
 var nbRebonds = 0;
 var thisGamemod;
+const queryString = window.location.search;;
 
 function changeDisplayButtons()
 {
@@ -205,7 +206,6 @@ function initialize() {
 	Game.ctx = Game.canvas.getContext('2d');
 
 	const choices = ['remote', 'multi', 'ai']
-	const queryString = window.location.search;
 	const mode = new URLSearchParams(queryString).get('mode');
 	thisGamemod = mode != null && choices.includes(mode) ? mode : 'multi';
 
@@ -484,9 +484,9 @@ function gameWon(player) {
 		document.getElementById('score-right').style.color = '#29cf16';
 	else
 		document.getElementById('score-left').style.color = '#29cf16';
-	displayNavbar();
+	// displayNavbar();
 	Game.is_playing = false;
-	changeDisplayButtons();
+	// changeDisplayButtons();
 	Game.gameOver = true;
 	if (Game.gamemod == GameMod.MULTI)
 	{

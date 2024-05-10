@@ -178,7 +178,7 @@ function handleEventsPongRemote() {
 					if (connectedPlayers == 2 && !Game.is_playing)
 					{
 						Game.is_playing = true;
-						changeDisplayButtons();
+						// changeDisplayButtons();
 						waitOtherPlayer = false;
 						startGame(true);
 					}
@@ -208,7 +208,7 @@ function handleEventsPongRemote() {
 					Ball.pos_X = 150;
 					Ball.pos_Y = 50;
 					Game.is_playing = false;
-					changeDisplayButtons();
+					// changeDisplayButtons();
 					Game.gameOver = true;
 					drawAll();
 					clearInterval(interval);
@@ -230,6 +230,7 @@ function handleEventsPongRemote() {
 		}
 		else if (type == "guest" && data.type === adversaryType)
 		{
+			console.log(data.request, data.request == "win");
 			switch (data.request) {
 				case "game":
 				{
@@ -245,7 +246,7 @@ function handleEventsPongRemote() {
 					if (connectedPlayers == 2 && !Game.is_playing)
 					{
 						Game.is_playing = true;
-						changeDisplayButtons();
+						// changeDisplayButtons();
 						waitOtherPlayer = false;
 						startGame(false);
 					}
@@ -265,7 +266,7 @@ function handleEventsPongRemote() {
 					gameWon(data.wonPlayer);
 					waitOtherPlayer = false;
 					Game.is_playing = false;
-					changeDisplayButtons();
+					// changeDisplayButtons();
 					Game.gameOver = true;
 					type = "";
 					adversaryType = "";
@@ -286,7 +287,7 @@ function handleEventsPongRemote() {
 					Ball.pos_X = 150;
 					Ball.pos_Y = 50;
 					Game.is_playing = false;
-					changeDisplayButtons();
+					// changeDisplayButtons();
 					Game.gameOver = true;
 					drawAll();
 					clearInterval(interval);
