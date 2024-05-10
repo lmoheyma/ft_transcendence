@@ -1,4 +1,3 @@
-var	status_ws;
 
 async function login(event) {
 	const username = document.getElementById('username').value;

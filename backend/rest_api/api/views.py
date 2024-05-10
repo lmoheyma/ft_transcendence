@@ -28,6 +28,14 @@ from PIL import Image
 from hashlib import md5
 import random as rd
 
+class   CheckAuthView(views.APIView):
+    http_method_names   = ['get']
+    authentication_classes = [TokenAuthentication]
+    permission_classes  = [IsAuthenticated]
+
+    def get(self, request, *args, **kwargs):
+        return Response({'status' : 'ok'}, status=status.HTTP_200_OK)
+
 class   PlayerProfileView(mixins.RetrieveModelMixin, 
                           viewsets.GenericViewSet):
     queryset            = Player.objects.all().order_by('score')

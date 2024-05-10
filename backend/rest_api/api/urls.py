@@ -16,7 +16,8 @@ from .views import ScoreboardViewSet, \
                         JoinTournamentView, \
                         StartTournamentView, \
                         TournamentInfo, \
-                        MatchmakingView
+                        MatchmakingView, \
+                        CheckAuthView
 
 router = routers.DefaultRouter()
 router.register('scoreboard', ScoreboardViewSet, basename='scoreboard')
@@ -42,5 +43,6 @@ urlpatterns = [
     path('logout', LogoutView.as_view()),
     path('', include(router.urls)),
     path('token-auth/', views.obtain_auth_token),
-    path('find_match/', MatchmakingView.as_view())
+    path('find_match/', MatchmakingView.as_view()),
+    path('check-auth', CheckAuthView.as_view())
 ]

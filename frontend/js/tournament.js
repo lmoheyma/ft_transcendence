@@ -6,18 +6,6 @@ var selfInfo = null;
 var ws = null;
 const button_classes = ['vignette', 'button', 'btn', 'mx-4'];
 
-async function get_api(endpoint, method)
-{
-    const reponse = await fetch(endpoint, {
-        method: method,
-        headers: {
-        "Authorization" : "Token " + getCookie("Session"),
-        "Content-Type": "application/json"
-        },
-    });
-    return await reponse;
-}
-
 async function startTournament()
 {
     const response   = await get_api("api/tournament/start?code=" + code, "GET");
@@ -38,7 +26,7 @@ async function startTournament()
         case 401 :
             document.cookie = "Session=";
             session = null;
-            redirect('/login');
+            router.redirect('/login');
             try { status_ws.close(); } catch {}
             break;
         default :
@@ -214,7 +202,7 @@ async function  updateTournament()
     else
     {
         selfDestroy();
-        redirect('/tournament')
+        router.redirect('/tournament')
     }
     return response.status;
 }
@@ -223,7 +211,7 @@ async function loadTournament()
 {
     code = new URLSearchParams(window.location.search).get('code');
     if (code == null)
-        redirect('/tournament');
+        router.redirect('/tournament');
     else
     {
         if (await updateTournament() == 200)

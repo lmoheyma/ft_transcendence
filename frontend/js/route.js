@@ -1,3 +1,4 @@
+var	status_ws = null;
 
 function getCookie(cname) {
     let name = cname + "=";
@@ -14,6 +15,27 @@ function getCookie(cname) {
     }
     return "";
 }
+
+async function get_api(endpoint, method)
+{
+    const reponse = await fetch(endpoint, {
+        method: method,
+        headers: {
+        "Authorization" : "Token " + getCookie("Session"),
+        "Content-Type": "application/json"
+        },
+    });
+    return await reponse;
+}
+
+async function check_token()
+{
+	const response = await get_api('/api/check-auth', 'GET');
+    if (response.status != 200)
+        return false;
+	return true;
+}
+
 
 async function loadLanguage(lang) {
     if (!lang)
@@ -35,9 +57,8 @@ class FileView
     }
 
     async loadScripts() {
-        this.scripts.forEach(e => {
-            import(e);
-        });
+        for (const e of this.scripts)
+            await import(e);
     }
 
     async init() {
@@ -63,7 +84,6 @@ class DashboardView extends FileView
         displayStats();
         hideFriendsRequests();
         displayFriendsList();
-        console.log("scripts called");
     }
 }
 
@@ -71,6 +91,10 @@ class LoginView extends FileView
 {
     constructor() {
         super([], '/html/login.html', false);
+    }
+
+    async init()
+    {
     }
 }
 
@@ -119,11 +143,12 @@ class PlayTournamentView extends FileView
 class TicTacToeView extends FileView
 {
     constructor() {
-        super(["/js/tictactoe.js", "/js/tictactoe_remote.js"], '/html/tournament.html', true);
+        super(["/js/tictactoe.js", '/js/tictactoe_remote.js'], '/html/tic-tac-toe.html', true);
     }
 
     async init()
     {
+        var { initHandleTTT } = await import('/js/tictactoe.js');
         initHandleTTT();
     }
 }
@@ -132,7 +157,7 @@ class TicTacToeView extends FileView
 class RegisterView extends FileView
 {
     constructor() {
-        super([], '/html/register.html', true);
+        super([], '/html/register.html', false);
     }
 }
 
@@ -153,7 +178,7 @@ class Router
         if (this.current_view != null)
             this.current_view.leave();
         this.current_view = this.routes[path] || this.routes[404];
-        if (getCookie("Session") == "" && this.current_view != "/register") {
+        if (this.current_view.auth == true && await check_token() === false) {
             this.current_view = this.routes['/login'];
         }
         const html = await fetch(this.current_view.file).then((data) => data.text());
@@ -178,6 +203,7 @@ class Router
 }
 
 var router = new Router();
+
 router.register('/', new DashboardView());
 router.register('/dashboard', new DashboardView());
 router.register('/login', new LoginView());
@@ -188,7 +214,9 @@ router.register('/tournament', new TournamentView());
 router.register('/play-tournament', new PlayTournamentView());
 router.register('/tictactoe', new TicTacToeView());
 
-window.onpopstate = router.handleLocation;
+function onpopstate_route() { router.handleLocation(); }
+
+window.onpopstate = onpopstate_route;
 window.route = router.route;
 
 router.handleLocation();
