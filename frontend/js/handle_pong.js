@@ -67,6 +67,8 @@ var Display = {
 
 var socket;
 var start;
+var gameAgainstIA = 0;
+var nbRebonds = 0;
 
 function changeDisplayButtons()
 {
@@ -167,6 +169,7 @@ function handleEventsPong() {
 						Game.is_playing = true;
 						changeDisplayButtons();
 						startGame(true);
+						gameAgainstIA++;
 						start = performance.now();
 						break;
 					}
@@ -274,6 +277,7 @@ function calculatePoses() {
 	}
 
 	if (Ball.pos_X <= 24 && (Ball.pos_Y <= Player1.pos_Y + 9 && Ball.pos_Y >= Player1.pos_Y - 9)) {
+		nbRebonds++;
 		if (Ball.pos_Y - Player1.pos_Y < 0)
 			Ball.dir_Y = Directions.UP;
 		else if (Ball.pos_Y - Player1.pos_Y > 0)
@@ -304,6 +308,7 @@ function calculatePoses() {
 		Ball.speed += 0.3;
 	}
 	if (Ball.pos_X >= 276 && (Ball.pos_Y <= Player2.pos_Y + 9 && Ball.pos_Y >= Player2.pos_Y - 9)) {
+		nbRebonds++;
 		if (Ball.pos_Y - Player2.pos_Y < 0)
 			Ball.dir_Y = Directions.UP;
 		else if (Ball.pos_Y - Player2.pos_Y > 0)
