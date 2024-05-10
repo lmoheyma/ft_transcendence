@@ -66,7 +66,7 @@ var Display = {
 }
 
 var socket;
-
+var start;
 
 function changeDisplayButtons()
 {
@@ -130,6 +130,7 @@ function handleEventsPong() {
 						Game.is_playing = true;
 						changeDisplayButtons();
 						startGame(true);
+						start = performance.now();
 						break;
 					}
 					case "remote":
@@ -154,6 +155,7 @@ function handleEventsPong() {
 						}
 						handleEventsPongRemote();
 						initializeGameData();
+						start = performance.now();
 						break;
 					}
 					case "ai":
@@ -165,6 +167,7 @@ function handleEventsPong() {
 						Game.is_playing = true;
 						changeDisplayButtons();
 						startGame(true);
+						start = performance.now();
 						break;
 					}
 					default:
@@ -177,7 +180,6 @@ function handleEventsPong() {
 		computeCanvasSize()
 		drawAll();
 	});
-
 }
 
 function startGame(calculate) {
@@ -355,6 +357,8 @@ function pointWon(player) {
 		Player1.score++;
 		if (Player1.score > 2)
 		{
+			const end = performance.now();
+			const gameDuration = ((end - start) / 1000).toFixed(1);
 			if (Game.gamemod === GameMod.REMOTE)
 			{
 				var send_data = {
@@ -388,6 +392,8 @@ function pointWon(player) {
 		Player2.score++;
 		if (Player2.score > 2)
 		{
+			const end = performance.now();
+			const gameDuration = ((end - start) / 1000).toFixed(1);
 			if (Game.gamemod === GameMod.REMOTE)
 			{
 				var send_data = {
