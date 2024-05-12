@@ -55,6 +55,18 @@ function changeActivePage() {
 	}
 }
 
+window.addEventListener('message', (e) => {
+	switch (e.data)
+	{
+		case 'HIDENAV' :
+			hideNavbar();
+			break;
+		case 'SHOWNAV' :
+			displayNavbar();
+			break;
+	}
+});
+
 deleteAllActiveClass();
 setupNavbar();
 changeActivePage();
