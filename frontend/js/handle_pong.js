@@ -176,6 +176,7 @@ function handleEventsPong() {
 						initializeGameData();
 						Game.is_playing = true;
 						changeDisplayButtons();
+						changePlayerNames('Player', 'Bot');
 						startGame(true);
 						start = performance.now();
 						break;
