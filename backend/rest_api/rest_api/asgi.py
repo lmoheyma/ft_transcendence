@@ -16,6 +16,7 @@ from channels.auth import AuthMiddlewareStack
 from channels.routing import ProtocolTypeRouter, URLRouter
 from .settings import IS_WS
 from pong_server.routing import websocket_urlpatterns
+from pong_server.middleware import GameMiddleware
 
 os.environ.setdefault('DJANGO_SETTINGS_MODULE', 'rest_api.settings')
 django_asgi_app = get_asgi_application()
@@ -25,8 +26,12 @@ protocols = {}
 if IS_WS == False :
     protocols["http"] = get_asgi_application()
 if IS_WS == True :
-    protocols["websocket"] = AllowedHostsOriginValidator(
-            AuthMiddlewareStack(URLRouter(websocket_urlpatterns))
-        )
+    protocols["websocket"] = \
+            GameMiddleware(
+            AllowedHostsOriginValidator(
+            AuthMiddlewareStack(
+                URLRouter(websocket_urlpatterns)
+                )
+        ))
 
 application = ProtocolTypeRouter(protocols)
