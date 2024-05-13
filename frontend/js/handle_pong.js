@@ -158,6 +158,7 @@ function handleEventsPong() {
 						}
 						handleEventsPongRemote();
 						initializeGameData();
+						changeDisplayButtons();
 						start = performance.now();
 						break;
 					}

@@ -152,7 +152,8 @@ function handleEventsPongRemote() {
 						"player2_dir": Player2.dir,
 					};
 				}
-				socket.send(JSON.stringify(send_data));
+				if (socket.readyState == 1)
+					socket.send(JSON.stringify(send_data));
 				// console.log("Msg send");
 			}
 		}, 10);
