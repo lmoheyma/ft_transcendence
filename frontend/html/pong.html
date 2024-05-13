@@ -21,14 +21,14 @@
 		</div>
 		<canvas id="pong-canvas"></canvas>
 		<div class="score" style="text-align: center;">
-			<span id="player1">Bob</span><span id="player2">Alice</span>
+			<span id="player1">Player 1</span><span id="player2"> Player 2</span>
 		</div>
 		<div class="row justify-content-center">
 			<div class="custom-button game-display">
-				<button id="multi-btn" class="btn" onclick="hideNavbar()" data-translate="start">START</button>
+				<button id="multi-btn" class="btn" onclick="window.top.postMessage('HIDENAV', '*')" data-translate="start">START</button>
 			</div>
 			<div class="custom-button game-display" hidden>
-				<button id="leave-match" class="btn" onclick="displayNavbar()" data-translate="leave">LEAVE</button>
+				<button id="leave-match" class="btn" onclick="window.top.postMessage('SHOWNAV', '*')" data-translate="leave">LEAVE</button>
 			 </div>
 		</div>
 	</div>

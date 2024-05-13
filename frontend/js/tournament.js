@@ -218,15 +218,15 @@ async function loadTournament()
         {
             updateInterval   = window.setInterval(updateTournament, 10000);
             ws               = new WebSocket(`wss://localhost:8000/ws/tournament/${code}/${getCookie('Session')}`);
-            window.onmessage = function(e) {
+            window.addEventListener('message', (e) => {
                 if (e.data == 'UPDATE') {
                     updateTournament();
                     ws.send('UPDATE');
-                    console.log(e.data);
                 }
-            };
+            });
             ws.onopen = function (event) {
-                ws.send('UPDATE');
+                if (ws.readyState === 1)
+                    ws.send('UPDATE');
             };
             ws.onmessage = function (event) {
                 if (event.data == 'START' || event.data == 'UPDATE')

@@ -24,25 +24,37 @@ class   PongConsumer(AsyncWebsocketConsumer):
         if token_obj != None :
             self.user = token_obj.user
             try :
-                game = Game.objects.get(name=self.room_name)
+                self.game = Game.objects.get(name=self.room_name)
             except :
-                game = None
-            if game == None :
-                game = Game(name=self.room_name, player1=self.user.player)
+                self.game = None
+            if self.game == None :
+                self.game = Game(name=self.room_name, player1=self.user.player)
                 self.player_no = 1
-                game.save()
-            elif game.player1 == None and game.player2 != self.user.player :
-                game.player1 = self.user.player
-                game.save()
+                self.game.save()
+            elif self.game.player1 == None and self.game.player2 != self.user.player :
+                self.game.player1 = self.user.player
+                self.game.save()
                 self.player_no = 1
-            elif game.player2 == None and game.player1 != self.user.player :
-                game.player2 = self.user.player
-                game.save()
+            elif self.game.player2 == None and self.game.player1 != self.user.player :
+                self.game.player2 = self.user.player
+                self.game.save()
                 self.player_no = 2
             else :
                 return connect_status.TOO_MANY_PLAYERS
             return connect_status.SUCCESS
         return connect_status.INVALID_TOKEN
+
+    @database_sync_to_async
+    def get_players_info(self):
+        packet = {
+            "type" : "player",
+            "you" : self.player_no
+        }
+        if self.game.player1 != None :
+            packet['player1'] = self.game.player1.user.username
+        if self.game.player2 != None :
+            packet['player2'] = self.game.player2.user.username
+        return packet
     
     @database_sync_to_async
     def disconnect_match(self):
@@ -81,12 +93,16 @@ class   PongConsumer(AsyncWebsocketConsumer):
         await self.channel_layer.group_add(
             self.room_name + str(self.player_no), self.channel_name
         )
-        packet = {
-        "type" : "player",
-        "you": self.player_no
-        }
+        packet = await self.get_players_info()
         await self.channel_layer.group_send(
-            self.room_name + str(self.player_no),
+            self.room_name + str(1),
+            {
+                "type" : "send_packet",
+                "message" : json.dumps(packet)
+            }
+        )
+        await self.channel_layer.group_send(
+            self.room_name + str(2),
             {
                 "type" : "send_packet",
                 "message" : json.dumps(packet)

@@ -164,7 +164,6 @@ class TicTacToeView extends FileView
     }
 }
 
-
 class RegisterView extends FileView
 {
     constructor() {
@@ -186,7 +185,10 @@ class Router
     async handleLocation() {
         var path = window.location.pathname;
         if (this.current_view != null)
+        {
+            displayNavbar();
             await this.current_view.leave();
+        }
         this.current_view = this.routes[path] || this.routes[404];
         if (this.current_view.auth == true && await check_token() === false) {
             this.current_view = this.routes['/login'];
