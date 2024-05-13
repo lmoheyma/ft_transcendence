@@ -48,7 +48,7 @@ class   PongConsumer(AsyncWebsocketConsumer):
     def get_players_info(self):
         packet = {
             "type" : "player",
-            "you": self.player_no
+            "you" : self.player_no
         }
         if self.game.player1 != None :
             packet['player1'] = self.game.player1.user.username

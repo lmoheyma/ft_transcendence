@@ -124,7 +124,6 @@ function handleEventsPongRemote() {
 
 	socket.onopen = function(e) {
 		console.log("Connected");
-		alert("Connected");
 		
 		waitOtherPlayer = true;
 		interval = setInterval(() => {
@@ -163,14 +162,13 @@ function handleEventsPongRemote() {
 	};
 	
 	socket.onmessage = function (event) {
-		console.log(`[message] Data received from server: ${event.data}`);
 		var msg = JSON.parse(event.data);
 		var data = JSON.parse(msg.message);
 		if (data.type === 'player')
 		{
 			document.getElementById('player1').innerHTML = data.player1 ? data.player1 : 'Waiting...';
 			document.getElementById('player2').innerHTML = data.player2 ? data.player2 : 'Waiting...';
-			if (!type && data.type === "player")
+			if (!type)
 			{
 				type = data.you == 1 ? "host" : "guest";
 				adversaryType = data.you == 1 ? "guest" : "host";
@@ -328,6 +326,5 @@ function handleEventsPongRemote() {
 		document.removeEventListener('visibilitychange', updatePongView);
 		document.removeEventListener('click', leavePongRemote);
 		console.log('Connection died');
-		alert('Connection died');
 	}
 }
