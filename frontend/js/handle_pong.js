@@ -106,6 +106,12 @@ function computeCanvasSize()
 	}
 }
 
+function changePlayerNames(p1, p2)
+{
+	document.getElementById('player1').innerHTML = p1;
+	document.getElementById('player2').innerHTML = p2;
+}
+
 function handleEventsPong() {
 	document.addEventListener('click', async (event) => {
 		if (!Game.is_playing)

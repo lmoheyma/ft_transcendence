@@ -113,6 +113,8 @@ function leavePongRemote(event) {
 				type = "";
 				adversaryType = "";
 				drawAll();
+				document.getElementById('player1').innerHTML = 'Player 1';
+				document.getElementById('player2').innerHTML = 'Player 2';
 			}
 		}
 	}
@@ -164,10 +166,15 @@ function handleEventsPongRemote() {
 		console.log(`[message] Data received from server: ${event.data}`);
 		var msg = JSON.parse(event.data);
 		var data = JSON.parse(msg.message);
-		if (!type && data.type === "player")
+		if (data.type === 'player')
 		{
-			type = data.you == 1 ? "host" : "guest";
-			adversaryType = data.you == 1 ? "guest" : "host";
+			document.getElementById('player1').innerHTML = data.player1 ? data.player1 : 'Waiting...';
+			document.getElementById('player2').innerHTML = data.player2 ? data.player2 : 'Waiting...';
+			if (!type && data.type === "player")
+			{
+				type = data.you == 1 ? "host" : "guest";
+				adversaryType = data.you == 1 ? "guest" : "host";
+			}
 		}
 		else if (type == "host" && data.type === adversaryType)
 		{
