@@ -72,7 +72,7 @@ function predictImpactHeightRight() {
     var angle = Ball.angle;
     var speed = Ball.speed;
 	
-	var precision = Math.floor(Math.random() * ((276 - posX) / 10));
+	var precision = Math.floor(Math.random() * ((276 - posX) / 5));
 
     while (posX < 276) {
         if (posY <= 6) {
