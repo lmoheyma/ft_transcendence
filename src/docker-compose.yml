@@ -2,6 +2,9 @@ networks:
   transcendence :
     name : transcendence
 
+volumes:
+  postgres_data:
+
 services :
   nginx :
     container_name : nginx
@@ -53,7 +56,6 @@ services :
       - DJANGO_SUPERUSER_USERNAME=${DJANGO_SUPERUSER_USERNAME}
     restart: always
 
-
   postgres_db :
     container_name : postgres_db
     image : postgres:15
@@ -75,7 +77,3 @@ services :
     networks :
       - transcendence
     restart: always
-
-
-volumes:
-  postgres_data:
