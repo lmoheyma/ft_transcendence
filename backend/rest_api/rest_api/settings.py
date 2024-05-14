@@ -12,6 +12,14 @@ https://docs.djangoproject.com/en/5.0/ref/settings/
 
 from pathlib import Path
 import os
+from django.core.management.utils import get_random_secret_key
+
+def use_or_generate(path):
+    if not (os.path.exists(path)):
+        with open(path, 'w') as f :
+            f.write(get_random_secret_key())
+    with open(path, 'r') as f :
+        return f.read()
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
@@ -22,7 +30,7 @@ CSRF_TRUSTED_ORIGINS = [ "https://localhost:8000",]
 # See https://docs.djangoproject.com/en/5.0/howto/deployment/checklist/
 
 # SECURITY WARNING: keep the secret key used in production secret!
-SECRET_KEY = 'django-insecure-l1x4r9z&qq9tm@5--+$yw=ohm#*!sot4x0&wf_rj7os24j6%gk'
+SECRET_KEY = use_or_generate('/tmp/.django_key')
 
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
@@ -85,9 +93,9 @@ DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.postgresql',
         'NAME' : 'transcendence_db',
-        'USER' : 'django',
-        'PASSWORD' : 'django',
-        'HOST' : 'postgres_db',
+        'USER' : os.environ['POSTGRES_USER'],
+        'PASSWORD' : os.environ['POSTGRES_PASSWORD'],
+        'HOST' : os.environ['POSTGRES_DB'],
         'PORT' : '5432'
     }
 }
