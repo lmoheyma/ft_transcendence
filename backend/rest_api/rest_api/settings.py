@@ -92,14 +92,13 @@ WSGI_APPLICATION = 'rest_api.wsgi.application'
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.postgresql',
-        'NAME' : 'transcendence_db',
+        'NAME' : os.environ['POSTGRES_DB'],
         'USER' : os.environ['POSTGRES_USER'],
         'PASSWORD' : os.environ['POSTGRES_PASSWORD'],
-        'HOST' : os.environ['POSTGRES_DB'],
+        'HOST' : 'postgres_db',
         'PORT' : '5432'
     }
 }
-
 
 # Password validation
 # https://docs.djangoproject.com/en/5.0/ref/settings/#auth-password-validators
