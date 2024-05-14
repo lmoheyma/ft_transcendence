@@ -77,6 +77,8 @@ class   Game(models.Model):
     score_player1   = models.PositiveIntegerField(default=0)
     score_player2   = models.PositiveIntegerField(default=0)
     created_on      = models.DateTimeField(auto_now_add=True)
+    nb_bounces      = models.PositiveIntegerField(default=0)
+    game_duration   = models.DecimalField(default=0, max_digits=4, decimal_places=1)
     is_finished     = models.BooleanField(default=False, null=False)
     is_tournament   = models.BooleanField(default=False, null=False)
 

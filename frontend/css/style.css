@@ -35,6 +35,10 @@ body {
 	z-index: 10;
 }
 
+#dropdownId {
+	max-height: 100px;
+}
+
 .navbar {
 	position: absolute;
 	top: 15px;
@@ -98,6 +102,7 @@ body {
 	margin-left: 12px;
 	background-color: #FFFAF0;
 }
+
 .navbar ul li:hover {
 	background: #cccdce44;
 	border-radius: 0px;
