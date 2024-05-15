@@ -1,2 +1,13 @@
 {
+    "navPage": "--------------- NAV.html ---------------",
+	"dashboard": "Dashboard",
+	"login": "Login",
+    "logout": "Logout",
+    "games": "Games",
+    "local-pong": "Pong Local",
+    "remote-pong": "Pong Multiplayer",
+    "ai-pong": "Pong vs. AI",
+    "tic-tac-toe": "Morpion",
+    "tournament": "Tournois",
+    "settings": "Paramètres"
 }  

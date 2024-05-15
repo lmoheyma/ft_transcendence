@@ -24,11 +24,11 @@ async function login(event) {
 			router.route(event);
 			loginActivePage();
 			console.log("New session token : " + session);
-			status_ws = new WebSocket("wss://localhost:8000/ws/status/"+session);
+			status_ws = new WebSocket(`wss://${window.location.host}/ws/status/${session}`);
 		}
 		else if (reponse.status == 400) 
 		{
-			document.getElementById("status").innerHTML = "";
+			document.getElementById("status").innerText = "";
 			var status = document.getElementById("status");
 			Object.keys(resultat).forEach(function(key) {
 				var paragraph = document.createElement('p');
@@ -89,7 +89,7 @@ async function register(event) {
 		}
 		else if (reponse.status == 400)
 		{
-			document.getElementById("status").innerHTML = "";
+			document.getElementById("status").innerText = "";
 			var status = document.getElementById("status");
 			Object.keys(resultat).forEach(function(key) {
 				var paragraph = document.createElement('p');

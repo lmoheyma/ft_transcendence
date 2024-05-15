@@ -69,7 +69,7 @@ var socket;
 var start;
 var nbRebonds = 0;
 var thisGamemod;
-const queryString = window.location.search;;
+const queryString = window.location.search;
 
 function changeDisplayButtons()
 {
@@ -94,22 +94,33 @@ function getCookie(name) {
 
 function computeCanvasSize()
 {
-	if (window.innerHeight * (4/3) < window.innerWidth)
+	if (window.innerHeight < window.innerWidth - 50)
 	{
-		Game.canvas.width = window.innerHeight * (4/3);
-		Game.canvas.height = window.innerHeight * 0.9;
+		Game.canvas.height = window.innerHeight - 200;
+		Game.canvas.width = Game.canvas.height * 1.5;
 	}
 	else
 	{
-		Game.canvas.width = window.innerWidth * 0.9;
-		Game.canvas.height = window.innerWidth * (2/3);
+		Game.canvas.width = window.innerWidth;
+		Game.canvas.height = Game.canvas.width * (2 / 3);
+	}
+
+	if (Game.canvas.width > 900)
+		Game.canvas.width = 900;
+	if (Game.canvas.height > 600)
+		Game.canvas.height = 600;
+
+	if (window.innerHeight < 500)
+	{
+		Game.canvas.height = 300;
+		Game.canvas.width = Game.canvas.height * 1.5;
 	}
 }
 
 function changePlayerNames(p1, p2)
 {
-	document.getElementById('player1').innerHTML = p1;
-	document.getElementById('player2').innerHTML = p2;
+	document.getElementById('player1').innerText = p1;
+	document.getElementById('player2').innerText = p2;
 }
 
 function handleEventsPong() {
@@ -149,18 +160,18 @@ function handleEventsPong() {
 						const code = new URLSearchParams(queryString).get('code');
 						if (code == null)
 						{
-							const res = await fetch("https://localhost:8000/api/find_match/", {
+							const res = await fetch(`https://${window.location.host}/api/find_match/`, {
 								method: "GET",
 								headers: {
 								"Authorization" : "Token " + getCookie("Session"),
 								}
 							});
 							const room = await res.json();
-							socket = new WebSocket(`wss://localhost:8000/ws/room/${room.name}/${getCookie("Session")}`);
+							socket = new WebSocket(`wss://${window.location.host}/ws/room/${room.name}/${getCookie("Session")}`);
 						}
 						else
 						{
-							socket = new WebSocket(`wss://localhost:8000/ws/room/${code}/${getCookie("Session")}`);
+							socket = new WebSocket(`wss://${window.location.host}/ws/room/${code}/${getCookie("Session")}`);
 						}
 						handleEventsPongRemote();
 						initializeGameData();
@@ -495,8 +506,9 @@ function gameWon(player) {
 	else
 		document.getElementById('score-left').style.color = '#29cf16';
 	// displayNavbar();
+	window.top.postMessage('SHOWNAV', '*');
 	Game.is_playing = false;
-	// changeDisplayButtons();
+	changeDisplayButtons();
 	Game.gameOver = true;
 	if (Game.gamemod == GameMod.MULTI)
 	{

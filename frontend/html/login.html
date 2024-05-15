@@ -21,7 +21,11 @@
 				</div>
 				<button type="submit" id="submit-btn" class="btn" onclick="login(event)" data-translate="login-exc">Login!</button>
 				<div class="pt-2" id="status"></div>
-				<p data-translate="dont-have-account">Don't have an account? <a href="/register" onclick="router.route()" class="link" data-translate="sign-up-here">Sign up Here!</p>
+				<div id="go-to-register">
+					<p data-translate="dont-have-account">Don't have an account?</p>
+					<a href="/register" onclick="router.route()" class="link" data-translate="sign-up-here">Sign up Here!</a>
+				</div>
+				
 			</div>
 			</div>
 		</div>

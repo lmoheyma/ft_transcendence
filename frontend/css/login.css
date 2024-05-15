@@ -65,8 +65,10 @@
     background-color: #ad5fd4 !important;
 }
 
-p {
-    margin: 20px 0px;
+#go-to-register, #go-to-login {
+    /* margin: 10px 0px; */
+    margin: 0 0 3vh 0;
+    text-align: center;
 }
 
 .link{

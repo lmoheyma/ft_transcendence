@@ -221,6 +221,11 @@ class   TournamentParticipantSerializer(serializers.ModelSerializer):
                 S += i.score_player2
         return S
 
+def get_tournament_player_games(tournament, player):
+    return tournament.games.all().filter(Q(game__is_finished=False) \
+                                                 & (Q(participant1=player)
+                                                    | Q(participant2=player)))
+
 class   TournamentSerializer(serializers.ModelSerializer):
     participants    = serializers.SerializerMethodField()
     games           = serializers.SerializerMethodField()

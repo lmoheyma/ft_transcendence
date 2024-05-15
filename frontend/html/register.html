@@ -29,7 +29,10 @@
 				</div>
 				<button class="btn" id="submit-btn" type="submit" onclick="register(event)" data-translate="sign-up-exc" data-translate="sign-up-exc">Sign Up!</button>
 				<div class="pt-2" id="status"></div>
-				<p data-translate="already-have-account">Already have an account? <a href="/login" onclick="router.route()" class="link" data-translate="login-here">Login Here!</p>
+				<div id="go-to-login">
+					<p data-translate="already-have-account">Already have an account?</p>
+					<a href="/login" onclick="router.route()" class="link" data-translate="login-here">Login Here!</a>
+				</div>
 			</div>
 			</div>
 		</div>

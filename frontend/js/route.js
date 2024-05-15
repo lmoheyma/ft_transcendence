@@ -1,41 +1,46 @@
 var	status_ws = null;
+var currentLanguage = 'en';
+
 
 function getCookie(cname) {
     let name = cname + "=";
     let decodedCookie = decodeURIComponent(document.cookie);
     let ca = decodedCookie.split(';');
-    for(let i = 0; i <ca.length; i++) {
-      let c = ca[i];
-      while (c.charAt(0) == ' ') {
-        c = c.substring(1);
-      }
-      if (c.indexOf(name) == 0) {
-        return c.substring(name.length, c.length);
-      }
+    for (let i = 0; i < ca.length; i++) {
+        let c = ca[i];
+        while (c.charAt(0) == ' ') {
+            c = c.substring(1);
+        }
+        if (c.indexOf(name) == 0) {
+            return c.substring(name.length, c.length);
+        }
     }
     return "";
 }
 
-async function get_api(endpoint, method)
-{
+
+async function get_api(endpoint, method) {
     const reponse = await fetch(endpoint, {
         method: method,
         headers: {
-        "Authorization" : "Token " + getCookie("Session"),
-        "Content-Type": "application/json"
+            "Authorization": "Token " + getCookie("Session"),
+            "Content-Type": "application/json"
         },
     });
-    return await reponse;
+    return reponse;
 }
 
-async function check_token()
-{
-	const response = await get_api('/api/check-auth', 'GET');
+async function check_token() {
+    const response = await get_api('/api/check-auth', 'GET');
     if (response.status != 200)
         return false;
-	return true;
+    return true;
 }
 
+function changeLanguage(lang)
+{
+    currentLanguage = lang;
+}
 
 async function loadLanguage(lang) {
     if (!lang)
@@ -43,17 +48,16 @@ async function loadLanguage(lang) {
     const response = await fetch(`../json/${lang}.json`);
     const translations = await response.json();
     document.querySelectorAll('[data-translate]').forEach(el => {
-      const key = el.getAttribute('data-translate');
-      el.textContent = translations[key] || el.textContent;
+        const key = el.getAttribute('data-translate');
+        el.textContent = translations[key] || el.textContent;
     });
-  }
+}
 
-class FileView
-{
+class FileView {
     constructor(scripts, file, auth) {
-        this.scripts    = scripts;
-        this.file       = file;
-        this.auth       = auth;
+        this.scripts = scripts;
+        this.file = file;
+        this.auth = auth;
     }
 
     async loadScripts() {
@@ -73,8 +77,7 @@ class FileView
     }
 }
 
-class DashboardView extends FileView
-{
+class DashboardView extends FileView {
     constructor() {
         super(["/js/friends.js", "/js/chart.js", "/js/gameHistory.js"], '/html/dashboard.html', true);
     }
@@ -89,19 +92,16 @@ class DashboardView extends FileView
     }
 }
 
-class LoginView extends FileView
-{
+class LoginView extends FileView {
     constructor() {
         super([], '/html/login.html', false);
     }
 
-    async init()
-    {
+    async init() {
     }
 }
 
-class SettingsView extends FileView
-{
+class SettingsView extends FileView {
     constructor() {
         super(['/js/settings.js'], '/html/settings.html', true);
     }
@@ -113,68 +113,68 @@ class SettingsView extends FileView
     }
 }
 
-class PongView extends FileView
-{
+class PongView extends FileView {
     constructor() {
         super(['/js/display_pong.js'], '/html/pong-tab.html', true);
     }
 
     async init() {
         document.getElementById('pong').src = 'html/pong.html' + window.location.search;
-        status_ws.send('INGAME');
+        if (status_ws.readyState == WebSocket.OPEN)
+            status_ws.send('INGAME');
     }
 
     async leave() {
-        status_ws.send('ONLINE');
+        if (status_ws.readyState == WebSocket.OPEN)
+            status_ws.send('ONLINE');
     }
 }
 
-class TournamentView extends FileView
-{
+class TournamentView extends FileView {
     constructor() {
         super(['/js/tournament.js'], '/html/tournament.html', true);
     }
 }
 
-class PlayTournamentView extends FileView
-{
+class PlayTournamentView extends FileView {
     constructor() {
         super(['/js/tournament.js'], '/html/play-tournament.html', true);
     }
 
     async init() {
         loadTournament();
-        status_ws.send('INGAME');
+        const code = new URLSearchParams(document.location.search).get('code');
+        if (code != null)
+            document.getElementById('code').innerText = `Code : ${code}`;
+        if (status_ws.readyState == WebSocket.OPEN)
+            status_ws.send('INGAME');
     }
 
     async leave() {
-        status_ws.send('ONLINE');
-        ws.close();
+        if (status_ws.readyState == WebSocket.OPEN)
+            status_ws.send('ONLINE');
+        tournament_ws.close();
     }
 }
 
-class TicTacToeView extends FileView
-{
+class TicTacToeView extends FileView {
     constructor() {
         super(["/js/tictactoe.js", '/js/tictactoe_remote.js'], '/html/tic-tac-toe.html', true);
     }
 
-    async init()
-    {
+    async init() {
         var { initHandleTTT } = await import('/js/tictactoe.js');
         initHandleTTT();
     }
 }
 
-class RegisterView extends FileView
-{
+class RegisterView extends FileView {
     constructor() {
         super([], '/html/register.html', false);
     }
 }
 
-class Router
-{
+class Router {
     constructor() {
         this.routes = {};
         this.current_view = null;
@@ -186,8 +186,7 @@ class Router
 
     async handleLocation() {
         var path = window.location.pathname;
-        if (this.current_view != null)
-        {
+        if (this.current_view != null) {
             displayNavbar();
             await this.current_view.leave();
         }
@@ -197,8 +196,7 @@ class Router
         }
         const html = await fetch(this.current_view.file).then((data) => data.text());
         document.getElementById("main-page").innerHTML = html;
-    
-        const currentLanguage = '';
+        
         await loadLanguage(currentLanguage);
         this.current_view.enter();
     }
@@ -210,7 +208,7 @@ class Router
         await this.handleLocation();
     }
 
-    async redirect() {
+    async redirect(path) {
         window.location.pathname = path;
         await this.handleLocation();
     }
@@ -229,11 +227,9 @@ router.register('/play-tournament', new PlayTournamentView());
 router.register('/tictactoe', new TicTacToeView());
 
 function onpopstate_route() { router.handleLocation(); }
-if (getCookie('Session') != '')
-{
-    try
-    {
-        status_ws = new WebSocket("wss://localhost:8000/ws/status/"+getCookie('Session'));
+if (getCookie('Session') != '') {
+    try {
+        status_ws = new WebSocket(`wss://${window.location.host}/ws/status/${getCookie('Session')}`);
     } catch
     {
         document.cookie = "Session=";
