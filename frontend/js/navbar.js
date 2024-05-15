@@ -31,6 +31,12 @@ function deleteAllActiveClass() {
 	element.classList.remove("active");
 	element = document.getElementById("tournamentId");
 	element.classList.remove("active");
+	element = document.getElementById("en-language");
+	element.classList.remove("active");
+	element = document.getElementById("fr-language");
+	element.classList.remove("active");
+	element = document.getElementById("pt-language");
+	element.classList.remove("active");
 }
 
 function loginActivePage() {
@@ -78,6 +84,24 @@ function changeActivePage() {
 			break ;
 		case "/tournament":
 			element = document.getElementById("tournamentId");
+			element.classList.add("active");
+			break ;
+		default:
+			break;
+	}
+
+	console.log(currentLanguage)
+	switch (currentLanguage) {
+		case "en":
+			element = document.getElementById("en-language");
+			element.classList.add("active");
+			break ;
+		case "fr":
+			element = document.getElementById("fr-language");
+			element.classList.add("active");
+			break ;
+		case "pt":
+			element = document.getElementById("pt-language");
 			element.classList.add("active");
 			break ;
 		default:
