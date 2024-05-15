@@ -115,17 +115,23 @@ function  updateScoreboard()
     for (let i = len - 1; i > 0; i--) {
         scoreboard.deleteRow(i);
     }
+    tournament_state.participants.sort((a, b) => b.score - a.score)
     let i = 1;
+    let saved_i = 1;
+    let tmp_participant;
     tournament_state.participants.forEach(e => {
         let new_row     = scoreboard.insertRow();
         let rankCell    = new_row.insertCell();
         let nameCell    = new_row.insertCell();
         let scoreCell   = new_row.insertCell();
-
+        
+        if (tmp_participant && e.score != tmp_participant.score)
+            i = saved_i;
         rankCell.innerText  = i;
         nameCell.innerText  = e.username;
         scoreCell.innerText = e.score;
-        i += 1;
+        tmp_participant = e;
+        saved_i += 1;
     });
 }
 
