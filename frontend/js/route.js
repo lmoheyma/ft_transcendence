@@ -153,7 +153,8 @@ class PlayTournamentView extends FileView {
     async leave() {
         if (status_ws.readyState == WebSocket.OPEN)
             status_ws.send('ONLINE');
-        tournament_ws.close();
+        if (tournament_ws != null)
+            tournament_ws.close();
     }
 }
 
