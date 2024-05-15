@@ -15,7 +15,13 @@ class TourGameAdmin(admin.ModelAdmin):
                     "participant2",
                     "round_no"]
 
-admin.site.register(Player)
+class PlayerAdmin(admin.ModelAdmin):
+    list_display = ["id",
+                    "games_no",
+                    "wins",
+                    "losses"]
+
+admin.site.register(Player, PlayerAdmin)
 admin.site.register(Game)
 admin.site.register(FriendInvite)
 admin.site.register(Friendship)

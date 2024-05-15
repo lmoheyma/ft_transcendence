@@ -3,9 +3,13 @@ from channels.middleware import BaseMiddleware
 class GameStats:
 
     def __init__(self) -> None:
-        self.player1 = None
-        self.player2 = None
-        self.no_players = 0
+        self.no_players     = 0
+        self.stat_tracker   = {
+            'player1_score' : 0,
+            'player2_score' : 0,
+            'nb_bounces' : 0,
+        }
+        self.is_finished = False
 
 class   GameMiddleware(BaseMiddleware):
 
