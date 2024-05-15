@@ -108,7 +108,7 @@ function handleEventsTicTacToe() {
 					{
 						TicTacToe.gameOver = false;
 						TicTacToe.gamemod = GameMod.REMOTE;
-						var req = await fetch('https://localhost:8000/api/find_match/', {
+						var req = await fetch('/api/find_match/', {
 							method: "GET",
 							headers: {
 							"Authorization" : "Token " + getCookie("Session")
@@ -116,7 +116,7 @@ function handleEventsTicTacToe() {
 						});
 						var room = await req.json();
 						console.log(room)
-						socket = new WebSocket(`wss://localhost:8000/ws/room/${room.name}/${getCookie("Session")}`);
+						socket = new WebSocket(`wss://${window.location.host}/ws/room/${room.name}/${getCookie("Session")}`);
 						initializeTTTData();
 						handleEventsTTTRemote();
 						break;

@@ -210,7 +210,7 @@ async function loadTournament()
         if (await updateTournament() == 200)
         {
             updateInterval   = window.setInterval(updateTournament, 10000);
-            tournament_ws               = new WebSocket(`wss://localhost:8000/ws/tournament/${code}/${getCookie('Session')}`);
+            tournament_ws               = new WebSocket(`wss://${window.location.host}/ws/tournament/${code}/${getCookie('Session')}`);
             window.addEventListener('message', (e) => {
                 if (e.data == 'UPDATE') {
                     updateTournament();

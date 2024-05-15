@@ -227,7 +227,7 @@ router.register('/tictactoe', new TicTacToeView());
 function onpopstate_route() { router.handleLocation(); }
 if (getCookie('Session') != '') {
     try {
-        status_ws = new WebSocket("wss://localhost:8000/ws/status/" + getCookie('Session'));
+        status_ws = new WebSocket(`wss://${window.location.host}/ws/status/${getCookie('Session')}`);
     } catch
     {
         document.cookie = "Session=";

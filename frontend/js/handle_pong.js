@@ -160,18 +160,18 @@ function handleEventsPong() {
 						const code = new URLSearchParams(queryString).get('code');
 						if (code == null)
 						{
-							const res = await fetch("https://localhost:8000/api/find_match/", {
+							const res = await fetch(`https://${window.location.host}/api/find_match/`, {
 								method: "GET",
 								headers: {
 								"Authorization" : "Token " + getCookie("Session"),
 								}
 							});
 							const room = await res.json();
-							socket = new WebSocket(`wss://localhost:8000/ws/room/${room.name}/${getCookie("Session")}`);
+							socket = new WebSocket(`wss://${window.location.host}/ws/room/${room.name}/${getCookie("Session")}`);
 						}
 						else
 						{
-							socket = new WebSocket(`wss://localhost:8000/ws/room/${code}/${getCookie("Session")}`);
+							socket = new WebSocket(`wss://${window.location.host}/ws/room/${code}/${getCookie("Session")}`);
 						}
 						handleEventsPongRemote();
 						initializeGameData();
