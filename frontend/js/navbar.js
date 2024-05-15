@@ -43,7 +43,14 @@ function changeActivePage() {
 	var element;
 
 	deleteAllActiveClass();
-	switch (path) {
+
+	const queryString = window.location.search;
+	const choices = ['remote', 'multi', 'ai']
+	const mode = new URLSearchParams(queryString).get('mode');
+	var thisGamemod = thisGamemod = mode != null && choices.includes(mode) ? mode : '';
+	const tmp_path = thisGamemod ? `${path}?mode=${thisGamemod}` : path;
+
+	switch (tmp_path) {
 		case "/dashboard":
 			element = document.getElementById("dashboardId");
 			element.classList.add("active");
@@ -56,9 +63,10 @@ function changeActivePage() {
 			element = document.getElementById("logoutId");
 			element.classList.add("active");
 			break ;
-		case "/pong?mode=multi":
+		case "/pong":
 			element = document.getElementById("pongMultiId");
 			element.classList.add("active");
+			console.log(element.classList)
 			break ;
 		case "/pong?mode=remote":
 			element = document.getElementById("pongRemoteId");
