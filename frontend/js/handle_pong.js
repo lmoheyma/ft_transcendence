@@ -94,15 +94,26 @@ function getCookie(name) {
 
 function computeCanvasSize()
 {
-	if (window.innerHeight * (4/3) < window.innerWidth)
+	if (window.innerHeight < window.innerWidth - 50)
 	{
-		Game.canvas.width = window.innerHeight * (4/3);
-		Game.canvas.height = window.innerHeight * 0.9;
+		Game.canvas.height = window.innerHeight - 200;
+		Game.canvas.width = Game.canvas.height * 1.5;
 	}
 	else
 	{
-		Game.canvas.width = window.innerWidth * 0.9;
-		Game.canvas.height = window.innerWidth * (2/3);
+		Game.canvas.width = window.innerWidth;
+		Game.canvas.height = Game.canvas.width * (2 / 3);
+	}
+
+	if (Game.canvas.width > 900)
+		Game.canvas.width = 900;
+	if (Game.canvas.height > 600)
+		Game.canvas.height = 600;
+
+	if (window.innerHeight < 500)
+	{
+		Game.canvas.height = 300;
+		Game.canvas.width = Game.canvas.height * 1.5;
 	}
 }
 
@@ -493,8 +504,9 @@ function gameWon(player) {
 	else
 		document.getElementById('score-left').style.color = '#29cf16';
 	// displayNavbar();
+	window.top.postMessage('SHOWNAV', '*');
 	Game.is_playing = false;
-	// changeDisplayButtons();
+	changeDisplayButtons();
 	Game.gameOver = true;
 	if (Game.gamemod == GameMod.MULTI)
 	{

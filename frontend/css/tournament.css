@@ -12,6 +12,10 @@
     max-width: 40rem;
 }
 
+body {
+    overflow: hidden;
+}
+
 .error
 {
     font-size: large;
