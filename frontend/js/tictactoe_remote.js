@@ -5,7 +5,17 @@ export var interval;
 export var type = "";
 export var adversaryType = "";
 export var connectedPlayers = 0;
+var turnTitle = document.getElementById('against-title');
 
+export function displayTurn() 
+{
+	if (TicTacToe.playerTurn == 0)
+		turnTitle.textContent = '';
+	else if ((TicTacToe.playerTurn == 1 && type === "host") || (TicTacToe.playerTurn == 2 && type === "guest"))
+		turnTitle.textContent = "Your turn";
+	else
+		turnTitle.textContent = "Ennemy turn";
+}
 function updateTTTView() {
 	if (socket.readyState === WebSocket.OPEN) {
 		if (TicTacToe.is_playing)
@@ -24,6 +34,7 @@ function updateTTTView() {
 			TicTacToe.playerTurn = 0;
 			TicTacToe.is_playing = false;
 			TicTacToe.gameOver = true;
+			displayTurn();
 			changeDisplayButtons();
 			drawTicTacToe();
 		}
@@ -33,7 +44,7 @@ function updateTTTView() {
 		adversaryType = "";
 		drawTicTacToe();
 		console.log('Forfait');
-		alert('Forfait');
+		// alert('Forfait');
 	}
 }
 
@@ -53,6 +64,7 @@ function remoteTTTclick(event) {
 				"playerTurn": TicTacToe.playerTurn,
 			};
 			socket.send(JSON.stringify(send_data));
+			displayTurn();
 		}
 	}
 	if (type && type === "guest")
@@ -68,22 +80,58 @@ function remoteTTTclick(event) {
 				"case_y": y,
 			};
 			socket.send(JSON.stringify(send_data));
+			displayTurn();
+		}
+	}
+}
+
+function leaveTTTRemote(event) {
+	if (TicTacToe.is_playing || waitOtherPlayer)
+	{
+		if (event.target.id == "leave-match")
+		{
+			if (TicTacToe.is_playing)
+			{
+				var send_data = {
+					"type" : type,
+					"request": "ff",
+					"wonPlayer": 2,
+				};
+				socket.send(JSON.stringify(send_data));
+				for (let i = 0; i < 3; i++) {
+					for (let j = 0; j < 3; j++) {
+						TicTacToe.cells[i][j] = 0;
+					}
+				}
+				TicTacToe.playerTurn = 0;
+				TicTacToe.gameOver = true;
+				displayTurn();
+			}
+			if (TicTacToe.is_playing || waitOtherPlayer)
+			{
+				socket.close();
+				TicTacToe.is_playing = false;
+				changeDisplayButtons();
+				waitOtherPlayer = false;
+				type = "";
+				adversaryType = "";
+				drawTicTacToe();
+			}
 		}
 	}
 }
 
 export function handleEventsTTTRemote() {
-	console.log(1);
 
 	socket.onopen = function(e) {
 		console.log("Connected");
-		alert("Connected");
+		// alert("Connected");
 		waitOtherPlayer = true;
 		drawTicTacToe();
 	};
 	
 	socket.onmessage = function (event) {
-		console.log(`[message] Data received from server: ${event.data}`);
+		// console.log(`[message] Data received from server: ${event.data}`);
 		var msg = JSON.parse(event.data);
 		var data = JSON.parse(msg.message);
 		if (!type && data.type === "player")
@@ -107,7 +155,6 @@ export function handleEventsTTTRemote() {
 					{
 						TicTacToe.is_playing = true;
 						waitOtherPlayer = false;
-						changeDisplayButtons();
 						var send_data = {
 							"type" : type,
 							"request": "connexion",
@@ -121,6 +168,7 @@ export function handleEventsTTTRemote() {
 							"playerTurn": TicTacToe.playerTurn,
 						};
 						socket.send(JSON.stringify(send_data));
+						displayTurn();
 						drawTicTacToe();
 					}
 					break;
@@ -137,6 +185,7 @@ export function handleEventsTTTRemote() {
 							"playerTurn": TicTacToe.playerTurn,
 						};
 						socket.send(JSON.stringify(send_data));
+						displayTurn();
 						drawTicTacToe();
 					}
 					break;
@@ -155,7 +204,9 @@ export function handleEventsTTTRemote() {
 					socket.close();
 					type = "";
 					adversaryType = "";
+					displayTurn();
 					drawTicTacToe();
+					displayNavbar();
 					alert('Victoire par forfait');
 					break;
 				}
@@ -177,12 +228,12 @@ export function handleEventsTTTRemote() {
 					{
 						TicTacToe.is_playing = true;
 						waitOtherPlayer = false;
-						changeDisplayButtons();
 						var send_data = {
 							"type" : type,
 							"request": "connexion",
 						};
 						socket.send(JSON.stringify(send_data));
+						displayTurn();
 						drawTicTacToe();
 					}
 					break;
@@ -192,6 +243,7 @@ export function handleEventsTTTRemote() {
 					TicTacToe.cells = data.cells;
 					TicTacToe.playerTurn = data.playerTurn;
 					connectedPlayers = data.connected_clients;
+					displayTurn();
 					drawTicTacToe();
 					break;
 				}
@@ -201,6 +253,8 @@ export function handleEventsTTTRemote() {
 					TicTacToe.gameOver = true;
 					changeDisplayButtons();
 					TicTacToe.wonPlayer = data.wonPlayer;
+					TicTacToe.playerTurn = 0;
+					displayTurn();
 					drawTicTacToe();
 					break;
 				}
@@ -219,6 +273,8 @@ export function handleEventsTTTRemote() {
 					type = "";
 					adversaryType = "";
 					drawTicTacToe();
+					displayTurn();
+					displayNavbar();
 					alert('Victoire par forfait');
 					break;
 				}
@@ -233,11 +289,13 @@ export function handleEventsTTTRemote() {
 	
 	document.addEventListener('visibilitychange', updateTTTView);
 	document.addEventListener('click', remoteTTTclick);
+	document.addEventListener('click', leaveTTTRemote);
 
 	socket.onclose = function(event) {
 		document.removeEventListener('click', updateTTTView);
 		document.removeEventListener('click', remoteTTTclick);
+		document.removeEventListener('click', leaveTTTRemote);
 		console.log('Connection died');
-		alert('Connection died');
+		// alert('Connection died');
 	}
 }
