@@ -36,12 +36,12 @@ async function editProfile() {
         });
         const resultat = await reponse.json();
         if (reponse.status === 200) {
-            document.getElementById("status").innerHTML = "";
+            document.getElementById("status").innerText = "";
             setupUsername();
             setupPlaceholder();
             clearInput();
         } else {
-            document.getElementById("status").innerHTML = "";
+            document.getElementById("status").innerText = "";
 			var status = document.getElementById("status");
 			Object.keys(resultat).forEach(function(key) {
 				var paragraph = document.createElement('p');
@@ -153,7 +153,7 @@ function handleSubmit(event) {
 
 async function avatarUpload() {
     var form = document.getElementById('fileToUpload');
-    document.getElementById('filenameId').innerHTML = "";
+    document.getElementById('filenameId').innerText = "";
     console.log()
     try {
         const reponse = await fetch("/api/account/avatar_upload", {

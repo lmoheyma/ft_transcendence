@@ -142,6 +142,9 @@ class PlayTournamentView extends FileView
 
     async init() {
         loadTournament();
+        const code = new URLSearchParams(document.location.search).get('code');
+        if (code != null)
+            document.getElementById('code').innerText = `Code : ${code}`;
         status_ws.send('INGAME');
     }
 
@@ -208,7 +211,7 @@ class Router
         await this.handleLocation();
     }
 
-    async redirect() {
+    async redirect(path) {
         window.location.pathname = path;
         await this.handleLocation();
     }

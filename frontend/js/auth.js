@@ -28,7 +28,7 @@ async function login(event) {
 		}
 		else if (reponse.status == 400) 
 		{
-			document.getElementById("status").innerHTML = "";
+			document.getElementById("status").innerText = "";
 			var status = document.getElementById("status");
 			Object.keys(resultat).forEach(function(key) {
 				var paragraph = document.createElement('p');
@@ -89,7 +89,7 @@ async function register(event) {
 		}
 		else if (reponse.status == 400)
 		{
-			document.getElementById("status").innerHTML = "";
+			document.getElementById("status").innerText = "";
 			var status = document.getElementById("status");
 			Object.keys(resultat).forEach(function(key) {
 				var paragraph = document.createElement('p');

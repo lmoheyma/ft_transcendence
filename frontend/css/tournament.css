@@ -12,6 +12,11 @@
     max-width: 40rem;
 }
 
+#code
+{
+    font-size: 3vmin;
+}
+
 .error
 {
     font-size: large;
@@ -57,10 +62,11 @@
 
 .score-body
 {
-    font-size: small;
+    font-size: 1.5vmin;
 }
 
-.score-head
+
+.score-head 
 {
-    font-size: medium;
+    font-size: 2vmin;
 }

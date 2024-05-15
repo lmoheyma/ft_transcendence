@@ -58,12 +58,12 @@ async function join_tournament(event) {
                 if ("error" in resultat) 
                 {
                     let status = document.getElementById('status');
-                    status.innerHTML = resultat["error"];
+                    status.innerText = resultat["error"];
                 }
                 break;
             default :  
                 let status = document.getElementById('status');
-                status.innerHTML = 'Server-side error. Try again later.';
+                status.innerText = 'Server-side error. Try again later.';
                 break ;
         }
     } catch (erreur) {
@@ -101,12 +101,12 @@ async function create_tournament(event) {
                 if ("error" in resultat) 
                 {
                     let status = document.getElementById('status');
-                    status.innerHTML = resultat["error"];
+                    status.innerText = resultat["error"];
                 }
                 break;
             default :  
                 let status = document.getElementById('status');
-                status.innerHTML = 'Server-side error. Try again later.';
+                status.innerText = 'Server-side error. Try again later.';
                 break ;
         }
     } catch (erreur) {
@@ -129,9 +129,9 @@ function  updateScoreboard()
         let nameCell    = new_row.insertCell();
         let scoreCell   = new_row.insertCell();
 
-        rankCell.innerHTML  = i;
-        nameCell.innerHTML  = e.username;
-        scoreCell.innerHTML = e.score;
+        rankCell.innerText  = i;
+        nameCell.innerText  = e.username;
+        scoreCell.innerText = e.score;
         i += 1;
     });
 }
@@ -166,7 +166,7 @@ async function  updateTournament()
         if (tournament_state.is_started === false && tournament_state.ismod == true)
         {
             let tour_info = document.getElementById('info');
-            tour_info.innerHTML = 'Start the tournament';
+            tour_info.innerText = 'Start the tournament';
             button_classes.forEach(e => {
                 tour_info.classList.add(e);
             });
@@ -180,7 +180,7 @@ async function  updateTournament()
             let game_iframe = document.getElementById('pong');
             game_iframe.src = '/html/pong.html?mode=remote&code=' + current_game;
             let tour_info   = document.getElementById('info');
-            tour_info.innerHTML = tournament_state.games[0].p1 + ' against ' + tournament_state.games[0].p2;
+            tour_info.innerText = tournament_state.games[0].p1 + ' against ' + tournament_state.games[0].p2;
         }
         if (tournament_state.games.length === 0 && tournament_state.is_started === true)
         {

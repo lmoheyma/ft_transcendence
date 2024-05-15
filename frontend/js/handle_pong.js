@@ -69,7 +69,7 @@ var socket;
 var start;
 var nbRebonds = 0;
 var thisGamemod;
-const queryString = window.location.search;;
+const queryString = window.location.search;
 
 function changeDisplayButtons()
 {
@@ -108,8 +108,8 @@ function computeCanvasSize()
 
 function changePlayerNames(p1, p2)
 {
-	document.getElementById('player1').innerHTML = p1;
-	document.getElementById('player2').innerHTML = p2;
+	document.getElementById('player1').innerText = p1;
+	document.getElementById('player2').innerText = p2;
 }
 
 function handleEventsPong() {

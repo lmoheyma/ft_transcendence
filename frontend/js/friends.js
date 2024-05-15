@@ -81,7 +81,7 @@ async function sendFriendRequest() {
         });
 		const resultat	= await reponse.json();
         if (reponse.status == 200) {
-			document.getElementById("status").innerHTML = "";
+			document.getElementById("status").innerText = "";
 			var status = document.getElementById("status");
 			var paragraph = document.createElement('p');
 			if (resultat.error)
@@ -92,7 +92,7 @@ async function sendFriendRequest() {
 			paragraph.style.color = "white";
         }
         else {
-			document.getElementById("status").innerHTML = "";
+			document.getElementById("status").innerText = "";
 			var status = document.getElementById("status");
 			var paragraph = document.createElement('p');
 			if (resultat.error)
@@ -158,8 +158,8 @@ async function displayFriendsRequestsList() {
         });
 		const resultat	= await reponse.json();
         if (reponse.status == 200) {
-			document.getElementById("friendsRequestsBody").innerHTML = "";
-			document.getElementById("noFriendsRequests").innerHTML = "";
+			document.getElementById("friendsRequestsBody").innerText = "";
+			document.getElementById("noFriendsRequests").innerText = "";
 			document.getElementById('friendsRequestsHead').style.display = "table-header-group";
 			if (resultat.length == 0) {
 				document.getElementById('friendsRequestsHead').style.display = "none";
@@ -198,8 +198,8 @@ async function displayFriendsList() {
         });
 		const resultat	= await reponse.json();
         if (reponse.status == 200) {
-            document.getElementById("friendsBody").innerHTML = "";
-			document.getElementById("noFriends").innerHTML = "";
+            document.getElementById("friendsBody").innerText = "";
+			document.getElementById("noFriends").innerText = "";
 			document.getElementById('friendsHead').style.display = "table-header-group";
 			if (resultat.length == 0) {
 				document.getElementById('friendsHead').style.display = "none";
