@@ -90,7 +90,6 @@ function changeActivePage() {
 			break;
 	}
 
-	console.log(currentLanguage)
 	switch (currentLanguage) {
 		case "en":
 			element = document.getElementById("en-language");
