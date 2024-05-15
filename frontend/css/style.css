@@ -35,6 +35,10 @@ body {
 	z-index: 10;
 }
 
+#dropdownId {
+	max-height: 100px;
+}
+
 .navbar {
 	position: absolute;
 	top: 15px;

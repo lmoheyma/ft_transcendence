@@ -394,8 +394,8 @@ function pointWon(player) {
 					"wonPlayer": 1,
 					"player1_score": Player1.score,
 					"player2_score" : Player2.score,
-					"nbBounces" : nbRebonds,
-					"gameDuration" : gameDuration
+					"nb_bounces" : nbRebonds,
+					"game_duration" : gameDuration
 				};
 				socket.send(JSON.stringify(send_data));
 			}
@@ -431,8 +431,8 @@ function pointWon(player) {
 					"wonPlayer": 2,
 					"player1_score": Player1.score,
 					"player2_score" : Player2.score,
-					"nbBounces" : nbRebonds,
-					"gameDuration" : gameDuration
+					"nb_bounces" : nbRebonds,
+					"game_duration" : gameDuration
 				};
 				socket.send(JSON.stringify(send_data));
 			}

@@ -79,6 +79,10 @@ class   Game(models.Model):
     created_on      = models.DateTimeField(auto_now_add=True)
     is_finished     = models.BooleanField(default=False, null=False)
     is_tournament   = models.BooleanField(default=False, null=False)
+    nb_bounces      = models.PositiveIntegerField(default=0)
+    game_duration   = models.DecimalField(default=0,
+                                          max_digits=4,
+                                          decimal_places=1)
 
 class   Tournament(models.Model):
     code        = models.CharField(max_length=14,

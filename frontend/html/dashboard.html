@@ -30,15 +30,15 @@
 							<th scope="col" class="tab-header" data-translate="score">Score</th>
 							</tr>
 						</thead>
-						<tbody>
-							<tr>
+						<tbody id="historyBody">
+							<!-- <tr>
 								<td class="oponent">vs Bot</td>
 								<td class="score">3 - 1</td>
 							</tr>
 							<tr>
 								<td class="oponent">vs Bot</td>
 								<td class="score">2 - 3</td>
-							</tr>
+							</tr> -->
 						</tbody>
 					</table>
 					<button type="submit" id="submit-btn" class="btn" onclick="" data-translate="show-all">Show all</button>
@@ -62,13 +62,15 @@
 						</tbody>
 					</table>
 					<div id="noFriends"></div>
-					<button id="submit-btn" class="btn" onclick="displayFriendsRequests(); displayFriendsRequestsList();" data-translate="show-friends-requests">Show friends requests</button>
+					<div class="mb-3">
+						<button id="submit-btn" class="btn" onclick="displayFriendsRequests(); displayFriendsRequestsList();" data-translate="show-friends-requests">Show friends requests</button>
+					</div>
 				</div>
 				<div class="custom-div col" id="friendsRequestDiv">
 					<h2 class="sub-title", data-translate="friends-requests">Friends Requests</h2>
 					<table class="table table-borderless w-100">
-						<thead id="friendsRequestsHead">
-							<tr>
+						<thead id="friendsRequestsHead" style="display: none;">
+							<tr id="nameTr">
 							<th scope="col" class="tab-header" data-translate="name">Name</th>
 							</tr>
 						</thead>

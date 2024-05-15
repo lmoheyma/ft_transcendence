@@ -133,8 +133,9 @@
 	top: 30%;
 	text-align: center;
 	font-weight: 1000;
-	font-size: 40px;
+	font-size: clamp(30px, 5.5vh, 6vh);
 	opacity: 50%;
+	margin-bottom: 100px;
 }
 
 #noFriendsRequests {
@@ -142,8 +143,9 @@
 	top: 23%;
 	text-align: center;
 	font-weight: 1000;
-	font-size: 40px;
+	font-size: clamp(30px, 4.5vh, 5vh);
 	opacity: 50%;
+	margin-bottom: 100px;
 }
 
 .btn-success {

@@ -160,9 +160,8 @@ async function displayFriendsRequestsList() {
         if (reponse.status == 200) {
 			document.getElementById("friendsRequestsBody").innerHTML = "";
 			document.getElementById("noFriendsRequests").innerHTML = "";
-			document.getElementById('friendsRequestsHead').style.display = "table-header-group";
+			document.getElementById('friendsRequestsHead').style.display = "none";
 			if (resultat.length == 0) {
-				document.getElementById('friendsRequestsHead').style.display = "none";
 				var noFriendsRequests = document.getElementById("noFriendsRequests");
 				var paragraph = document.createElement('p');
 				paragraph.setAttribute('style', 'white-space: pre;');
@@ -170,6 +169,7 @@ async function displayFriendsRequestsList() {
 				noFriendsRequests.appendChild(paragraph);
 				return ;
 			}
+			document.getElementById('friendsRequestsHead').style.display = "table-header-group";
 			var friendsList = document.getElementById("friendsRequestsBody");
 			for (const key in resultat) {
 				var itemsArray = Array.isArray(resultat[key]) ? resultat[key] : [resultat[key]];
