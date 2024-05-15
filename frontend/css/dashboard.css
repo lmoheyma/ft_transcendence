@@ -45,7 +45,7 @@
 
 #submit-btn {
 	position: absolute;
-	bottom: 17px;
+	bottom: 5%;
 	left: 50%;
 	transform: translateX(-50%);
     width: 90%;
@@ -55,6 +55,7 @@
     font-weight: 700;
     box-shadow: 5px 5px #000;
 	text-transform: uppercase;
+	margin-top: 50px;
 }
 
 #submit-btn:hover {
@@ -67,7 +68,7 @@
 
 .table {
 	border-collapse: unset;
-
+	margin-bottom: 20px;
 }
 
 .table .oponent {
