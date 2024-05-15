@@ -30,12 +30,22 @@
 							Games
 							</a>
 							<ul class="dropdown-menu">
-								<li><a class="dropdown-item" id="pongId" href="/pong?mode=multi" onclick="router.route(); deleteAllActiveClass()">Pong Local</a></li>
-								<li><a class="dropdown-item" id="pongId" href="/pong?mode=remote" onclick="router.route(); deleteAllActiveClass()">Pong Multiplayer</a></li>
-								<li><a class="dropdown-item" id="pongId" href="/pong?mode=ai" onclick="router.route(); deleteAllActiveClass()">Pong vs. AI</a></li>
+								<li><a class="dropdown-item" id="pongId" href="/pong?mode=multi" onclick="router.route(); deleteAllActiveClass()" data-translate="local-pong">Pong Local</a></li>
+								<li><a class="dropdown-item" id="pongId" href="/pong?mode=remote" onclick="router.route(); deleteAllActiveClass()" data-translate="remote-pong">Pong Multiplayer</a></li>
+								<li><a class="dropdown-item" id="pongId" href="/pong?mode=ai" onclick="router.route(); deleteAllActiveClass()" data-translate="ai-pong">Pong vs. AI</a></li>
 								<li><a class="dropdown-item" href="/tictactoe" onclick="router.route(); deleteAllActiveClass()" data-translate="tic-tac-toe">Tic Tac Toe</a></li>
 								<li><hr class="dropdown-divider"></li>
 								<li><a class="dropdown-item" id="tournamentId" href="/tournament" onclick="router.route(); deleteAllActiveClass()" data-translate="tournament">Tournament</a></li>
+							</ul>
+						</li>
+						<li class="nav-item dropdown">
+							<a class="nav-link dropdown-toggle" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+							Lang
+							</a>
+							<ul class="dropdown-menu">
+								<li><a class="dropdown-item" id="pongId" onclick="changeLanguage('en');router.route()">English</a></li>
+								<li><a class="dropdown-item" id="pongId" onclick="changeLanguage('fr');router.route()">Francais</a></li>
+								<li><a class="dropdown-item" id="pongId" onclick="changeLanguage('pt');router.route()">Portugues</a></li>
 							</ul>
 						</li>
 						<li class="nav-item" id="settingsId">
@@ -60,5 +70,4 @@
 	<script src="/js/stats.js"></script>
 	<script src="/js/tournament.js"></script>
 	<script src="/js/chart.js"></script>
-	<script src="/js/time.js"></script>
 </html>
