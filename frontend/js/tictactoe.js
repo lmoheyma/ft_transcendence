@@ -1,4 +1,4 @@
-import { handleEventsTTTRemote, waitOtherPlayer } from "./tictactoe_remote.js";
+import { handleEventsTTTRemote, waitOtherPlayer, displayTurn } from "./tictactoe_remote.js";
 
 export var TicTacToe = {
 	canva: null,
@@ -43,9 +43,21 @@ function initializeTicTacToe() {
 	}
 	else
 	{
-		totalSize = window.innerWidth;
+		totalSize = window.innerWidth - 400;
 		TicTacToe.canvas.height = totalSize;
 		TicTacToe.canvas.width = totalSize;
+	}
+
+	if (TicTacToe.canvas.width > 600)
+	{
+		TicTacToe.canvas.height = 600;
+		TicTacToe.canvas.width = 600;
+	}
+
+	if (window.innerHeight < 600 || window.innerWidth < 600)
+	{
+		TicTacToe.canvas.height = 200;
+		TicTacToe.canvas.width = 200;
 	}
 
 	initializeTTTData();
@@ -118,6 +130,7 @@ function handleEventsTicTacToe() {
 						console.log(room)
 						socket = new WebSocket(`wss://${window.location.host}/ws/room/${room.name}/${getCookie("Session")}`);
 						initializeTTTData();
+						changeDisplayButtons();
 						handleEventsTTTRemote();
 						break;
 					}
@@ -129,6 +142,7 @@ function handleEventsTicTacToe() {
 	});
 	window.addEventListener("resize", (event) => {
 		var totalSize;
+
 		if (window.innerHeight < window.innerWidth)
 		{
 			totalSize = window.innerHeight - 400;
@@ -148,10 +162,10 @@ function handleEventsTicTacToe() {
 			TicTacToe.canvas.width = 600;
 		}
 
-		if (window.innerHeight < 300)
+		if (window.innerHeight < 600 || window.innerWidth < 600)
 		{
-			TicTacToe.canvas.height = 150;
-			TicTacToe.canvas.width = 150;
+			TicTacToe.canvas.height = 200;
+			TicTacToe.canvas.width = 200;
 		}
 
 		drawTicTacToe();
@@ -376,6 +390,8 @@ function wonTTT(wonPlayer) {
 			"wonPlayer": TicTacToe.wonPlayer,
 		};
 		socket.send(JSON.stringify(send_data));
+		TicTacToe.playerTurn = 0;
+		displayTurn();
 	}
 }
 
@@ -399,6 +415,8 @@ function noWonTTT() {
 			"wonPlayer": TicTacToe.wonPlayer,
 		};
 		socket.send(JSON.stringify(send_data));
+		TicTacToe.playerTurn = 0;
+		displayTurn();
 	}
 }
 
