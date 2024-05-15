@@ -127,7 +127,6 @@ function handleEventsTicTacToe() {
 						}
 						});
 						var room = await req.json();
-						console.log(room)
 						socket = new WebSocket(`wss://${window.location.host}/ws/room/${room.name}/${getCookie("Session")}`);
 						initializeTTTData();
 						changeDisplayButtons();
