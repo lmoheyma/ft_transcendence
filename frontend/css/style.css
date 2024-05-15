@@ -36,7 +36,11 @@ body {
 }
 
 #dropdownId {
-	max-height: 100px;
+	z-index: 15;
+}
+
+#dropdownId, #languageDropdownId {
+	max-height: 80px;
 }
 
 .navbar {
@@ -136,6 +140,7 @@ body {
 .navbar ul li ul li:hover > a {
 	border-radius: 25px;
 	background: #cccdce44;
+	cursor: pointer;
 }
 
 .dropdown-item:focus {

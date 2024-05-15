@@ -48,16 +48,17 @@ function drawLegend(data, colors) {
     }
 }
 
-function displayPieChart() {
+async function displayPieChart() {
 	var pieCanvas = document.getElementById('pie-chart');
+	const statsList = await getAccountStats();
 	
 	pieCanvas.width = 200;
 	pieCanvas.height = 200;
 
 	var ctx = pieCanvas.getContext("2d");
 	var data = {
-		"Wins": 0,
-		"Loses": 0
+		"Wins": statsList[1],
+		"Loses": statsList[2]
 	};
 	var colors = ["#80DEEA", "#FFE082", "#FFAB91", "#CE93D8"];
 	var totalValue = [...Object.values(data)].reduce((a, b) => a + b, 0);

@@ -61,6 +61,8 @@ class   PongConsumer(AsyncWebsocketConsumer):
             game = Game.objects.get(name=self.room_name)
         except :
             return
+        if game.player1 == None or game.player2 == None :
+            return
         game.is_finished    = True
         game.score_player1 = self.stat_tracker['player1_score']
         game.score_player2 = self.stat_tracker['player2_score']
@@ -71,14 +73,19 @@ class   PongConsumer(AsyncWebsocketConsumer):
         if game.score_player2 == 3 or game.score_player1 == 3 :
             if game.score_player2 > game.score_player1 :
                 game.winner = game.player2
-                game.player2.wins += 1
-                game.player1.losses += 1
             else :
                 game.winner = game.player1
-                game.player1.wins += 1
-                game.player2.losses += 1
         else :
-            game.winner = game.player1 if self.player_no == 1 else game.player2
+            if self.player_no == 1 :
+                game.winner = game.player1
+            else :
+                game.winner = game.player2
+        if game.winner == game.player1 :
+            game.player1.wins += 1
+            game.player2.losses += 1
+        else :
+            game.player2.wins += 1
+            game.player1.losses += 1
         if game.is_tournament == True :
             tournament = [i for i in game.tournament.all()][0].tournament
             tour_games = tournament.games
@@ -88,6 +95,8 @@ class   PongConsumer(AsyncWebsocketConsumer):
         game.player1.games_no += 1
         game.player2.games_no += 1
         game.save()
+        game.player1.save()
+        game.player2.save()
 
     async def connect(self):
         self.user = None
@@ -129,7 +138,8 @@ class   PongConsumer(AsyncWebsocketConsumer):
             await self.channel_layer.group_discard(
                 self.user.username, self.channel_name
             )
-        await self.disconnect_match()
+        if self.player_no == 1 :
+            await self.disconnect_match()
 
 
     async def receive(self, text_data=None, bytes_data=None):

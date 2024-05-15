@@ -48,13 +48,13 @@ async function displaySpecificStats(gamesPlayed) {
         nbBouncesTotal += parseInt(game['nb_bounces']);
         playingTime += parseFloat(game['game_duration']);
     });
-    nbBounces.textContent = nbBouncesTotal / gamesPlayed;
+    nbBounces.textContent = gamesPlayed > 0 ? nbBouncesTotal / gamesPlayed : 0;
     div.appendChild(nbBounces);
 
     div = document.getElementById('div-1');
     var averageGameTime = document.createElement('h1');
     averageGameTime.id = 'stats-h1';
-    averageGameTime.textContent = playingTime.toFixed(1);
+    averageGameTime.textContent = gamesPlayed > 0 ? playingTime.toFixed(1) / gamesPlayed : 0;
     div.appendChild(averageGameTime);
 
     div = document.getElementById('div-3');
