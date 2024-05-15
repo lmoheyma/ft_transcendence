@@ -111,7 +111,11 @@ body {
 .active {
 	background-color: #ABE5BC !important;
 	border-radius: 25px;
+}
 
+.dropdown-item.active {
+	background-color: #ABE5BC !important;
+	border-radius: 25px;
 }
 
 .active > a {

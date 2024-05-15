@@ -85,6 +85,7 @@ class DashboardView extends FileView
         hideFriendsRequests();
         displayFriendsList();
         displayHistory();
+        eventListenerModal();
     }
 }
 

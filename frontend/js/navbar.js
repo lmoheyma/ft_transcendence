@@ -23,7 +23,13 @@ function deleteAllActiveClass() {
 	element.classList.remove("active");
 	element = document.getElementById("logoutId");
 	element.classList.remove("active");
-	element = document.getElementById("pongId");
+	element = document.getElementById("pongMultiId");
+	element.classList.remove("active");
+	element = document.getElementById("pongRemoteId");
+	element.classList.remove("active");
+	element = document.getElementById("pongAiId");
+	element.classList.remove("active");
+	element = document.getElementById("tournamentId");
 	element.classList.remove("active");
 }
 
@@ -48,6 +54,22 @@ function changeActivePage() {
 			break ;
 		case "/logout":
 			element = document.getElementById("logoutId");
+			element.classList.add("active");
+			break ;
+		case "/pong?mode=multi":
+			element = document.getElementById("pongMultiId");
+			element.classList.add("active");
+			break ;
+		case "/pong?mode=remote":
+			element = document.getElementById("pongRemoteId");
+			element.classList.add("active");
+			break ;
+		case "/pong?mode=ai":
+			element = document.getElementById("pongAiId");
+			element.classList.add("active");
+			break ;
+		case "/tournament":
+			element = document.getElementById("tournamentId");
 			element.classList.add("active");
 			break ;
 		default:

@@ -388,6 +388,7 @@ function pointWon(player) {
 			const gameDuration = ((end - start) / 1000).toFixed(1);
 			if (Game.gamemod === GameMod.REMOTE)
 			{
+				console.log(gameDuration);
 				var send_data = {
 					"type" : "host",
 					"request": "win",
@@ -425,6 +426,7 @@ function pointWon(player) {
 			const gameDuration = ((end - start) / 1000).toFixed(1);
 			if (Game.gamemod === GameMod.REMOTE)
 			{
+				console.log(gameDuration);
 				var send_data = {
 					"type" : "host",
 					"request": "win",

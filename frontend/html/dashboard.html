@@ -42,7 +42,7 @@
 						</tbody>
 					</table>
 					<div class="mb-3 mt-5">
-						<button type="submit" id="submit-btn" class="btn" onclick="" data-translate="show-all">Show all</button>
+						<button type="submit" id="submit-btn" class="btn" data-bs-toggle="modal" data-bs-target="#historyModal" data-translate="show-all">Show all</button>
 					</div>
 				</div>
 				<div class="custom-div col" id="friendsDiv">
@@ -103,27 +103,23 @@
 					<div class="row justify-content-center">
 						<div class="col-md-5 d-flex justify-content-center align-items-center custom-stats" id="div-0">
 							<p id="stats-title" data-translate="average-bounces">Average bounces</p>
-							<h1 id="stats-h1">12,8</h1>
 						</div>
 						<div class="col-md-5 d-flex justify-content-center align-items-center custom-stats" id="div-1">
 							<p id="stats-title" data-translate="avg-game-duration">Avg Game Duration</p>
-							<h1 id="stats-h1">1,5min</h1>
 						</div>
 					</div>
 					<div class="row justify-content-center">
 						<div class="col-md-5 d-flex justify-content-center align-items-center custom-stats" id="div-2">
 							<p id="stats-title" data-translate="surrender-rate">Surrender Rate</p>
-							<h1 id="stats-h1">20%</h1>
 						</div>
 						<div class="col-md-5 d-flex justify-content-center align-items-center custom-stats" id="div-3">
-							<p id="stats-title" data-translate="game-against-ia">Games against IA</p>
-							<h1 id="stats-h1">3</h1>
+							<p id="stats-title" data-translate="game-against-ia">Playing Time</p>
 						</div>
 					</div>
 				</div>
 			</div>
 		</div>
-		<!-- Modal -->
+		<!-- Modal AddFriend-->
 		<div class="modal fade" id="addFriendsModal" tabindex="-1" aria-labelledby="addFriendsModalLabel" aria-hidden="true">
 			<div class="modal-dialog">
 			  <div class="modal-content">
@@ -144,6 +140,35 @@
 				</div>
 			  </div>
 			</div>
-		  </div>
+		</div>
+		<!-- Modal History-->
+		<div class="modal fade" id="historyModal" tabindex="-1" aria-labelledby="historyModalLabel" aria-hidden="true">
+			<div class="modal-dialog">
+			  <div class="modal-content">
+				<div class="modal-header border-secondary">
+				  <h1 class="modal-title fs-5 text-light" id="historyModalLabel" data-translate="add-friend">History</h1>
+				  <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close" id="customCloseButton"></button>
+				</div>
+				<div class="modal-body justify-content-center text-align-center" id="modalHistoryBody">
+					<div class="mb-3">
+						<table class="table table-borderless w-100">
+							<thead class="">
+								<tr>
+								<th scope="col" class="tab-header-modal" data-translate="opps">Opponent</th>
+								<th scope="col" class="tab-header-modal" data-translate="score">Score</th>
+								</tr>
+							</thead>
+							<tbody id="modalTableHistoryBody">
+								
+							</tbody>
+						</table>
+					</div>
+				</div>
+				<div class="modal-footer border-secondary">
+					<button type="button" class="btn btn-secondary" data-bs-dismiss="modal" data-translate="close">CLOSE</button>
+				</div>
+			  </div>
+			</div>
+		</div>
 	</body>
 </html>
