@@ -171,6 +171,8 @@ class   StatusConsumer(AsyncWebsocketConsumer):
     async def disconnect(self, code):
         await self.status_update(Player.OFFLINE)
 
+from api.serializers import get_tournament_player_games
+
 class   TournamentConsumer(AsyncWebsocketConsumer):
     @database_sync_to_async
     def token_connect(self):
@@ -198,6 +200,7 @@ class   TournamentConsumer(AsyncWebsocketConsumer):
 
     async def connect(self):
         self.room_name = self.scope["url_route"]["kwargs"]["room_name"]
+        self.player = None
         await self.get_tournament()
         if await self.token_connect() == True and self.tournament != None:
             self.is_host = await self.check_is_host()
@@ -229,5 +232,17 @@ class   TournamentConsumer(AsyncWebsocketConsumer):
     async def send_packet(self, event):
         await self.send(text_data=event["message"])
 
+    @database_sync_to_async
+    def delete_all_games(self):
+            [i.delete() for i in get_tournament_player_games(self.tournament, self.player)]
+
     async def disconnect(self, code):
-        return await super().disconnect(code)
+        if self.tournament != None and self.player != None and self.tournament.is_finished == False :
+            await self.delete_all_games()
+            await self.channel_layer.group_send(
+            self.room_name,
+                {
+                    "type" : "send_packet",
+                    "message" : "UPDATE"
+                }
+            )

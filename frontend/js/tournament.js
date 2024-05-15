@@ -3,7 +3,7 @@ var tournament_state = null;
 var current_game = null;
 var updateInterval = null;
 var selfInfo = null;
-var ws = null;
+var tournament_ws = null;
 const button_classes = ['vignette', 'button', 'btn', 'mx-4'];
 
 async function startTournament()
@@ -17,7 +17,8 @@ async function startTournament()
             button_classes.forEach(e => {
                 tour_info.classList.remove(e);
             });
-            ws.send('START');
+            if (tournament_ws.readyState === WebSocket.OPEN)
+                tournament_ws.send('START');
             break;
         case 400 :
             const resultat  = await response.json();
@@ -58,12 +59,12 @@ async function join_tournament(event) {
                 if ("error" in resultat) 
                 {
                     let status = document.getElementById('status');
-                    status.innerHTML = resultat["error"];
+                    status.innerText = resultat["error"];
                 }
                 break;
             default :  
                 let status = document.getElementById('status');
-                status.innerHTML = 'Server-side error. Try again later.';
+                status.innerText = 'Server-side error. Try again later.';
                 break ;
         }
     } catch (erreur) {
@@ -76,18 +77,10 @@ async function create_tournament(event) {
     try {
         const reponse = await get_api("api/tournament/create", "GET");
         const resultat	= await reponse.json();
-        if (reponse.status == 200) {
-            document.getElementById("create-btn").href="/play-tournament?code=" + resultat["code"];
-            router.route(event);
-            console.log(resultat)
-        }
-        else if (reponse.status == 400) {
-            console.log(resultat);
-        }
         switch (reponse.status)
         {
             case 200 :
-                document.getElementById("join-btn").href="/play-tournament?code=" + resultat["code"];
+                document.getElementById("create-btn").href="/play-tournament?code=" + resultat["code"];
                 router.route(event);
                 console.log(resultat);
                 break;
@@ -101,12 +94,12 @@ async function create_tournament(event) {
                 if ("error" in resultat) 
                 {
                     let status = document.getElementById('status');
-                    status.innerHTML = resultat["error"];
+                    status.innerText = resultat["error"];
                 }
                 break;
             default :  
                 let status = document.getElementById('status');
-                status.innerHTML = 'Server-side error. Try again later.';
+                status.innerText = 'Server-side error. Try again later.';
                 break ;
         }
     } catch (erreur) {
@@ -129,9 +122,9 @@ function  updateScoreboard()
         let nameCell    = new_row.insertCell();
         let scoreCell   = new_row.insertCell();
 
-        rankCell.innerHTML  = i;
-        nameCell.innerHTML  = e.username;
-        scoreCell.innerHTML = e.score;
+        rankCell.innerText  = i;
+        nameCell.innerText  = e.username;
+        scoreCell.innerText = e.score;
         i += 1;
     });
 }
@@ -166,7 +159,7 @@ async function  updateTournament()
         if (tournament_state.is_started === false && tournament_state.ismod == true)
         {
             let tour_info = document.getElementById('info');
-            tour_info.innerHTML = 'Start the tournament';
+            tour_info.innerText = 'Start the tournament';
             button_classes.forEach(e => {
                 tour_info.classList.add(e);
             });
@@ -180,7 +173,7 @@ async function  updateTournament()
             let game_iframe = document.getElementById('pong');
             game_iframe.src = '/html/pong.html?mode=remote&code=' + current_game;
             let tour_info   = document.getElementById('info');
-            tour_info.innerHTML = tournament_state.games[0].p1 + ' against ' + tournament_state.games[0].p2;
+            tour_info.innerText = tournament_state.games[0].p1 + ' against ' + tournament_state.games[0].p2;
         }
         if (tournament_state.games.length === 0 && tournament_state.is_started === true)
         {
@@ -217,23 +210,24 @@ async function loadTournament()
         if (await updateTournament() == 200)
         {
             updateInterval   = window.setInterval(updateTournament, 10000);
-            ws               = new WebSocket(`wss://localhost:8000/ws/tournament/${code}/${getCookie('Session')}`);
+            tournament_ws               = new WebSocket(`wss://localhost:8000/ws/tournament/${code}/${getCookie('Session')}`);
             window.addEventListener('message', (e) => {
                 if (e.data == 'UPDATE') {
                     updateTournament();
-                    ws.send('UPDATE');
+                    tournament_ws.send('UPDATE');
                 }
             });
-            ws.onopen = function (event) {
-                if (ws.readyState === 1)
-                    ws.send('UPDATE');
+            tournament_ws.onopen = function (event) {
+                if (tournament_ws.readyState === WebSocket.OPEN)
+                    tournament_ws.send('UPDATE');
             };
-            ws.onmessage = function (event) {
+            tournament_ws.onmessage = function (event) {
                 if (event.data == 'START' || event.data == 'UPDATE')
                     updateTournament();
             };
             try {
-                status_ws.send('INGAME');
+                if (status_ws.readyState == WebSocket.OPEN)
+                    status_ws.send('INGAME');
             } catch (error) {
             }
         }
