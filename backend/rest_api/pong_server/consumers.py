@@ -237,7 +237,7 @@ class   TournamentConsumer(AsyncWebsocketConsumer):
             [i.delete() for i in get_tournament_player_games(self.tournament, self.player)]
 
     async def disconnect(self, code):
-        if self.tournament != None and self.player != None :
+        if self.tournament != None and self.player != None and self.tournament.is_finished == False :
             await self.delete_all_games()
             await self.channel_layer.group_send(
             self.room_name,

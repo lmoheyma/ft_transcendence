@@ -3,7 +3,7 @@ var tournament_state = null;
 var current_game = null;
 var updateInterval = null;
 var selfInfo = null;
-var ws = null;
+var tournament_ws = null;
 const button_classes = ['vignette', 'button', 'btn', 'mx-4'];
 
 async function startTournament()
@@ -17,7 +17,8 @@ async function startTournament()
             button_classes.forEach(e => {
                 tour_info.classList.remove(e);
             });
-            ws.send('START');
+            if (tournament_ws.readyState === WebSocket.OPEN)
+                tournament_ws.send('START');
             break;
         case 400 :
             const resultat  = await response.json();
@@ -76,18 +77,10 @@ async function create_tournament(event) {
     try {
         const reponse = await get_api("api/tournament/create", "GET");
         const resultat	= await reponse.json();
-        if (reponse.status == 200) {
-            document.getElementById("create-btn").href="/play-tournament?code=" + resultat["code"];
-            router.route(event);
-            console.log(resultat)
-        }
-        else if (reponse.status == 400) {
-            console.log(resultat);
-        }
         switch (reponse.status)
         {
             case 200 :
-                document.getElementById("join-btn").href="/play-tournament?code=" + resultat["code"];
+                document.getElementById("create-btn").href="/play-tournament?code=" + resultat["code"];
                 router.route(event);
                 console.log(resultat);
                 break;
@@ -217,23 +210,24 @@ async function loadTournament()
         if (await updateTournament() == 200)
         {
             updateInterval   = window.setInterval(updateTournament, 10000);
-            ws               = new WebSocket(`wss://localhost:8000/ws/tournament/${code}/${getCookie('Session')}`);
+            tournament_ws               = new WebSocket(`wss://localhost:8000/ws/tournament/${code}/${getCookie('Session')}`);
             window.addEventListener('message', (e) => {
                 if (e.data == 'UPDATE') {
                     updateTournament();
-                    ws.send('UPDATE');
+                    tournament_ws.send('UPDATE');
                 }
             });
-            ws.onopen = function (event) {
-                if (ws.readyState === 1)
-                    ws.send('UPDATE');
+            tournament_ws.onopen = function (event) {
+                if (tournament_ws.readyState === WebSocket.OPEN)
+                    tournament_ws.send('UPDATE');
             };
-            ws.onmessage = function (event) {
+            tournament_ws.onmessage = function (event) {
                 if (event.data == 'START' || event.data == 'UPDATE')
                     updateTournament();
             };
             try {
-                status_ws.send('INGAME');
+                if (status_ws.readyState == WebSocket.OPEN)
+                    status_ws.send('INGAME');
             } catch (error) {
             }
         }
