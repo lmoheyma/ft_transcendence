@@ -11,17 +11,26 @@ from django.contrib.auth.password_validation import validate_password
 from django.db.models import Q
 
 class   GameSerializer(serializers.ModelSerializer):
+    player1_username = serializers.SerializerMethodField()
+    player2_username = serializers.SerializerMethodField()
+
     class Meta:
         model   = Game
         fields  = [
-                'player1',
-                'player2',
+                'player1_username',
+                'player2_username',
                 'score_player1',
                 'score_player2',
                 'created_on',
                 'nb_bounces',
                 'game_duration'
                 ]
+
+    def get_player1_username(self, obj):
+        return None if obj.player1 == None else obj.player1.user.username
+    
+    def get_player2_username(self, obj):
+        return None if obj.player2 == None else obj.player2.user.username
 
 class   ScoreboardSerializer(serializers.ModelSerializer):
     username    = serializers.CharField(source="user.username", read_only=True)

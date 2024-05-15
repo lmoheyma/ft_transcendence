@@ -28,7 +28,7 @@ async function displayHistory() {
             const tr = document.createElement('tr');
             const oponent = document.createElement('td');
             oponent.classList.add('oponent');
-            oponent.textContent = "vs " + game['player1'];
+            oponent.textContent = game['player1_username'] + " vs " + game['player2_username'];
             const score = document.createElement('td');
             score.classList.add('score');
             score.textContent = game['score_player1']
@@ -48,7 +48,7 @@ async function modalHistory(historyList) {
         const tr = document.createElement('tr');
         const oponent = document.createElement('td');
         oponent.classList.add('oponent');
-        oponent.textContent = "vs " + game['player1'];
+        oponent.textContent = game['player1_username'] + " vs " + game['player2_username'];
         const score = document.createElement('td');
         score.classList.add('score');
         score.textContent = game['score_player1']

@@ -363,7 +363,7 @@ class   MatchmakingView(views.APIView):
     http_method_names   = ['get',]
 
     def get(self, request,*args, **kwargs):
-        games = list(Game.objects.filter((Q(player2=None) | Q(player1=None)) & Q(is_finished=False)))
+        games = list(Game.objects.filter((Q(player2=None) | Q(player1=None)) & Q(is_finished=False) & Q(is_tournament=False)))
         if (len(games) > 0) :
             ret = games[0]
         else :

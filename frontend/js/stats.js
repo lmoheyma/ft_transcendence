@@ -38,15 +38,15 @@ async function getAccountStats() {
 
 async function displaySpecificStats(gamesPlayed) {
     const statsList = await getSpecificStats();
-    var nbBouncesTotal;
-    var playingTime = 0;
+    var nbBouncesTotal = 0;
+    var playingTime = 0.0;
 
     var div = document.getElementById('div-0');
     const nbBounces = document.createElement('h1');
     nbBounces.id = 'stats-h1';
     statsList.forEach(function(game) {
-        nbBouncesTotal += game['nb_bounces'];
-        playingTime += game['game_duration'];
+        nbBouncesTotal += parseInt(game['nb_bounces']);
+        playingTime += parseFloat(game['game_duration']);
     });
     nbBounces.textContent = nbBouncesTotal / gamesPlayed;
     div.appendChild(nbBounces);
@@ -54,21 +54,14 @@ async function displaySpecificStats(gamesPlayed) {
     div = document.getElementById('div-1');
     var averageGameTime = document.createElement('h1');
     averageGameTime.id = 'stats-h1';
-    averageGameTime.textContent = playingTime / gamesPlayed;
+    averageGameTime.textContent = playingTime.toFixed(1);
     div.appendChild(averageGameTime);
-
-    div = document.getElementById('div-2');
-    var surrenderRate = document.createElement('h1');
-    surrenderRate.id = 'stats-h1';
-    surrenderRate.textContent = gamesPlayed + "%";
-    div.appendChild(surrenderRate);
 
     div = document.getElementById('div-3');
     var playingTimeDiv = document.createElement('h1');
     playingTimeDiv.id = 'stats-h1';
     playingTimeDiv.textContent = playingTime;
     div.appendChild(playingTimeDiv);
-
 }
 
 async function displayStats() {
