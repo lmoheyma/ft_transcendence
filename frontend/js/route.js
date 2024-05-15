@@ -1,4 +1,6 @@
-var status_ws = null;
+var	status_ws = null;
+var currentLanguage = 'en';
+
 
 function getCookie(cname) {
     let name = cname + "=";
@@ -35,6 +37,10 @@ async function check_token() {
     return true;
 }
 
+function changeLanguage(lang)
+{
+    currentLanguage = lang;
+}
 
 async function loadLanguage(lang) {
     if (!lang)
@@ -188,8 +194,7 @@ class Router {
         }
         const html = await fetch(this.current_view.file).then((data) => data.text());
         document.getElementById("main-page").innerHTML = html;
-
-        const currentLanguage = '';
+        
         await loadLanguage(currentLanguage);
         this.current_view.enter();
     }

@@ -17,6 +17,10 @@
     font-size: 3vmin;
 }
 
+body {
+    overflow: hidden;
+}
+
 .error
 {
     font-size: large;

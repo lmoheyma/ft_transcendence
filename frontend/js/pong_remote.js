@@ -196,7 +196,6 @@ function handleEventsPongRemote() {
 					socket.close();
 					waitOtherPlayer = false;
 					Game.is_playing = false;
-					changeDisplayButtons();
 					Game.gameOver = true;
 					type = "";
 					adversaryType = "";
@@ -214,7 +213,7 @@ function handleEventsPongRemote() {
 					Ball.pos_X = 150;
 					Ball.pos_Y = 50;
 					Game.is_playing = false;
-					// changeDisplayButtons();
+					changeDisplayButtons();
 					Game.gameOver = true;
 					drawAll();
 					clearInterval(interval);
@@ -222,7 +221,10 @@ function handleEventsPongRemote() {
 					waitOtherPlayer = false;
 					type = "";
 					adversaryType = "";
+					document.getElementById('player1').innerHTML = 'Player 1';
+					document.getElementById('player2').innerHTML = 'Player 2';
 					drawAll();
+					window.top.postMessage('SHOWNAV', '*');
 					window.top.postMessage('UPDATE', '*')
 					alert('Victoire par forfait');
 					break;
@@ -236,7 +238,6 @@ function handleEventsPongRemote() {
 		}
 		else if (type == "guest" && data.type === adversaryType)
 		{
-			console.log(data.request, data.request == "win");
 			switch (data.request) {
 				case "game":
 				{
@@ -272,7 +273,7 @@ function handleEventsPongRemote() {
 					gameWon(data.wonPlayer);
 					waitOtherPlayer = false;
 					Game.is_playing = false;
-					// changeDisplayButtons();
+					changeDisplayButtons();
 					Game.gameOver = true;
 					type = "";
 					adversaryType = "";
@@ -293,7 +294,7 @@ function handleEventsPongRemote() {
 					Ball.pos_X = 150;
 					Ball.pos_Y = 50;
 					Game.is_playing = false;
-					// changeDisplayButtons();
+					changeDisplayButtons();
 					Game.gameOver = true;
 					drawAll();
 					clearInterval(interval);
@@ -301,7 +302,10 @@ function handleEventsPongRemote() {
 					waitOtherPlayer = false;
 					type = "";
 					adversaryType = "";
+					document.getElementById('player1').innerHTML = 'Player 1';
+					document.getElementById('player2').innerHTML = 'Player 2';
 					drawAll();
+					window.top.postMessage('SHOWNAV', '*');
 					window.top.postMessage('UPDATE', '*')
 					alert('Victoire par forfait');
 					break;
