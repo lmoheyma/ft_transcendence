@@ -4,6 +4,7 @@ from channels.generic.websocket import AsyncWebsocketConsumer
 from rest_framework.authtoken.models import Token
 from api.models import Game, Player, Tournament
 from channels.db import database_sync_to_async
+from django.utils import timezone
 
 class   connect_status:
     SUCCESS             = 0
@@ -53,7 +54,7 @@ class   PongConsumer(AsyncWebsocketConsumer):
         if self.game.player2 != None :
             packet['player2'] = self.game.player2.user.username
         return packet
-    
+
     @database_sync_to_async
     def disconnect_match(self):
         try :
@@ -63,16 +64,29 @@ class   PongConsumer(AsyncWebsocketConsumer):
         game.is_finished    = True
         game.score_player1 = self.stat_tracker['player1_score']
         game.score_player2 = self.stat_tracker['player2_score']
-        if game.score_player2 > game.score_player1 :
-            game.winner = game.player2
+        game.nb_bounces = self.stat_tracker['nb_bounces']
+        diff_time = timezone.now() - game.created_on
+        diff_float = diff_time.seconds + diff_time.microseconds / (10 ** 6)
+        game.game_duration = diff_float
+        if game.score_player2 == 3 or game.score_player1 == 3 :
+            if game.score_player2 > game.score_player1 :
+                game.winner = game.player2
+                game.player2.wins += 1
+                game.player1.losses += 1
+            else :
+                game.winner = game.player1
+                game.player1.wins += 1
+                game.player2.losses += 1
         else :
-            game.winner = game.player1
+            game.winner = game.player1 if self.player_no == 1 else game.player2
         if game.is_tournament == True :
             tournament = [i for i in game.tournament.all()][0].tournament
             tour_games = tournament.games
             if len([i for i in tour_games.all() if i.game.is_finished == False]):
                 tournament.is_finished = True
                 tournament.save()
+        game.player1.games_no += 1
+        game.player2.games_no += 1
         game.save()
 
     async def connect(self):
@@ -82,6 +96,7 @@ class   PongConsumer(AsyncWebsocketConsumer):
         self.stat_tracker = {
             'player1_score' : 0,
             'player2_score' : 0,
+            'nb_bounces' :0
         }
         self.scope['game'].no_players += 1
         ret = await self.token_connect()
@@ -123,9 +138,9 @@ class   PongConsumer(AsyncWebsocketConsumer):
             obj['connected_clients'] = self.scope['game'].no_players
         except :
             obj = {'type' : 'error', 'message' : 'Invalid JSON'}
-        request = obj.get('request', None)
-        if request == "game" :
-            self.stat_tracker = obj
+        if obj.get('request', None) == "game" and obj.get('type', None) == 'host':
+            for k in obj.keys():
+                self.stat_tracker[k] = obj[k]
         await self.channel_layer.group_send(
             self.room_name + str(((self.player_no - 1) ^ 1 & 1) + 1),
             {

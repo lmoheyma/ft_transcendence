@@ -79,7 +79,7 @@ class FileView {
 
 class DashboardView extends FileView {
     constructor() {
-        super(["/js/friends.js", "/js/chart.js"], '/html/dashboard.html', true);
+        super(["/js/friends.js", "/js/chart.js", "/js/gameHistory.js"], '/html/dashboard.html', true);
     }
 
     async init() {
@@ -87,6 +87,8 @@ class DashboardView extends FileView {
         displayStats();
         hideFriendsRequests();
         displayFriendsList();
+        displayHistory();
+        eventListenerModal();
     }
 }
 

@@ -52,6 +52,7 @@ function updatePongView() {
 				"wonPlayer": type == "host" ? 2 : 1,
 				"player1_score": Player1.score,
 				"player2_score" : Player2.score,
+				"nb_bounces" : nbRebonds
 			};
 			socket.send(JSON.stringify(send_data));
 			Player1.pos_Y = 50;
@@ -142,7 +143,8 @@ function handleEventsPongRemote() {
 						"ball_pos_X" : Ball.pos_X,
 						"ball_pos_Y" : Ball.pos_Y,
 						"ball_angle" : Ball.angle,
-						"ball_speed" : Ball.speed
+						"ball_speed" : Ball.speed,
+						"nb_bounces" : nbRebonds
 					};
 				}
 				else if (type == "guest")
