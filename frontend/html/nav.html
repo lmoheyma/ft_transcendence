@@ -30,9 +30,9 @@
 							Games
 							</a>
 							<ul class="dropdown-menu">
-								<li><a class="dropdown-item" id="pongId" href="/pong?mode=multi" onclick="router.route(); deleteAllActiveClass()">Pong Local</a></li>
-								<li><a class="dropdown-item" id="pongId" href="/pong?mode=remote" onclick="router.route(); deleteAllActiveClass()">Pong Multiplayer</a></li>
-								<li><a class="dropdown-item" id="pongId" href="/pong?mode=ai" onclick="router.route(); deleteAllActiveClass()">Pong vs. AI</a></li>
+								<li><a class="dropdown-item" id="pongMultiId" href="/pong?mode=multi" onclick="router.route(); deleteAllActiveClass()">Pong Local</a></li>
+								<li><a class="dropdown-item" id="pongRemoteId" href="/pong?mode=remote" onclick="router.route(); deleteAllActiveClass()">Pong Multiplayer</a></li>
+								<li><a class="dropdown-item" id="pongAiId" href="/pong?mode=ai" onclick="router.route(); deleteAllActiveClass()">Pong vs. AI</a></li>
 								<li><a class="dropdown-item" href="/tictactoe" onclick="router.route(); deleteAllActiveClass()" data-translate="tic-tac-toe">Tic Tac Toe</a></li>
 								<li><hr class="dropdown-divider"></li>
 								<li><a class="dropdown-item" id="tournamentId" href="/tournament" onclick="router.route(); deleteAllActiveClass()" data-translate="tournament">Tournament</a></li>
@@ -60,4 +60,5 @@
 	<script src="/js/stats.js"></script>
 	<script src="/js/tournament.js"></script>
 	<script src="/js/chart.js"></script>
+	<script src="/js/gameHistory.js"></script>
 </html>

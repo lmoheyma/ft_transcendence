@@ -18,7 +18,9 @@ class   GameSerializer(serializers.ModelSerializer):
                 'player2',
                 'score_player1',
                 'score_player2',
-                'created_on'
+                'created_on',
+                'nb_bounces',
+                'game_duration'
                 ]
 
 class   ScoreboardSerializer(serializers.ModelSerializer):

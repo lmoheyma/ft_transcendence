@@ -38,14 +38,13 @@
 	padding: 0 50px;
     border-radius: 20px;
 	background-color: #FFFAF0;
-	margin: 0 25px;
-	margin-top: 5vh;
+	margin: 5vh 25px 20px 25px;
 	box-shadow: 10px 10px #000000;
 }
 
 #submit-btn {
 	position: absolute;
-	bottom: 17px;
+	bottom: 5%;
 	left: 50%;
 	transform: translateX(-50%);
     width: 90%;
@@ -55,6 +54,7 @@
     font-weight: 700;
     box-shadow: 5px 5px #000;
 	text-transform: uppercase;
+	margin-top: 50px;
 }
 
 #submit-btn:hover {
@@ -65,9 +65,19 @@
 	background-color: #FFFAF0 !important;
 }
 
+.tab-header-modal {
+	color: #FFFAF0 !important;
+	background-color: #6cb4e7 !important;
+}
+
+#modalHistoryBody {
+	margin: 0 auto;
+	width: 80%;
+}
+
 .table {
 	border-collapse: unset;
-
+	margin-bottom: 20px;
 }
 
 .table .oponent {
@@ -133,8 +143,9 @@
 	top: 30%;
 	text-align: center;
 	font-weight: 1000;
-	font-size: 40px;
+	font-size: clamp(30px, 5.5vh, 6vh);
 	opacity: 50%;
+	margin-bottom: 100px;
 }
 
 #noFriendsRequests {
@@ -142,8 +153,9 @@
 	top: 23%;
 	text-align: center;
 	font-weight: 1000;
-	font-size: 40px;
+	font-size: clamp(30px, 4.5vh, 5vh);
 	opacity: 50%;
+	margin-bottom: 100px;
 }
 
 .btn-success {

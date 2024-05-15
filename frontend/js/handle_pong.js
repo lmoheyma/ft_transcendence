@@ -388,14 +388,15 @@ function pointWon(player) {
 			const gameDuration = ((end - start) / 1000).toFixed(1);
 			if (Game.gamemod === GameMod.REMOTE)
 			{
+				console.log(gameDuration);
 				var send_data = {
 					"type" : "host",
 					"request": "win",
 					"wonPlayer": 1,
 					"player1_score": Player1.score,
 					"player2_score" : Player2.score,
-					"nbBounces" : nbRebonds,
-					"gameDuration" : gameDuration
+					"nb_bounces" : nbRebonds,
+					"game_duration" : gameDuration
 				};
 				socket.send(JSON.stringify(send_data));
 			}
@@ -425,14 +426,15 @@ function pointWon(player) {
 			const gameDuration = ((end - start) / 1000).toFixed(1);
 			if (Game.gamemod === GameMod.REMOTE)
 			{
+				console.log(gameDuration);
 				var send_data = {
 					"type" : "host",
 					"request": "win",
 					"wonPlayer": 2,
 					"player1_score": Player1.score,
 					"player2_score" : Player2.score,
-					"nbBounces" : nbRebonds,
-					"gameDuration" : gameDuration
+					"nb_bounces" : nbRebonds,
+					"game_duration" : gameDuration
 				};
 				socket.send(JSON.stringify(send_data));
 			}
