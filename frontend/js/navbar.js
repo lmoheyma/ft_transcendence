@@ -3,7 +3,7 @@ function hideNavbar() {
 }
 
 function displayNavbar() {
-	document.getElementById('navbarId').style.display = "block";
+	document.getElementById('navbarId').style.display = null;
 }
 
 function setupNavbar() {
