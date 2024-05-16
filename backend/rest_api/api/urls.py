@@ -25,8 +25,6 @@ router.register('register', RegisterViewSet, basename='register')
 router.register('profiles', PlayerProfileView, basename='profiles')
 
 urlpatterns = [
-    # To remove before locking
-    path('admin/', admin.site.urls),
     # Tournament views
     path('tournament/create', CreateTournamentView.as_view()),
     path('tournament/join', JoinTournamentView.as_view()),
