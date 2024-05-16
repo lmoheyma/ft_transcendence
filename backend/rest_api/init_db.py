@@ -1,4 +1,4 @@
-from api.models import Player, User
+from acc_mgmt.models import Player, User
 import os
 try :
     admin           = User.objects.get(username=os.environ['DJANGO_SUPERUSER_USERNAME'])

@@ -42,7 +42,8 @@ IS_WS = 'IS_WS' in os.environ
 # Application definition
 
 INSTALLED_APPS = [
-    'api',
+    'acc_mgmt',
+    'game_mgmt',
     'daphne',
     'pong_server',
     'django.contrib.admin',

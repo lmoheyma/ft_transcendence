@@ -12,11 +12,6 @@ from .views import ScoreboardViewSet, \
                         AccountAvatarUpload, \
                         FriendInviteView, \
                         FriendListView, \
-                        CreateTournamentView, \
-                        JoinTournamentView, \
-                        StartTournamentView, \
-                        TournamentInfo, \
-                        MatchmakingView, \
                         CheckAuthView
 
 router = routers.DefaultRouter()
@@ -25,11 +20,6 @@ router.register('register', RegisterViewSet, basename='register')
 router.register('profiles', PlayerProfileView, basename='profiles')
 
 urlpatterns = [
-    # Tournament views
-    path('tournament/create', CreateTournamentView.as_view()),
-    path('tournament/join', JoinTournamentView.as_view()),
-    path('tournament/start', StartTournamentView.as_view()),
-    path('tournament/info', TournamentInfo.as_view()),
     # Account management
     path('account/update', AccountUpdateView.as_view()),
     path('account/avatar_upload', AccountAvatarUpload.as_view()),
@@ -41,6 +31,5 @@ urlpatterns = [
     path('logout', LogoutView.as_view()),
     path('', include(router.urls)),
     path('token-auth/', views.obtain_auth_token),
-    path('find_match/', MatchmakingView.as_view()),
     path('check-auth', CheckAuthView.as_view())
 ]

@@ -2,7 +2,7 @@ import json
 from asgiref.sync import async_to_sync
 from channels.generic.websocket import AsyncWebsocketConsumer
 from rest_framework.authtoken.models import Token
-from api.models import Game, Player, Tournament
+from game_mgmt.models import Game, Player, Tournament
 from channels.db import database_sync_to_async
 from django.utils import timezone
 
@@ -191,7 +191,7 @@ class   StatusConsumer(AsyncWebsocketConsumer):
     async def disconnect(self, code):
         await self.status_update(Player.OFFLINE)
 
-from api.serializers import get_tournament_player_games
+from game_mgmt.serializers import get_tournament_player_games
 
 class   TournamentConsumer(AsyncWebsocketConsumer):
     @database_sync_to_async
