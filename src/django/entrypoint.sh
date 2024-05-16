@@ -8,4 +8,5 @@ do
     python3 manage.py migrate
 done
 python3 manage.py createsuperuser --noinput
+python3 manage.py shell < init_db.py
 python3 manage.py runserver 0.0.0.0:8000
