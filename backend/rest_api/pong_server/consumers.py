@@ -254,7 +254,12 @@ class   TournamentConsumer(AsyncWebsocketConsumer):
 
     @database_sync_to_async
     def delete_all_games(self):
-            [i.delete() for i in get_tournament_player_games(self.tournament, self.player)]
+            try :
+                [i.delete() for i in get_tournament_player_games(self.tournament, self.player)]
+                if not self.tournament.is_started :
+                    self.tournament.participants.get(player=self.player).delete()
+            except :
+                pass
 
     async def disconnect(self, code):
         if self.tournament != None and self.player != None and self.tournament.is_finished == False :
