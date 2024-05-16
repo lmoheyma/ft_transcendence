@@ -3,6 +3,7 @@ import rest_framework.validators as validators
 from .models import Player,\
                     User,\
                     FriendInvite
+from game_mgmt.serializers import GameSerializer
 
 from django.contrib.auth.password_validation import validate_password
 from django.db.models import Q
