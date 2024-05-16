@@ -175,6 +175,13 @@ class RegisterView extends FileView {
     }
 }
 
+class ErrorView extends FileView
+{
+    constructor() {
+        super([], '/html/404.html', false);
+    }
+}
+
 class Router {
     constructor() {
         this.routes = {};
@@ -226,6 +233,7 @@ router.register('/register', new RegisterView());
 router.register('/tournament', new TournamentView());
 router.register('/play-tournament', new PlayTournamentView());
 router.register('/tictactoe', new TicTacToeView());
+router.register(404, new ErrorView());
 
 function onpopstate_route() { router.handleLocation(); }
 if (getCookie('Session') != '') {
