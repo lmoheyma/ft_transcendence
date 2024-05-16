@@ -173,6 +173,7 @@ class   StatusConsumer(AsyncWebsocketConsumer):
     @database_sync_to_async
     def status_update(self, status):
         try :
+            self.player.refresh_from_db()
             self.player.status = status
             self.player.save()
         except :
