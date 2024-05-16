@@ -20,4 +20,5 @@ from .settings import IS_WS
 urlpatterns = []
 
 if IS_WS == False :
-    urlpatterns.append(path('api/', include('api.urls')))
+    urlpatterns.append(path('api/', include('acc_mgmt.urls')))
+    urlpatterns.append(path('api/', include('game_mgmt.urls')))
